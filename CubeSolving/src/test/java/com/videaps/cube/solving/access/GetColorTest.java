@@ -28,6 +28,9 @@ import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
+
+import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {"com/videaps/cube/solving/access/GetColorProcess.bpmn"})
@@ -36,15 +39,22 @@ public class GetColorTest {
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
+	@Rule
+	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
+	
 	
 	@Test
 	public void test() {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("sensorPort", "S1");
 		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-	    
-		assertTrue(processInstance.isEnded());  
+		togglzRule.enable(Features.GET_COLOR);
+		if(Features.GET_COLOR.isActive()) {
+			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
+			assertTrue(processInstance.isEnded());  
+		} else {
+			System.out.println(Features.GET_COLOR + " deactivated.");
+		}
 	}
 
 }
