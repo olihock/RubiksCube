@@ -18,33 +18,42 @@
 */
 package com.videaps.cube.solving.access;
 
-import static org.junit.Assert.*;
+import lejos.nxt.I2CPort;
+import lejos.nxt.SensorPort;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 
-@Deployment(resources = {"com/videaps/cube/solving/access/GetColorProcess.bpmn"})
-public class GetColorTest {
-
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
+/**
+ *
+ */
+public class SensorDelegate implements JavaDelegate {
+	
+	protected Expression sensorPort;
+	
+	
+	public void execute(DelegateExecution execution) throws Exception {
+	}
 
 	
-	@Test
-	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("sensorPort", "S1");
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-	    
-		assertTrue(processInstance.isEnded());  
+	protected I2CPort getSensorPortByName(String sensorPort) {
+		if("S1".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S1;
+		} else if("S2".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S2;
+		} else if("S3".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S3;
+		} else if("S4".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S4;
+		}
+		return null;
+	}
+	
+	
+	public void setSensorPort(Expression sensorPort) {
+		this.sensorPort = sensorPort;
 	}
 
 }

@@ -16,35 +16,60 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
-
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
-import org.junit.Test;
+package com.videaps.cube.solving.rubik;
 
 
-@Deployment(resources = {"com/videaps/cube/solving/access/GetColorProcess.bpmn"})
-public class GetColorTest {
-
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
+/**
+ * This enumeration reflects the rubiks cube colors, that are returned by the Hitechnic color sensor. 
+ * Color indexes are according the specification.
+ * 
+ * @see http://www.lejos.org/nxt/pc/api/lejos/nxt/addon/ColorHTSensor.html
+ */
+public enum CubeColor {
+	
+	RED(0, "red"),
+	GREEN(1, "green"),
+	BLUE(2, "blue"),
+	YELLOW(3, "yellow"),
+	ORANGE(5, "orange"),
+	WHITE(6, "white"),
+	NONE(-1, "none");
+	
+	private int index = -1;
+	private String name = "none";
+	
+	private CubeColor(int index, String name) {
+		this.index = index;
+		this.name = name;
+	}
 
 	
-	@Test
-	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("sensorPort", "S1");
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-	    
-		assertTrue(processInstance.isEnded());  
+	public static CubeColor getColorName(int index) {
+		switch(index) {
+		case 0: 
+			return RED;
+		case 1:
+			return GREEN;
+		case 2:
+			return BLUE;
+		case 3:
+			return YELLOW;
+		// Color 4 not used yet.
+		case 5:
+			return ORANGE;
+		case 6:
+			return WHITE;
+		}
+		return NONE;
+	}
+
+
+	public int getIndex() {
+		return index;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

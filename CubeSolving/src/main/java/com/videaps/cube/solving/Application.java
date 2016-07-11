@@ -16,35 +16,13 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.camunda.bpm.application.ProcessApplication;
+import org.camunda.bpm.application.impl.ServletProcessApplication;
 
 
-@Deployment(resources = {"com/videaps/cube/solving/access/GetColorProcess.bpmn"})
-public class GetColorTest {
-
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
-
-	
-	@Test
-	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("sensorPort", "S1");
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-	    
-		assertTrue(processInstance.isEnded());  
-	}
-
+@ProcessApplication("Application")
+public class Application extends ServletProcessApplication {
+	// empty implementation
 }

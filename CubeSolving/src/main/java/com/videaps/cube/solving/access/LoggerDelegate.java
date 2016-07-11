@@ -18,6 +18,35 @@
 */
 package com.videaps.cube.solving.access;
 
-public class LoggerDelegate {
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+
+
+/**
+ *
+ */
+public class LoggerDelegate implements JavaDelegate {
+
+	private Expression text;
+	private Expression value;
+	
+	
+	public void execute(DelegateExecution execution) throws Exception {
+		String textValue = (String) text.getValue(execution);
+		Number valueValue = (Number) value.getValue(execution);
+		
+		String message = textValue + ": " + valueValue;
+		System.out.println(message);
+	}
+
+
+	public void setText(Expression text) {
+		this.text = text;
+	}
+
+	public void setValue(Expression value) {
+		this.value = value;
+	}
 
 }
