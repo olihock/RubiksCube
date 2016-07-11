@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_PKMU4ERyEeax_8xu_fARuQ" exporter="camunda modeler" exporterVersion="3.0.0" targetNamespace="http://camunda.org/schema/1.0/bpmn">
+  <bpmn2:process id="Process_RotateMotor" isExecutable="false">
+    <bpmn2:startEvent id="StartEvent_MotorStarted" name="Motor Started">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:serviceTask id="ServiceTask_RotateMotor" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate" name="Rotate Motor">
+      <bpmn2:extensionElements>
+        <camunda:field name="motorPort">
+          <camunda:expression>${motorPort}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="acceleration">
+          <camunda:expression>${acceleration}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="angle">
+          <camunda:expression>${angle}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="immediateReturn">
+          <camunda:expression>${immediateReturn}</camunda:expression>
+        </camunda:field>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_MotorStarted" targetRef="ServiceTask_RotateMotor"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="ServiceTask_RotateMotor" targetRef="ServiceTask_LogTachoCount"/>
+    <bpmn2:serviceTask id="ServiceTask_LogTachoCount" camunda:class="com.videaps.cube.solving.access.LoggerDelegate" name="Log Tacho Count">
+      <bpmn2:extensionElements>
+        <camunda:field name="text">
+          <camunda:string>Tacho Count</camunda:string>
+        </camunda:field>
+        <camunda:field name="value">
+          <camunda:expression>${tachoCount}</camunda:expression>
+        </camunda:field>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="ServiceTask_LogTachoCount" targetRef="EndEvent_MotorFinished"/>
+    <bpmn2:endEvent id="EndEvent_MotorFinished" name="Motor Finished">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_RotateMotor">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_MotorStarted">
+        <dc:Bounds height="36.0" width="36.0" x="35.0" y="59.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_2" bpmnElement="EndEvent_MotorFinished">
+        <dc:Bounds height="36.0" width="36.0" x="480.0" y="59.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="498.0" y="100.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask_RotateMotor">
+        <dc:Bounds height="80.0" width="100.0" x="132.0" y="37.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_3" bpmnElement="ServiceTask_LogTachoCount">
+        <dc:Bounds height="80.0" width="100.0" x="300.0" y="37.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_StartEvent_2" targetElement="_BPMNShape_ServiceTask_2">
+        <di:waypoint xsi:type="dc:Point" x="71.0" y="77.0"/>
+        <di:waypoint xsi:type="dc:Point" x="132.0" y="77.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="_BPMNShape_ServiceTask_2" targetElement="_BPMNShape_ServiceTask_3">
+        <di:waypoint xsi:type="dc:Point" x="232.0" y="77.0"/>
+        <di:waypoint xsi:type="dc:Point" x="300.0" y="77.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="263.0" y="77.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="_BPMNShape_ServiceTask_3" targetElement="_BPMNShape_EndEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="400.0" y="77.0"/>
+        <di:waypoint xsi:type="dc:Point" x="480.0" y="77.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="466.0" y="77.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
