@@ -31,9 +31,11 @@ public enum Features implements Feature {
 
 	@EnabledByDefault
     @Label("Get Color")
-    GET_COLOR
-    
-    ;
+    GET_COLOR,
+
+	@EnabledByDefault
+    @Label("Rotate Motor")
+    ROTATE_MOTOR;
     
 
     public boolean isActive() {

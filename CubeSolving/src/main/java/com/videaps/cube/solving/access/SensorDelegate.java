@@ -29,13 +29,12 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 /**
  *
  */
-public class SensorDelegate implements JavaDelegate {
+abstract class SensorDelegate implements JavaDelegate {
 	
 	protected Expression sensorPort;
 	
 	
-	public void execute(DelegateExecution execution) throws Exception {
-	}
+	public abstract void execute(DelegateExecution execution) throws Exception;
 
 	
 	protected I2CPort getSensorPortByName(String sensorPort) {

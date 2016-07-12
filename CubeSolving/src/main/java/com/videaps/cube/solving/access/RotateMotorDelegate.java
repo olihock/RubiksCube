@@ -18,6 +18,97 @@
 */
 package com.videaps.cube.solving.access;
 
-public class RotateMotorDelegate {
+import lejos.nxt.Motor;
+import lejos.nxt.remote.RemoteMotor;
+
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ *
+ */
+public class RotateMotorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(RotateMotorDelegate.class);
+
+	private Expression motorPort;
+	private Expression acceleration;
+	private Expression angle;
+	private Expression immediateReturn;
+	
+	
+	public void execute(DelegateExecution execution) throws Exception {
+		String motorPortValue = (String) motorPort.getValue(execution);
+		RemoteMotor motor = getMotorPortByName(motorPortValue);
+
+		Number accelerationValue = 0L;
+		if(acceleration != null) {
+			accelerationValue = (Number) acceleration.getValue(execution);
+			motor.setAcceleration(accelerationValue.intValue());
+		}
+		
+		Number angleValue = 0L;
+		if(angle != null) {
+			angleValue = (Number) angle.getValue(execution);
+		} 
+		
+		Boolean immediateReturnValue = true;
+		if(immediateReturn != null) {
+			immediateReturnValue = (Boolean) immediateReturn.getValue(execution);
+		}
+		
+		logInfo(motor.getTachoCount(), motorPortValue, accelerationValue, angleValue, immediateReturnValue);
+
+		motor.rotate(angleValue.intValue(), immediateReturnValue);
+		
+		int tachoCount = motor.getTachoCount();
+		execution.setVariable("tachoCount", tachoCount);
+		
+		logger.info("tachoCount="+tachoCount);
+	}
+
+
+	private RemoteMotor getMotorPortByName(String motorPort) {
+		if("A".equalsIgnoreCase(motorPort)) {
+			return Motor.A;
+		} else if("B".equalsIgnoreCase(motorPort)) {
+			return Motor.B;
+		} else if("C".equalsIgnoreCase(motorPort)) {
+			return Motor.C;
+		}
+		return null;
+	}
+
+	
+	private void logInfo(int tachoCount, String motorPortValue, Number accelerationValue, Number angleValue, Boolean immediateReturnValue) {
+		logger.info("tachoCount="+tachoCount);
+		logger.info("motorPortValue="+motorPortValue);
+		logger.info("accelerationValue="+accelerationValue);
+		logger.info("angleValue="+angleValue);
+		logger.info("immediateReturnValue="+immediateReturnValue);
+	}
+
+
+	public void setMotorPort(Expression motorPort) {
+		this.motorPort = motorPort;
+	}
+
+
+	public void setAcceleration(Expression acceleration) {
+		this.acceleration = acceleration;
+	}
+
+
+	public void setAngle(Expression angle) {
+		this.angle = angle;
+	}
+
+
+	public void setImmediateReturn(Expression immediateReturn) {
+		this.immediateReturn = immediateReturn;
+	}
 
 }

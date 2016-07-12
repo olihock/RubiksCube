@@ -20,13 +20,52 @@ package com.videaps.cube.solving.access;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.util.HashMap;
+import java.util.Map;
 
+import lejos.util.Delay;
+
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.togglz.junit.TogglzRule;
+
+import com.videaps.cube.solving.toggling.Features;
+
+
+@Deployment(resources = {"com/videaps/cube/solving/access/RotateMotorProcess.bpmn"})
 public class RotateMotorTest {
 
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
+
+	@Rule
+	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
+	
+	
 	@Test
 	public void test() {
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("motorPort", "A");
+		variables.put("acceleration", 22);
+		variables.put("angle", -90);
+		variables.put("immediateReturn", false);
 		
+		togglzRule.enable(Features.ROTATE_MOTOR);
+		if(Features.ROTATE_MOTOR.isActive()) {
+			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+			assertTrue(processInstance.isEnded());  
+			
+			Delay.msDelay(1000);
+			
+			variables.put("angle", 90);
+			processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+			assertTrue(processInstance.isEnded());  
+		} else {
+			System.out.println(Features.ROTATE_MOTOR + " deactivated.");
+		}
 	}
 
 }
