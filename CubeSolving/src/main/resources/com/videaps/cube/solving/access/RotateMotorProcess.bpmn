@@ -18,6 +18,9 @@
         <camunda:field name="immediateReturn">
           <camunda:expression>${immediateReturn}</camunda:expression>
         </camunda:field>
+        <camunda:field name="speed">
+          <camunda:expression>${speed}</camunda:expression>
+        </camunda:field>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>

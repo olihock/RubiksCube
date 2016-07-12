@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_lHuN8EhpEeacgqvxu1CGMQ" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_GoToScanPosition" name="Go To Scan Position" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1nei7yt">
+      <bpmn2:outgoing>SequenceFlow_01erzig</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="EndEvent_0m8culg">
+      <bpmn2:incoming>SequenceFlow_1ubl14r</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:callActivity id="CallActivity_MoveScanner" name="Move Scanner" calledElement="Process_RotateMotor">
+      <bpmn2:extensionElements>
+        <camunda:in sourceExpression="${65}" target="angle" />
+        <camunda:in sourceExpression="${75}" target="speed" />
+        <camunda:in sourceExpression="${30}" target="acceleration" />
+        <camunda:in sourceExpression="${true}" target="immediateReturn" />
+        <camunda:in sourceExpression="${&#34;C&#34;}" target="motorPort" />
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_1fpdxfd</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0iuyfdu</bpmn2:outgoing>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_0iuyfdu" sourceRef="CallActivity_MoveScanner" targetRef="ParallelGateway_11bjaym" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1fpdxfd" sourceRef="ParallelGateway_0sa1ogw" targetRef="CallActivity_MoveScanner" />
+    <bpmn2:callActivity id="CallActivity_MoveCube" name="Move Cube" calledElement="Process_RotateMotor">
+      <bpmn2:extensionElements>
+        <camunda:in sourceExpression="${&#34;A&#34;}" target="motorPort" />
+        <camunda:in sourceExpression="${75}" target="speed" />
+        <camunda:in sourceExpression="${10}" target="acceleration" />
+        <camunda:in sourceExpression="${-30}" target="angle" />
+        <camunda:in sourceExpression="${true}" target="immediateReturn" />
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_0kmfnnp</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0sbj3g8</bpmn2:outgoing>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_0kmfnnp" sourceRef="ParallelGateway_0sa1ogw" targetRef="CallActivity_MoveCube" />
+    <bpmn2:parallelGateway id="ParallelGateway_11bjaym">
+      <bpmn2:incoming>SequenceFlow_0iuyfdu</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_0sbj3g8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1ubl14r</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_0sbj3g8" sourceRef="CallActivity_MoveCube" targetRef="ParallelGateway_11bjaym" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1ubl14r" sourceRef="ParallelGateway_11bjaym" targetRef="EndEvent_0m8culg" />
+    <bpmn2:parallelGateway id="ParallelGateway_0sa1ogw">
+      <bpmn2:incoming>SequenceFlow_12d220c</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1fpdxfd</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_0kmfnnp</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:callActivity id="CallActivity_GoToStartPosition" name="Go To Start Position" calledElement="Process_RotateMotor">
+      <bpmn2:extensionElements>
+        <camunda:in sourceExpression="${&#34;C&#34;}" target="motorPort" />
+        <camunda:in sourceExpression="${75}" target="speed" />
+        <camunda:in sourceExpression="${22}" target="acceleration" />
+        <camunda:in sourceExpression="${45}" target="angle" />
+        <camunda:in sourceExpression="${false}" target="immediateReturn" />
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_01erzig</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12d220c</bpmn2:outgoing>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_01erzig" sourceRef="StartEvent_1nei7yt" targetRef="CallActivity_GoToStartPosition" />
+    <bpmn2:sequenceFlow id="SequenceFlow_12d220c" sourceRef="CallActivity_GoToStartPosition" targetRef="ParallelGateway_0sa1ogw" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_GoToScanPosition">
+      <bpmndi:BPMNShape id="StartEvent_1nei7yt_di" bpmnElement="StartEvent_1nei7yt">
+        <dc:Bounds x="-61" y="195" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-88" y="231" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0m8culg_di" bpmnElement="EndEvent_0m8culg">
+        <dc:Bounds x="751" y="195" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="724" y="231" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_0jcwqv8_di" bpmnElement="CallActivity_MoveScanner">
+        <dc:Bounds x="427" y="65" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0iuyfdu_di" bpmnElement="SequenceFlow_0iuyfdu">
+        <di:waypoint xsi:type="dc:Point" x="527" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="622" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="622" y="188" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="529.5" y="80" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fpdxfd_di" bpmnElement="SequenceFlow_1fpdxfd">
+        <di:waypoint xsi:type="dc:Point" x="342" y="188" />
+        <di:waypoint xsi:type="dc:Point" x="342" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="105" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="312" y="136.5" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1610rzm_di" bpmnElement="CallActivity_MoveCube">
+        <dc:Bounds x="427" y="304" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0kmfnnp_di" bpmnElement="SequenceFlow_0kmfnnp">
+        <di:waypoint xsi:type="dc:Point" x="342" y="238" />
+        <di:waypoint xsi:type="dc:Point" x="342" y="344" />
+        <di:waypoint xsi:type="dc:Point" x="427" y="344" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="312" y="281" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_11bjaym_di" bpmnElement="ParallelGateway_11bjaym">
+        <dc:Bounds x="597" y="188" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="577" y="238" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0sbj3g8_di" bpmnElement="SequenceFlow_0sbj3g8">
+        <di:waypoint xsi:type="dc:Point" x="527" y="344" />
+        <di:waypoint xsi:type="dc:Point" x="622" y="344" />
+        <di:waypoint xsi:type="dc:Point" x="622" y="238" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="529.5" y="319" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ubl14r_di" bpmnElement="SequenceFlow_1ubl14r">
+        <di:waypoint xsi:type="dc:Point" x="647" y="213" />
+        <di:waypoint xsi:type="dc:Point" x="751" y="213" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="654" y="188" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_0sa1ogw_di" bpmnElement="ParallelGateway_0sa1ogw">
+        <dc:Bounds x="317" y="188" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="297" y="238" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_18p4kk7_di" bpmnElement="CallActivity_GoToStartPosition">
+        <dc:Bounds x="92" y="173" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_01erzig_di" bpmnElement="SequenceFlow_01erzig">
+        <di:waypoint xsi:type="dc:Point" x="-25" y="213" />
+        <di:waypoint xsi:type="dc:Point" x="92" y="213" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-11.5" y="188" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_12d220c_di" bpmnElement="SequenceFlow_12d220c">
+        <di:waypoint xsi:type="dc:Point" x="192" y="213" />
+        <di:waypoint xsi:type="dc:Point" x="317" y="213" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="209.5" y="188" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

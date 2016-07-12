@@ -35,6 +35,7 @@ public class RotateMotorDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(RotateMotorDelegate.class);
 
 	private Expression motorPort;
+	private Expression speed;
 	private Expression acceleration;
 	private Expression angle;
 	private Expression immediateReturn;
@@ -44,6 +45,12 @@ public class RotateMotorDelegate implements JavaDelegate {
 		String motorPortValue = (String) motorPort.getValue(execution);
 		RemoteMotor motor = getMotorPortByName(motorPortValue);
 
+		Number speedValue = motor.getSpeed();
+		if(speed != null) {
+			speedValue = (Number) speed.getValue(execution);
+			motor.setSpeed(speedValue.intValue());
+		}
+		
 		Number accelerationValue = 0L;
 		if(acceleration != null) {
 			accelerationValue = (Number) acceleration.getValue(execution);
@@ -60,7 +67,7 @@ public class RotateMotorDelegate implements JavaDelegate {
 			immediateReturnValue = (Boolean) immediateReturn.getValue(execution);
 		}
 		
-		logInfo(motor.getTachoCount(), motorPortValue, accelerationValue, angleValue, immediateReturnValue);
+		logInfo(motor.getTachoCount(), motorPortValue, speedValue, accelerationValue, angleValue, immediateReturnValue);
 
 		motor.rotate(angleValue.intValue(), immediateReturnValue);
 		
@@ -83,9 +90,10 @@ public class RotateMotorDelegate implements JavaDelegate {
 	}
 
 	
-	private void logInfo(int tachoCount, String motorPortValue, Number accelerationValue, Number angleValue, Boolean immediateReturnValue) {
+	private void logInfo(int tachoCount, String motorPortValue, Number speedValue, Number accelerationValue, Number angleValue, Boolean immediateReturnValue) {
 		logger.info("tachoCount="+tachoCount);
 		logger.info("motorPortValue="+motorPortValue);
+		logger.info("speed="+speedValue);
 		logger.info("accelerationValue="+accelerationValue);
 		logger.info("angleValue="+angleValue);
 		logger.info("immediateReturnValue="+immediateReturnValue);
@@ -94,6 +102,11 @@ public class RotateMotorDelegate implements JavaDelegate {
 
 	public void setMotorPort(Expression motorPort) {
 		this.motorPort = motorPort;
+	}
+
+
+	public void setSpeed(Expression speed) {
+		this.speed = speed;
 	}
 
 

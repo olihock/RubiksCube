@@ -16,14 +16,9 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.behaviour;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import lejos.util.Delay;
+import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
@@ -35,8 +30,10 @@ import org.togglz.junit.TogglzRule;
 import com.videaps.cube.solving.toggling.Features;
 
 
-@Deployment(resources = {"com/videaps/cube/solving/access/RotateMotorProcess.bpmn"})
-public class RotateMotorTest {
+@Deployment(resources = {
+		"com/videaps/cube/solving/behaviour/GoToScanPositionProcess.bpmn", 
+		"com/videaps/cube/solving/access/RotateMotorProcess.bpmn" } )
+public class GoToScanPositionTest {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
@@ -47,26 +44,10 @@ public class RotateMotorTest {
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("motorPort", "C");
-//		variables.put("acceleration", 22);
-		variables.put("speed", 75);
-		variables.put("angle", 65);
-//		variables.put("immediateReturn", false);
+
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GoToScanPosition");
+		assertTrue(processInstance.isEnded());  
 		
-		togglzRule.enable(Features.ROTATE_MOTOR);
-		if(Features.ROTATE_MOTOR.isActive()) {
-			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
-			assertTrue(processInstance.isEnded());  
-			
-			Delay.msDelay(1000);
-			
-			variables.put("angle", 90);
-			processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
-			assertTrue(processInstance.isEnded());  
-		} else {
-			System.out.println(Features.ROTATE_MOTOR + " deactivated.");
-		}
 	}
 
 }
