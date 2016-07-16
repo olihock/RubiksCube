@@ -30,41 +30,22 @@ import com.videaps.cube.solving.toggling.Features;
 /**
  *
  */
-public class RotateMotorDelegate extends MotorDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(RotateMotorDelegate.class);
+public class GetTachoCountDelegate extends MotorDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(GetTachoCountDelegate.class);
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
-		Number speed = (Number) execution.getVariable("rotateMotorSpeed");
-		Number acceleration = (Number) execution.getVariable("rotateMotorAcceleration");
-		Number angle = (Number) execution.getVariable("rotateMotorAngle");
-		Boolean immediateReturn = (Boolean) execution.getVariable("rotateMotorImmediateReturn");
+		String motorPort = (String) execution.getVariable("getTachoCountMotorPort");
+		logger.info("motorPort", motorPort);
 		
-		logInfo(motorPort, speed, acceleration, angle, immediateReturn);
-
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
 			RemoteMotor motor = getMotorPortByName(motorPort);
-			motor.setSpeed(speed!=null?speed.intValue():999);
-			motor.setAcceleration(acceleration!=null?acceleration.intValue():0);
-			motor.rotate(angle!=null?angle.intValue():0, immediateReturn!=null?immediateReturn:false);
-
 			tachoCount = motor.getTachoCount();
 		}
-		
-		execution.setVariable("rotateMotorTachoCount", tachoCount);
-		
-		logger.info("tachoCount="+tachoCount);
-	}
-
-
-	private void logInfo(String motorPort, Number speed, Number acceleration, Number angle, Boolean immediateReturn) {
-		logger.info("motorPort="+motorPort);
-		logger.info("speed="+speed);
-		logger.info("acceleration="+acceleration);
-		logger.info("angle="+angle);
-		logger.info("immediateReturn="+immediateReturn);
+	
+		execution.setVariable("getTachoCountTachoCount", tachoCount);
+		logger.info("tachoCount", tachoCount);
 	}
 
 }

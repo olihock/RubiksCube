@@ -30,6 +30,10 @@ import org.togglz.core.context.FeatureContext;
 public enum Features implements Feature {
 
 	@EnabledByDefault
+    @Label("Use LeJOS")
+	USE_LEJOS,
+
+    @EnabledByDefault
     @Label("Get Color")
     GET_COLOR,
 

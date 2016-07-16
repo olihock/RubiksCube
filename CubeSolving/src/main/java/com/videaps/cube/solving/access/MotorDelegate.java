@@ -18,32 +18,27 @@
 */
 package com.videaps.cube.solving.access;
 
-import lejos.nxt.I2CPort;
-import lejos.nxt.SensorPort;
+import lejos.nxt.Motor;
+import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 
-/**
- *
- */
-abstract class SensorDelegate implements JavaDelegate {
-	
-	public abstract void execute(DelegateExecution execution) throws Exception;
+abstract class MotorDelegate implements JavaDelegate {
 
+	public abstract void execute(DelegateExecution execution) throws Exception;
 	
-	protected I2CPort getSensorPortByName(String sensorPort) {
-		if("S1".equalsIgnoreCase(sensorPort)) {
-			return SensorPort.S1;
-		} else if("S2".equalsIgnoreCase(sensorPort)) {
-			return SensorPort.S2;
-		} else if("S3".equalsIgnoreCase(sensorPort)) {
-			return SensorPort.S3;
-		} else if("S4".equalsIgnoreCase(sensorPort)) {
-			return SensorPort.S4;
+	
+	protected RemoteMotor getMotorPortByName(String motorPort) {
+		if("A".equalsIgnoreCase(motorPort)) {
+			return Motor.A;
+		} else if("B".equalsIgnoreCase(motorPort)) {
+			return Motor.B;
+		} else if("C".equalsIgnoreCase(motorPort)) {
+			return Motor.C;
 		}
 		return null;
 	}
-	
+
 }

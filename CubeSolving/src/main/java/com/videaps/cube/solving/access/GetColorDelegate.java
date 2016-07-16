@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.rubik.CubeColor;
+import com.videaps.cube.solving.toggling.Features;
 
 
 /**
@@ -34,17 +35,22 @@ import com.videaps.cube.solving.rubik.CubeColor;
 public class GetColorDelegate extends SensorDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
 
-	
+
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPortValue = (String) sensorPort.getValue(execution);
-		I2CPort port = getSensorPortByName(sensorPortValue);
-		ColorHTSensor sensor = new ColorHTSensor(port);
-
-		int color = sensor.getColor().getColor();
+		String sensorPort = (String) execution.getVariable("GetColorSensorPort");
+		logger.info("sensorPort", sensorPort);
 		
+		int color = -1;
+		if(Features.USE_LEJOS.isActive()) {
+			I2CPort port = getSensorPortByName(sensorPort);
+			ColorHTSensor sensor = new ColorHTSensor(port);
+			color = sensor.getColor().getColor();
+		}
 		execution.setVariable("color", color);
+
 		logger.info("color="+color + ", " + CubeColor.getColorName(color));
 	}
 
+	
 }
