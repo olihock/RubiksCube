@@ -21,6 +21,7 @@ package com.videaps.cube.solving.access;
 import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ import com.videaps.cube.solving.toggling.Features;
 /**
  *
  */
-public class GetTachoCountDelegate extends MotorFactory {
+public class GetTachoCountDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(GetTachoCountDelegate.class);
 
 	
@@ -40,7 +41,7 @@ public class GetTachoCountDelegate extends MotorFactory {
 		
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			RemoteMotor motor = getMotor(motorPort);
+			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
 			tachoCount = motor.getTachoCount();
 		}
 	

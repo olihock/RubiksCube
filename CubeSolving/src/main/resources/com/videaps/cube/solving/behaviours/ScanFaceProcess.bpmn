@@ -7,16 +7,16 @@
     <bpmn:endEvent id="EndEvent_0jt37dk">
       <bpmn:incoming>SequenceFlow_16dxtmj</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_05p61ae" sourceRef="StartEvent_1" targetRef="CallActivity_1vehdoj" />
+    <bpmn:sequenceFlow id="SequenceFlow_05p61ae" sourceRef="StartEvent_1" targetRef="CallActivity_ScanBricks" />
     <bpmn:serviceTask id="ServiceTask_MoveScannerToNextPosition" name="Move Scanner To Next Position" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate">
       <bpmn:incoming>SequenceFlow_032gzaz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ex4eqx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:callActivity id="CallActivity_15qeos7" name="Scan Remaining Bricks" calledElement="Process_ScanAndTurn">
+    <bpmn:callActivity id="CallActivity_ScanRemainingBricks" name="Scan Remaining Bricks" calledElement="Process_ScanAndTurn">
       <bpmn:incoming>SequenceFlow_0ex4eqx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16dxtmj</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_1vehdoj" name="Scan Bricks" calledElement="Process_ScanAndTurn">
+    <bpmn:callActivity id="CallActivity_ScanBricks" name="Scan Bricks" calledElement="Process_ScanAndTurn">
       <bpmn:extensionElements>
         <camunda:in source="A" target="rotateMotorMotorPort" />
         <camunda:in sourceExpression="#{25}" target="rotateMotorSpeed" />
@@ -28,9 +28,9 @@
       <bpmn:incoming>SequenceFlow_05p61ae</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_032gzaz</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_032gzaz" sourceRef="CallActivity_1vehdoj" targetRef="ServiceTask_MoveScannerToNextPosition" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ex4eqx" sourceRef="ServiceTask_MoveScannerToNextPosition" targetRef="CallActivity_15qeos7" />
-    <bpmn:sequenceFlow id="SequenceFlow_16dxtmj" sourceRef="CallActivity_15qeos7" targetRef="EndEvent_0jt37dk" />
+    <bpmn:sequenceFlow id="SequenceFlow_032gzaz" sourceRef="CallActivity_ScanBricks" targetRef="ServiceTask_MoveScannerToNextPosition" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ex4eqx" sourceRef="ServiceTask_MoveScannerToNextPosition" targetRef="CallActivity_ScanRemainingBricks" />
+    <bpmn:sequenceFlow id="SequenceFlow_16dxtmj" sourceRef="CallActivity_ScanRemainingBricks" targetRef="EndEvent_0jt37dk" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_ScanFace">
@@ -56,10 +56,10 @@
       <bpmndi:BPMNShape id="ServiceTask_1tz7yr2_di" bpmnElement="ServiceTask_MoveScannerToNextPosition">
         <dc:Bounds x="568" y="112" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_15qeos7_di" bpmnElement="CallActivity_15qeos7">
+      <bpmndi:BPMNShape id="CallActivity_15qeos7_di" bpmnElement="CallActivity_ScanRemainingBricks">
         <dc:Bounds x="810" y="112" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1vehdoj_di" bpmnElement="CallActivity_1vehdoj">
+      <bpmndi:BPMNShape id="CallActivity_1vehdoj_di" bpmnElement="CallActivity_ScanBricks">
         <dc:Bounds x="308" y="112" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_032gzaz_di" bpmnElement="SequenceFlow_032gzaz">

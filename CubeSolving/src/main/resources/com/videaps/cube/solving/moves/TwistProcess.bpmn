@@ -51,6 +51,9 @@
       <bpmn:incoming>SequenceFlow_0gk8xxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nky9mi</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_17pahz0">    <bpmn:text>InvertListener specifies which way the turn table needs to be moved.</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_1qq7dn9" sourceRef="ServiceTask_TurnTable" targetRef="TextAnnotation_17pahz0" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Twist">
@@ -110,6 +113,13 @@
       <bpmndi:BPMNShape id="ServiceTask_0ux7q6u_di" bpmnElement="ServiceTask_Wait">
         <dc:Bounds x="713" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_17pahz0_di" bpmnElement="TextAnnotation_17pahz0">
+        <dc:Bounds x="513" y="219" width="171" height="67" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1qq7dn9_di" bpmnElement="Association_1qq7dn9">
+        <di:waypoint xsi:type="dc:Point" x="574" y="160" />
+        <di:waypoint xsi:type="dc:Point" x="590" y="219" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

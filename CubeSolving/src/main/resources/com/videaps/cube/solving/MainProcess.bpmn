@@ -4,30 +4,30 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0k8818l</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1rln0ri" sourceRef="CallActivity_10uema3" targetRef="CallActivity_1sbyx7s" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gusu3g" sourceRef="CallActivity_1sbyx7s" targetRef="ServiceTask_0vmziil" />
-    <bpmn:sequenceFlow id="SequenceFlow_0ea9v18" sourceRef="ServiceTask_0vmziil" targetRef="SubProcess_115nq5o" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rln0ri" sourceRef="CallActivity_ReactOnCube" targetRef="CallActivity_ScanCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gusu3g" sourceRef="CallActivity_ScanCube" targetRef="ServiceTask_CalculateAlgorithm" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ea9v18" sourceRef="ServiceTask_CalculateAlgorithm" targetRef="SubProcess_SolveCube" />
     <bpmn:endEvent id="EndEvent_0vt418o">
       <bpmn:incoming>SequenceFlow_19lhhed</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_19lhhed" sourceRef="SubProcess_115nq5o" targetRef="EndEvent_0vt418o" />
-    <bpmn:sequenceFlow id="SequenceFlow_0k8818l" sourceRef="StartEvent_1" targetRef="CallActivity_10uema3" />
-    <bpmn:callActivity id="CallActivity_10uema3" name="React On Cube" calledElement="Process_ReactOnCube">
+    <bpmn:sequenceFlow id="SequenceFlow_19lhhed" sourceRef="SubProcess_SolveCube" targetRef="EndEvent_0vt418o" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k8818l" sourceRef="StartEvent_1" targetRef="CallActivity_ReactOnCube" />
+    <bpmn:callActivity id="CallActivity_ReactOnCube" name="React On Cube" calledElement="Process_ReactOnCube">
       <bpmn:incoming>SequenceFlow_0k8818l</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1rln0ri</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_1sbyx7s" name="Scan Cube" calledElement="Process_ScanCube">
+    <bpmn:callActivity id="CallActivity_ScanCube" name="Scan Cube" calledElement="Process_ScanCube">
       <bpmn:incoming>SequenceFlow_1rln0ri</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gusu3g</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics isSequential="true">
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">6</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:callActivity>
-    <bpmn:serviceTask id="ServiceTask_0vmziil" name="Calculate Algorithm" camunda:class="com.videaps.cube.solving.access.CalculateAlgorithmDelegate">
+    <bpmn:serviceTask id="ServiceTask_CalculateAlgorithm" name="Calculate Algorithm" camunda:class="com.videaps.cube.solving.access.CalculateAlgorithmDelegate">
       <bpmn:incoming>SequenceFlow_0gusu3g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ea9v18</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:subProcess id="SubProcess_115nq5o" name="Solve Cube">
+    <bpmn:subProcess id="SubProcess_SolveCube" name="Solve Cube">
       <bpmn:incoming>SequenceFlow_0ea9v18</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_19lhhed</bpmn:outgoing>
     </bpmn:subProcess>
@@ -78,16 +78,16 @@
           <dc:Bounds x="202" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_10uema3_di" bpmnElement="CallActivity_10uema3">
+      <bpmndi:BPMNShape id="CallActivity_10uema3_di" bpmnElement="CallActivity_ReactOnCube">
         <dc:Bounds x="285" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1sbyx7s_di" bpmnElement="CallActivity_1sbyx7s">
+      <bpmndi:BPMNShape id="CallActivity_1sbyx7s_di" bpmnElement="CallActivity_ScanCube">
         <dc:Bounds x="465" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0vmziil_di" bpmnElement="ServiceTask_0vmziil">
+      <bpmndi:BPMNShape id="ServiceTask_0vmziil_di" bpmnElement="ServiceTask_CalculateAlgorithm">
         <dc:Bounds x="651" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SubProcess_115nq5o_di" bpmnElement="SubProcess_115nq5o">
+      <bpmndi:BPMNShape id="SubProcess_115nq5o_di" bpmnElement="SubProcess_SolveCube">
         <dc:Bounds x="830" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

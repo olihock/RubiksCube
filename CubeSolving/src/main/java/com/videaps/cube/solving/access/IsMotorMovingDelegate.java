@@ -18,39 +18,34 @@
 */
 package com.videaps.cube.solving.access;
 
-import lejos.nxt.I2CPort;
-import lejos.nxt.addon.ColorHTSensor;
+import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.videaps.cube.solving.rubik.CubeColor;
 import com.videaps.cube.solving.toggling.Features;
 
 
 /**
- * 
+ *
  */
-public class GetColorDelegate extends SensorDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
+public class IsMotorMovingDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(IsMotorMovingDelegate.class);
 
-
-	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPort = (String) execution.getVariable("getColorSensorPort");
-		logger.info("sensorPort="+sensorPort);
+		String motorPort = (String) execution.getVariable("isMotorMovingMotorPort");
+		logger.info("motorPort="+motorPort);
 		
-		int color = -1;
+		boolean moving = false;
 		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
-			ColorHTSensor sensor = new ColorHTSensor(port);
-			color = sensor.getColor().getColor();
+			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
+			moving = motor.isMoving();
 		}
-		execution.setVariable("getColorColor", color);
-
-		logger.info("color="+color + ", " + CubeColor.getColorName(color));
+	
+		execution.setVariable("isMotorMovingMoving", moving);
+		logger.info("moving="+moving);
 	}
 
-	
 }

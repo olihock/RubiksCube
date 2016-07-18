@@ -16,41 +16,38 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.moves;
 
-import lejos.nxt.I2CPort;
-import lejos.nxt.addon.ColorHTSensor;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.videaps.cube.solving.rubik.CubeColor;
-import com.videaps.cube.solving.toggling.Features;
-
 
 /**
- * 
+ *
  */
-public class GetColorDelegate extends SensorDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
-
-
-	@Override
-	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPort = (String) execution.getVariable("getColorSensorPort");
-		logger.info("sensorPort="+sensorPort);
-		
-		int color = -1;
-		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
-			ColorHTSensor sensor = new ColorHTSensor(port);
-			color = sensor.getColor().getColor();
-		}
-		execution.setVariable("getColorColor", color);
-
-		logger.info("color="+color + ", " + CubeColor.getColorName(color));
-	}
+public class BrickColorListener implements ExecutionListener {
+	private static final Logger logger = LoggerFactory.getLogger(BrickColorListener.class);
 
 	
+	public void notify(DelegateExecution execution) throws Exception {
+		
+		@SuppressWarnings("unchecked")
+		List<Number> brickColors = (List<Number>) execution.getVariable("brickColors");
+		if(brickColors == null) {
+			brickColors = new ArrayList<Number>();
+			execution.setVariable("brickColors", brickColors);
+		}
+		logger.info("brickColors="+brickColors);
+		
+		Number color = (Number) execution.getVariable("getColorColor");
+		logger.info("color="+color);
+		
+		brickColors.add(color);
+	}
+
 }
