@@ -18,6 +18,37 @@
 */
 package com.videaps.cube.solving.access;
 
-public class GetDistanceDelegate {
+import lejos.nxt.I2CPort;
+import lejos.nxt.UltrasonicSensor;
+
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.videaps.cube.solving.toggling.Features;
+
+
+/**
+ *
+ */
+public class GetDistanceDelegate extends SensorDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(GetDistanceDelegate.class);
+
+	
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		String sensorPort = (String) execution.getVariable("getDistanceSensorPort");
+		logger.info("sensorPort", sensorPort);
+		
+		int distance = -1;
+		if(Features.USE_LEJOS.isActive()) {
+			I2CPort port = getSensor(sensorPort);
+			UltrasonicSensor sensor = new UltrasonicSensor(port);
+			distance = sensor.getDistance();
+		}
+		execution.setVariable("distance", distance);
+
+		logger.info("distance="+distance);
+	}
 
 }

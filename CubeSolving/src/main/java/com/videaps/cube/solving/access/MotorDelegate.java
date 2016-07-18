@@ -30,7 +30,7 @@ abstract class MotorDelegate implements JavaDelegate {
 	public abstract void execute(DelegateExecution execution) throws Exception;
 	
 	
-	protected RemoteMotor getMotorPortByName(String motorPort) {
+	protected RemoteMotor getMotor(String motorPort) {
 		if("A".equalsIgnoreCase(motorPort)) {
 			return Motor.A;
 		} else if("B".equalsIgnoreCase(motorPort)) {

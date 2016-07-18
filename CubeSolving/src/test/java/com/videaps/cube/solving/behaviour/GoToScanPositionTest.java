@@ -45,6 +45,7 @@ public class GoToScanPositionTest {
 	@Test
 	public void test() {
 
+		togglzRule.disable(Features.USE_LEJOS);
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GoToScanPosition");
 		assertTrue(processInstance.isEnded());  
 		

@@ -36,16 +36,16 @@ public class GetTachoCountDelegate extends MotorDelegate {
 	
 	public void execute(DelegateExecution execution) throws Exception {
 		String motorPort = (String) execution.getVariable("getTachoCountMotorPort");
-		logger.info("motorPort", motorPort);
+		logger.info("motorPort="+motorPort);
 		
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			RemoteMotor motor = getMotorPortByName(motorPort);
+			RemoteMotor motor = getMotor(motorPort);
 			tachoCount = motor.getTachoCount();
 		}
 	
 		execution.setVariable("getTachoCountTachoCount", tachoCount);
-		logger.info("tachoCount", tachoCount);
+		logger.info("tachoCount="+tachoCount);
 	}
 
 }

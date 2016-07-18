@@ -26,6 +26,7 @@ import java.util.Map;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.togglz.junit.TogglzRule;
@@ -43,18 +44,19 @@ public class GetColorTest {
 	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
 	
 	
+	@Before
+	public void setUp() {
+		togglzRule.disable(Features.USE_LEJOS);
+	}
+
+	
 	@Test
 	public void test() {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("sensorPort", "S1");
 		
-		togglzRule.enable(Features.GET_COLOR);
-		if(Features.GET_COLOR.isActive()) {
-			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-			assertTrue(processInstance.isEnded());  
-		} else {
-			System.out.println(Features.GET_COLOR + " deactivated.");
-		}
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
+		assertTrue(processInstance.isEnded());  
 	}
 
 }

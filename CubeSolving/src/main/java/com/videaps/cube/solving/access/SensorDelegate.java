@@ -33,7 +33,7 @@ abstract class SensorDelegate implements JavaDelegate {
 	public abstract void execute(DelegateExecution execution) throws Exception;
 
 	
-	protected I2CPort getSensorPortByName(String sensorPort) {
+	protected I2CPort getSensor(String sensorPort) {
 		if("S1".equalsIgnoreCase(sensorPort)) {
 			return SensorPort.S1;
 		} else if("S2".equalsIgnoreCase(sensorPort)) {

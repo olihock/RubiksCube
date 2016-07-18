@@ -27,19 +27,21 @@ package com.videaps.cube.solving.rubik;
  */
 public enum CubeColor {
 	
-	RED(0, "red"),
-	GREEN(1, "green"),
-	BLUE(2, "blue"),
-	YELLOW(3, "yellow"),
-	ORANGE(5, "orange"),
-	WHITE(6, "white"),
-	NONE(-1, "none");
+	RED(0, "R", "red"),
+	GREEN(1, "G", "green"),
+	BLUE(2, "B", "blue"),
+	YELLOW(3, "Y", "yellow"),
+	ORANGE(5, "O", "orange"),
+	WHITE(6, "W", "white"),
+	NONE(-1, "X", "none");
 	
 	private int index = -1;
+	private String color = "";
 	private String name = "none";
 	
-	private CubeColor(int index, String name) {
+	private CubeColor(int index, String color, String name) {
 		this.index = index;
+		this.color = color;
 		this.name = name;
 	}
 
@@ -68,6 +70,10 @@ public enum CubeColor {
 		return index;
 	}
 
+	public String getColor() {
+		return color;
+	}
+	
 	public String getName() {
 		return name;
 	}

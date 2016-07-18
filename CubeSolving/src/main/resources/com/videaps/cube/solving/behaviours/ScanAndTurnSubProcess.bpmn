@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_ScanAndTurn" name="Scan And Turn" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1fiy4zq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1imkvi8" name="Has Turn Table Reached End">
+      <bpmn:incoming>SequenceFlow_0r0s6j7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0k6opi0</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_00rzizm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="ServiceTask_0z9cqu7" name="Get Turn Table Position" camunda:class="com.videaps.cube.solving.access.GetTachoCountDelegate">
+      <bpmn:incoming>SequenceFlow_1qcywxl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0r0s6j7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_101odyn" name="Scan Brick" camunda:class="com.videaps.cube.solving.access.GetColorDelegate">
+      <bpmn:incoming>SequenceFlow_0k6opi0</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_095sjnd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1qcywxl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0r0s6j7" sourceRef="ServiceTask_0z9cqu7" targetRef="ExclusiveGateway_1imkvi8" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k6opi0" name="No" sourceRef="ExclusiveGateway_1imkvi8" targetRef="ServiceTask_101odyn">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${getTachoCountTachoCount >= rotateMotorTachoCount}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1qcywxl" sourceRef="ServiceTask_101odyn" targetRef="ServiceTask_0z9cqu7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fiy4zq" sourceRef="StartEvent_1" targetRef="ServiceTask_052lv6p" />
+    <bpmn:endEvent id="EndEvent_03tep11">
+      <bpmn:incoming>SequenceFlow_0e1djk7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_00rzizm" name="Yes" sourceRef="ExclusiveGateway_1imkvi8" targetRef="ServiceTask_0sq2q0t" />
+    <bpmn:serviceTask id="ServiceTask_052lv6p" name="Move Turn Table" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate">
+      <bpmn:incoming>SequenceFlow_1fiy4zq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_095sjnd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_095sjnd" sourceRef="ServiceTask_052lv6p" targetRef="ServiceTask_101odyn" />
+    <bpmn:sequenceFlow id="SequenceFlow_0e1djk7" sourceRef="ServiceTask_0sq2q0t" targetRef="EndEvent_03tep11" />
+    <bpmn:serviceTask id="ServiceTask_0sq2q0t" name="Stop Turn Table" camunda:class="com.videaps.cube.solving.access.StopMotorDelegate">
+      <bpmn:incoming>SequenceFlow_00rzizm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0e1djk7</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_ScanAndTurn">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="177" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="213" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1imkvi8_di" bpmnElement="ExclusiveGateway_1imkvi8" isMarkerVisible="true">
+        <dc:Bounds x="923" y="170" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="903" y="235" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0z9cqu7_di" bpmnElement="ServiceTask_0z9cqu7">
+        <dc:Bounds x="741" y="155" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_101odyn_di" bpmnElement="ServiceTask_101odyn">
+        <dc:Bounds x="527" y="155" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0r0s6j7_di" bpmnElement="SequenceFlow_0r0s6j7">
+        <di:waypoint xsi:type="dc:Point" x="841" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="923" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="837" y="170" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0k6opi0_di" bpmnElement="SequenceFlow_0k6opi0">
+        <di:waypoint xsi:type="dc:Point" x="948" y="170" />
+        <di:waypoint xsi:type="dc:Point" x="948" y="66" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="66" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="155" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="719" y="41" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qcywxl_di" bpmnElement="SequenceFlow_1qcywxl">
+        <di:waypoint xsi:type="dc:Point" x="627" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="741" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="639" y="170" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fiy4zq_di" bpmnElement="SequenceFlow_1fiy4zq">
+        <di:waypoint xsi:type="dc:Point" x="228" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="332" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="254" y="170" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_03tep11_di" bpmnElement="EndEvent_03tep11">
+        <dc:Bounds x="1282" y="177" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1255" y="213" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_00rzizm_di" bpmnElement="SequenceFlow_00rzizm">
+        <di:waypoint xsi:type="dc:Point" x="973" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="1077" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="999" y="170" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_052lv6p_di" bpmnElement="ServiceTask_052lv6p">
+        <dc:Bounds x="332" y="155" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_095sjnd_di" bpmnElement="SequenceFlow_095sjnd">
+        <di:waypoint xsi:type="dc:Point" x="432" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="477" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="477" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="527" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="447" y="132.5" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0e1djk7_di" bpmnElement="SequenceFlow_0e1djk7">
+        <di:waypoint xsi:type="dc:Point" x="1177" y="195" />
+        <di:waypoint xsi:type="dc:Point" x="1282" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1184.5" y="170" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0sq2q0t_di" bpmnElement="ServiceTask_0sq2q0t">
+        <dc:Bounds x="1077" y="155" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -38,12 +38,12 @@ public class GetColorDelegate extends SensorDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPort = (String) execution.getVariable("GetColorSensorPort");
+		String sensorPort = (String) execution.getVariable("getColorSensorPort");
 		logger.info("sensorPort", sensorPort);
 		
 		int color = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensorPortByName(sensorPort);
+			I2CPort port = getSensor(sensorPort);
 			ColorHTSensor sensor = new ColorHTSensor(port);
 			color = sensor.getColor().getColor();
 		}

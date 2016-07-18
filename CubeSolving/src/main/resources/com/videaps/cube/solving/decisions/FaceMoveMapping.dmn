@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision" name="Face Move Mapping">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="from">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>#{from}</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0owvi90" label="to">
+        <inputExpression id="LiteralExpression_13yek1g" typeRef="string">        <text>#{to}</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="moves" name="move" typeRef="string" />
+      <rule id="row-700421730-1">
+        <inputEntry id="UnaryTests_1lgn020">        <text>F</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0aydabl">        <text>F</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0qyn409">        <text>pause()</text>
+</outputEntry>
+      </rule>
+      <rule id="row-700421730-2">
+        <inputEntry id="UnaryTests_06ki6tn">        <text>F</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1a7uf0n">        <text>U</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1t66sap">        <text>tilt(3)</text>
+</outputEntry>
+      </rule>
+      <rule id="row-700421730-3">
+        <inputEntry id="UnaryTests_19i8ams">        <text>F</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1ilqu75">        <text>D</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1koxyto">        <text>tilt(1)</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

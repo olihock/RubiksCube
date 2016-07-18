@@ -48,25 +48,30 @@ public class RotateMotorTest {
 	@Test
 	public void test() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("motorPort", "C");
-//		variables.put("acceleration", 22);
-		variables.put("speed", 75);
-		variables.put("angle", 65);
-//		variables.put("immediateReturn", false);
+		variables.put("rotateMotorMotorPort", "C");
+		variables.put("rotateMotorAcceleration", 22);
+		variables.put("rotateMotorSpeed", 75);
+		variables.put("rotateMotorAngle", 65);
+		variables.put("rotateMotorImmediateReturn", false);
 		
-		togglzRule.enable(Features.ROTATE_MOTOR);
-		if(Features.ROTATE_MOTOR.isActive()) {
-			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
-			assertTrue(processInstance.isEnded());  
+		togglzRule.disable(Features.USE_LEJOS);
+
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+		assertTrue(processInstance.isEnded());  
 			
-			Delay.msDelay(1000);
+		Delay.msDelay(1000);
 			
-			variables.put("angle", 90);
-			processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
-			assertTrue(processInstance.isEnded());  
-		} else {
-			System.out.println(Features.ROTATE_MOTOR + " deactivated.");
-		}
+		variables.put("rotateMotorAngle", 90);
+		processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+		assertTrue(processInstance.isEnded());  
+
+		variables.put("rotateMotorAngle", -90);
+		processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+		assertTrue(processInstance.isEnded());  
+
+		variables.put("rotateMotorAngle", -65);
+		processEngine.getRuntimeService().startProcessInstanceByKey("Process_RotateMotor", variables);
+		assertTrue(processInstance.isEnded());  
 	}
 
 }

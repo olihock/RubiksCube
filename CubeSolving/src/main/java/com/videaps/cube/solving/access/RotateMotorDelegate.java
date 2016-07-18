@@ -35,7 +35,7 @@ public class RotateMotorDelegate extends MotorDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
+		String motorPort = (String) execution.getVariableLocal("rotateMotorMotorPort");
 		Number speed = (Number) execution.getVariable("rotateMotorSpeed");
 		Number acceleration = (Number) execution.getVariable("rotateMotorAcceleration");
 		Number angle = (Number) execution.getVariable("rotateMotorAngle");
@@ -45,7 +45,7 @@ public class RotateMotorDelegate extends MotorDelegate {
 
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			RemoteMotor motor = getMotorPortByName(motorPort);
+			RemoteMotor motor = getMotor(motorPort);
 			motor.setSpeed(speed!=null?speed.intValue():999);
 			motor.setAcceleration(acceleration!=null?acceleration.intValue():0);
 			motor.rotate(angle!=null?angle.intValue():0, immediateReturn!=null?immediateReturn:false);
