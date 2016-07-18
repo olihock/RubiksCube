@@ -30,12 +30,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.togglz.junit.TogglzRule;
 
+import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/TiltProcess.bpmn" } )
-public class TiltTest {
+		"com/videaps/cube/solving/moves/TwistProcess.bpmn" } )
+public class TwistTest {
 
 	@Rule
 	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
@@ -46,24 +47,29 @@ public class TiltTest {
 	
 	@Test
 	public void test() {
+		final int angle = 35;
+		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
-		variables.put("moveCubePort", "B");
-		variables.put("moveCubeSpeed", 350);
-		variables.put("moveCubeAcceleration", 0);
-		variables.put("moveCubeAngle", 60);
-		variables.put("moveCubeImmediateReturn", false);
+		variables.put("holdCubePort", "B");
+		variables.put("holdCubeSpeed", 350);
+		variables.put("holdCubeAngle", angle);
 		
-		variables.put("delayMilliseconds", 2000);
+		variables.put("turnTablePort", "A");
+		variables.put("turnTableSpeed", 350);
+		variables.put("turnTableDirection", Direction.RIGHT.getValue());
+		variables.put("turnTableCount", 2);
+		
+		variables.put("delayMilliseconds", 2);
 		
 		variables.put("pullBackPort", "B");
 		variables.put("pullBackSpeed", 350);
 		variables.put("pullBackAcceleration", 0);
-		variables.put("pullBackAngle", -60);
+		variables.put("pullBackAngle", -angle);
 		variables.put("pullBackImmediateReturn", false);
 		
 		toggle.enable(Features.USE_LEJOS);
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Tilt", variables);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Twist", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

@@ -21,16 +21,14 @@ package com.videaps.cube.solving.access;
 import lejos.nxt.Motor;
 import lejos.nxt.remote.RemoteMotor;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
+
+/**
+ *
+ */
+public class MotorFactory {
 
 
-abstract class MotorDelegate implements JavaDelegate {
-
-	public abstract void execute(DelegateExecution execution) throws Exception;
-	
-	
-	protected RemoteMotor getMotor(String motorPort) {
+	public RemoteMotor getMotor(String motorPort) {
 		if("A".equalsIgnoreCase(motorPort)) {
 			return Motor.A;
 		} else if("B".equalsIgnoreCase(motorPort)) {

@@ -30,7 +30,7 @@ import com.videaps.cube.solving.toggling.Features;
 /**
  *
  */
-public class GetTachoCountDelegate extends MotorDelegate {
+public class GetTachoCountDelegate extends MotorFactory {
 	private static final Logger logger = LoggerFactory.getLogger(GetTachoCountDelegate.class);
 
 	

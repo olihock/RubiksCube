@@ -16,32 +16,26 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
-
-import lejos.nxt.remote.RemoteMotor;
-
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.videaps.cube.solving.toggling.Features;
+package com.videaps.cube.solving.rubik;
 
 
 /**
  *
  */
-public class StopMotorDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(StopMotorDelegate.class);
+public enum Direction {
 
-	public void execute(DelegateExecution execution) throws Exception {
-		String motorPort = (String) execution.getVariable("stopMotorMotorPort");
-		logger.info("motorPort="+motorPort);
-		
-		if(Features.USE_LEJOS.isActive()) {
-			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
-			motor.stop();
-		}
+	RIGHT(-1),
+	LEFT(1);
+	
+	private int value = 0;
+	
+	
+	private Direction(int value) {
+		this.value = value;
 	}
-
+		
+	public int getValue() {
+		return value;
+	}
+	
 }
