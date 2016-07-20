@@ -34,11 +34,11 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/behaviours/ScanAndTurnProcess.bpmn" } )
-public class ScanAndTurnTest {
+		"com/videaps/cube/solving/behaviours/InitialiseCubeProcess.bpmn" } )
+public class InitialiseCubeTest {
 
 	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
+	public ProcessEngineRule pe = new ProcessEngineRule();
 
 	@Rule
 	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
@@ -47,18 +47,19 @@ public class ScanAndTurnTest {
 	@Test
 	public void test() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		
-		variables.put("rotateMotorMotorPort", "A");
-		variables.put("rotateMotorSpeed", 15);
-		variables.put("rotateMotorAngle", -225);
-		variables.put("rotateMotorImmediateReturn", true);
 
-		variables.put("getColorSensorPort", "S1");
-
-		variables.put("isMotorMovingMotorPort", "A");
+		variables.put("initialiseCubeMotorPort", "C");
+		variables.put("initialiseCubeSpeed", 75);
+		variables.put("initialiseCubeImmediateReturn", true);
+		variables.put("initialiseCubeAngle", 110);
 		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanAndTurn", variables);
-		assertTrue(processInstance.isEnded());  
+		variables.put("moveTurnTableMotorPort", "A");
+		variables.put("moveTurnTableSpeed", 75);
+		variables.put("moveTurnTableImmediateReturn", true);
+		variables.put("moveTurnTableAngle", -30);
+		
+		ProcessInstance pi = pe.getRuntimeService().startProcessInstanceByKey("Process_InitialiseCube", variables);
+		assertTrue(pi.isEnded());  
 		
 	}
 

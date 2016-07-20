@@ -42,12 +42,12 @@ public class BrickColorListener implements ExecutionListener {
 			brickColors = new ArrayList<Number>();
 			execution.setVariable("brickColors", brickColors);
 		}
-		logger.info("brickColors="+brickColors);
 		
 		Number color = (Number) execution.getVariable("getColorColor");
 		logger.info("color="+color);
 		
 		brickColors.add(color);
+		logger.info("brickColors="+brickColors);
 	}
 
 }

@@ -16,39 +16,33 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.behaviour;
+package com.videaps.cube.solving.access.motor;
 
-import static org.junit.Assert.assertTrue;
+import lejos.nxt.remote.RemoteMotor;
 
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.togglz.junit.TogglzRule;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.videaps.cube.solving.access.MotorFactory;
 import com.videaps.cube.solving.toggling.Features;
 
 
-@Deployment(resources = {
-		"com/videaps/cube/solving/behaviour/GoToScanPositionProcess.bpmn", 
-		"com/videaps/cube/solving/access/RotateMotorProcess.bpmn" } )
-public class GoToScanPositionTest {
+/**
+ *
+ */
+public class StopMotorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(StopMotorDelegate.class);
 
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
-
-	@Rule
-	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
-	
-	
-	@Test
-	public void test() {
-
-		togglzRule.disable(Features.USE_LEJOS);
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GoToScanPosition");
-		assertTrue(processInstance.isEnded());  
+	public void execute(DelegateExecution execution) throws Exception {
+		String motorPort = (String) execution.getVariable("stopMotorMotorPort");
+		logger.info("motorPort="+motorPort);
 		
+		if(Features.USE_LEJOS.isActive()) {
+			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
+			motor.stop();
+		}
 	}
 
 }

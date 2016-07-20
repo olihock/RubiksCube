@@ -16,39 +16,37 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.access.motor;
 
-import lejos.nxt.I2CPort;
-import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.videaps.cube.solving.access.MotorFactory;
 import com.videaps.cube.solving.toggling.Features;
 
 
 /**
  *
  */
-public class GetDistanceDelegate extends SensorDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(GetDistanceDelegate.class);
+public class IsMotorMovingDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(IsMotorMovingDelegate.class);
 
-	
-	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPort = (String) execution.getVariable("getDistanceSensorPort");
-		logger.info("sensorPort", sensorPort);
+		String motorPort = (String) execution.getVariable("isMotorMovingMotorPort");
+		logger.info("motorPort="+motorPort);
 		
-		int distance = -1;
+		boolean moving = false;
 		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
-			UltrasonicSensor sensor = new UltrasonicSensor(port);
-			distance = sensor.getDistance();
+			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
+			moving = motor.isMoving();
 		}
-		execution.setVariable("distance", distance);
-
-		logger.info("distance="+distance);
+	
+		execution.setVariable("isMotorMovingMoving", moving);
+		logger.info("moving="+moving);
 	}
 
 }

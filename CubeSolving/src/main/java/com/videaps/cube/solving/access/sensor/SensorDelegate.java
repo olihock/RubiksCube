@@ -16,41 +16,34 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.access.sensor;
 
 import lejos.nxt.I2CPort;
-import lejos.nxt.addon.ColorHTSensor;
+import lejos.nxt.SensorPort;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.videaps.cube.solving.rubik.CubeColor;
-import com.videaps.cube.solving.toggling.Features;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 
 /**
- * 
+ *
  */
-public class GetColorDelegate extends SensorDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
+abstract class SensorDelegate implements JavaDelegate {
+	
+	public abstract void execute(DelegateExecution execution) throws Exception;
 
-
-	@Override
-	public void execute(DelegateExecution execution) throws Exception {
-		String sensorPort = (String) execution.getVariable("getColorSensorPort");
-		logger.info("sensorPort="+sensorPort);
-		
-		int color = -1;
-		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
-			ColorHTSensor sensor = new ColorHTSensor(port);
-			color = sensor.getColor().getColor();
+	
+	protected I2CPort getSensor(String sensorPort) {
+		if("S1".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S1;
+		} else if("S2".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S2;
+		} else if("S3".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S3;
+		} else if("S4".equalsIgnoreCase(sensorPort)) {
+			return SensorPort.S4;
 		}
-		execution.setVariable("getColorColor", color);
-
-		logger.info("color="+color + ", " + CubeColor.getColorName(color));
+		return null;
 	}
-
 	
 }

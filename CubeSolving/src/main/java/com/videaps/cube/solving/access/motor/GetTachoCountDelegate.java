@@ -16,7 +16,7 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.access.motor;
 
 import lejos.nxt.remote.RemoteMotor;
 
@@ -25,46 +25,29 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.videaps.cube.solving.access.MotorFactory;
 import com.videaps.cube.solving.toggling.Features;
 
 
 /**
  *
  */
-public class RotateMotorDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(RotateMotorDelegate.class);
+public class GetTachoCountDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(GetTachoCountDelegate.class);
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
-		Number speed = (Number) execution.getVariable("rotateMotorSpeed");
-		Number acceleration = (Number) execution.getVariable("rotateMotorAcceleration");
-		Number angle = (Number) execution.getVariable("rotateMotorAngle");
-		Boolean immediateReturn = (Boolean) execution.getVariable("rotateMotorImmediateReturn");
+		String motorPort = (String) execution.getVariable("getTachoCountMotorPort");
+		logger.info("motorPort="+motorPort);
 		
-		logInfo(motorPort, speed, acceleration, angle, immediateReturn);
-
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
 			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
-			motor.setSpeed(speed!=null?speed.intValue():999);
-			motor.setAcceleration(acceleration!=null?acceleration.intValue():0);
-			motor.rotate(angle!=null?angle.intValue():0, immediateReturn!=null?immediateReturn:false);
-
 			tachoCount = motor.getTachoCount();
 		}
-		
-		execution.setVariable("rotateMotorTachoCount", tachoCount);
+	
+		execution.setVariable("getTachoCountTachoCount", tachoCount);
 		logger.info("tachoCount="+tachoCount);
-	}
-
-
-	private void logInfo(String motorPort, Number speed, Number acceleration, Number angle, Boolean immediateReturn) {
-		logger.info("motorPort="+motorPort);
-		logger.info("speed="+speed);
-		logger.info("acceleration="+acceleration);
-		logger.info("angle="+angle);
-		logger.info("immediateReturn="+immediateReturn);
 	}
 
 }

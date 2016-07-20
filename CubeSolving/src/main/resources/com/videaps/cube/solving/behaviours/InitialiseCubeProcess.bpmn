@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_InitialiseCube" name="Initialise Cube" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1ua36hv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1ua36hv" sourceRef="StartEvent_1" targetRef="ParallelGateway_1cyhkpb" />
+    <bpmn:parallelGateway id="ParallelGateway_1cyhkpb">
+      <bpmn:incoming>SequenceFlow_1ua36hv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_17cly4t</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0cidwiz</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_17cly4t" sourceRef="ParallelGateway_1cyhkpb" targetRef="ServiceTask_MoveScanner" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cidwiz" sourceRef="ParallelGateway_1cyhkpb" targetRef="ServiceTask_MoveTurnTable" />
+    <bpmn:sequenceFlow id="SequenceFlow_02h7fjo" sourceRef="ServiceTask_MoveTurnTable" targetRef="ParallelGateway_1ke5p81" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vqa76p" sourceRef="ServiceTask_MoveScanner" targetRef="ParallelGateway_1ke5p81" />
+    <bpmn:endEvent id="EndEvent_09qjc3c">
+      <bpmn:incoming>SequenceFlow_07ejtjn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="EndEvent_09qjc3c" />
+    <bpmn:parallelGateway id="ParallelGateway_1ke5p81">
+      <bpmn:incoming>SequenceFlow_02h7fjo</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1vqa76p</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07ejtjn</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:serviceTask id="ServiceTask_MoveScanner" name="Move Scanner" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">${initialiseCubeMotorPort}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${initialiseCubeSpeed}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorImmediateReturn">${initialiseCubeImmediateReturn}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${initialiseCubeAngle}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17cly4t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vqa76p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_MoveTurnTable" name="Move Turn Table" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">${moveTurnTableMotorPort}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${moveTurnTableSpeed}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorImmediateReturn">${moveTurnTableImmediateReturn}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${moveTurnTableAngle}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0cidwiz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_02h7fjo</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_InitialiseCube">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ua36hv_di" bpmnElement="SequenceFlow_1ua36hv">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="303" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="211" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_1cyhkpb_di" bpmnElement="ParallelGateway_1cyhkpb">
+        <dc:Bounds x="303" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="283" y="145" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_17cly4t_di" bpmnElement="SequenceFlow_17cly4t">
+        <di:waypoint xsi:type="dc:Point" x="328" y="95" />
+        <di:waypoint xsi:type="dc:Point" x="328" y="59" />
+        <di:waypoint xsi:type="dc:Point" x="477" y="59" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="298" y="67" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cidwiz_di" bpmnElement="SequenceFlow_0cidwiz">
+        <di:waypoint xsi:type="dc:Point" x="328" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="328" y="182" />
+        <di:waypoint xsi:type="dc:Point" x="477" y="182" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="298" y="153.5" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_02h7fjo_di" bpmnElement="SequenceFlow_02h7fjo">
+        <di:waypoint xsi:type="dc:Point" x="577" y="182" />
+        <di:waypoint xsi:type="dc:Point" x="704" y="182" />
+        <di:waypoint xsi:type="dc:Point" x="704" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="583.5" y="157" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vqa76p_di" bpmnElement="SequenceFlow_1vqa76p">
+        <di:waypoint xsi:type="dc:Point" x="577" y="59" />
+        <di:waypoint xsi:type="dc:Point" x="704" y="59" />
+        <di:waypoint xsi:type="dc:Point" x="704" y="95" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="583.5" y="34" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_09qjc3c_di" bpmnElement="EndEvent_09qjc3c">
+        <dc:Bounds x="797" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="770" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07ejtjn_di" bpmnElement="SequenceFlow_07ejtjn">
+        <di:waypoint xsi:type="dc:Point" x="729" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="797" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="706" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_1ke5p81_di" bpmnElement="ParallelGateway_1ke5p81">
+        <dc:Bounds x="679" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="659" y="145" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1t3ce1n_di" bpmnElement="ServiceTask_MoveScanner">
+        <dc:Bounds x="477" y="19" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1dffqkv_di" bpmnElement="ServiceTask_MoveTurnTable">
+        <dc:Bounds x="477" y="142" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

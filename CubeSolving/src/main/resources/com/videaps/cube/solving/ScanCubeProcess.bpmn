@@ -7,8 +7,8 @@
     <bpmn:endEvent id="EndEvent_1rpmf1f">
       <bpmn:incoming>SequenceFlow_0fp88vg</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1wpgb7x" sourceRef="CallActivity_1pl7mfp" targetRef="Task_0dp5psn" />
-    <bpmn:sequenceFlow id="SequenceFlow_1e2595i" sourceRef="StartEvent_1" targetRef="CallActivity_1pl7mfp" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wpgb7x" sourceRef="CallActivity_ScanFace" targetRef="Task_0dp5psn" />
+    <bpmn:sequenceFlow id="SequenceFlow_1e2595i" sourceRef="StartEvent_1" targetRef="CallActivity_ScanFace" />
     <bpmn:task id="Task_0dp5psn" name="Map Way To Next Face">
       <bpmn:incoming>SequenceFlow_1wpgb7x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13vjstg</bpmn:outgoing>
@@ -25,8 +25,8 @@
       <bpmn:incoming>SequenceFlow_0tuf283</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lcy3tg</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:sequenceFlow id="SequenceFlow_1lcy3tg" sourceRef="Task_0uta42y" targetRef="CallActivity_1pl7mfp" />
-    <bpmn:callActivity id="CallActivity_1pl7mfp" name="Scan Face" calledElement="Process_ScanFace">
+    <bpmn:sequenceFlow id="SequenceFlow_1lcy3tg" sourceRef="Task_0uta42y" targetRef="CallActivity_ScanFace" />
+    <bpmn:callActivity id="CallActivity_ScanFace" name="Scan Face" calledElement="Process_ScanFace">
       <bpmn:incoming>SequenceFlow_1e2595i</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1lcy3tg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1wpgb7x</bpmn:outgoing>
@@ -101,7 +101,7 @@
           <dc:Bounds x="306" y="216.5" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_1pl7mfp_di" bpmnElement="CallActivity_1pl7mfp">
+      <bpmndi:BPMNShape id="CallActivity_1pl7mfp_di" bpmnElement="CallActivity_ScanFace">
         <dc:Bounds x="286" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

@@ -9,11 +9,11 @@
       <bpmn:outgoing>SequenceFlow_0k6opi0</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_00rzizm</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="ServiceTask_GetTurnTablePosition" name="Is Motor Moving" camunda:class="com.videaps.cube.solving.access.IsMotorMovingDelegate">
+    <bpmn:serviceTask id="ServiceTask_GetTurnTablePosition" name="Is Motor Moving" camunda:class="com.videaps.cube.solving.access.motor.IsMotorMovingDelegate">
       <bpmn:incoming>SequenceFlow_1qcywxl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0r0s6j7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_ScanBrick" name="Scan Brick" camunda:class="com.videaps.cube.solving.access.GetColorDelegate">
+    <bpmn:serviceTask id="ServiceTask_ScanBrick" name="Scan Brick" camunda:class="com.videaps.cube.solving.access.sensor.GetColorDelegate">
       <bpmn:extensionElements>
         <camunda:executionListener class="com.videaps.cube.solving.moves.BrickColorListener" event="end" />
       </bpmn:extensionElements>
@@ -30,7 +30,7 @@
       <bpmn:incoming>SequenceFlow_00rzizm</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_00rzizm" name="No" sourceRef="ExclusiveGateway_1imkvi8" targetRef="EndEvent_03tep11" />
-    <bpmn:serviceTask id="ServiceTask_MoveTurnTable" name="Move Turn Table" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate">
+    <bpmn:serviceTask id="ServiceTask_MoveTurnTable" name="Move Turn Table" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:incoming>SequenceFlow_1ub14hl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_095sjnd</bpmn:outgoing>
     </bpmn:serviceTask>
