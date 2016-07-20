@@ -34,7 +34,8 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/behaviours/InitialiseCubeProcess.bpmn" } )
+		"com/videaps/cube/solving/behaviours/InitialiseCubeProcess.bpmn"
+	} )
 public class InitialiseCubeTest {
 
 	@Rule

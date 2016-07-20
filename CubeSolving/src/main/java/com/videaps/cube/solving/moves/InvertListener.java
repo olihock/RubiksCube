@@ -25,7 +25,7 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.videaps.cube.solving.access.MotorFactory;
+import com.videaps.cube.solving.access.motor.MotorFactory;
 import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 

@@ -21,19 +21,14 @@ package com.videaps.cube.solving.access.sensor;
 import lejos.nxt.I2CPort;
 import lejos.nxt.SensorPort;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-
 
 /**
  *
  */
-abstract class SensorDelegate implements JavaDelegate {
+public class SensorFactory {
 	
-	public abstract void execute(DelegateExecution execution) throws Exception;
-
 	
-	protected I2CPort getSensor(String sensorPort) {
+	public I2CPort getSensor(String sensorPort) {
 		if("S1".equalsIgnoreCase(sensorPort)) {
 			return SensorPort.S1;
 		} else if("S2".equalsIgnoreCase(sensorPort)) {

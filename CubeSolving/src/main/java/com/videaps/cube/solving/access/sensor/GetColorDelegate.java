@@ -22,6 +22,7 @@ import lejos.nxt.I2CPort;
 import lejos.nxt.addon.ColorHTSensor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,18 +33,17 @@ import com.videaps.cube.solving.toggling.Features;
 /**
  * 
  */
-public class GetColorDelegate extends SensorDelegate {
+public class GetColorDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
 
 
-	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		String sensorPort = (String) execution.getVariable("getColorSensorPort");
 		logger.info("sensorPort="+sensorPort);
 		
 		int color = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
+			I2CPort port = new SensorFactory().getSensor(sensorPort);
 			ColorHTSensor sensor = new ColorHTSensor(port);
 			color = sensor.getColor().getColor();
 		}

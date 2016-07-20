@@ -22,6 +22,7 @@ import lejos.nxt.I2CPort;
 import lejos.nxt.UltrasonicSensor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,18 +32,17 @@ import com.videaps.cube.solving.toggling.Features;
 /**
  *
  */
-public class GetDistanceDelegate extends SensorDelegate {
+public class GetDistanceDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(GetDistanceDelegate.class);
 
 	
-	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		String sensorPort = (String) execution.getVariable("getDistanceSensorPort");
 		logger.info("sensorPort", sensorPort);
 		
 		int distance = -1;
 		if(Features.USE_LEJOS.isActive()) {
-			I2CPort port = getSensor(sensorPort);
+			I2CPort port = new SensorFactory().getSensor(sensorPort);
 			UltrasonicSensor sensor = new UltrasonicSensor(port);
 			distance = sensor.getDistance();
 		}
