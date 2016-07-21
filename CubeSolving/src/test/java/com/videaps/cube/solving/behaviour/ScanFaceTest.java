@@ -33,6 +33,7 @@ import org.junit.Test;
 @Deployment(resources = {
 		"com/videaps/cube/solving/behaviours/InitialiseCubeProcess.bpmn",
 		"com/videaps/cube/solving/behaviours/ScanAndTurnProcess.bpmn", 
+		"com/videaps/cube/solving/behaviours/ScanMoveScanner.bpmn",
 		"com/videaps/cube/solving/behaviours/ScanFaceProcess.bpmn"
 	} )
 public class ScanFaceTest {
