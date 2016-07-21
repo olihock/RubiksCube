@@ -31,8 +31,10 @@ public enum CubeColor {
 	GREEN(1, "G", "green"),
 	BLUE(2, "B", "blue"),
 	YELLOW(3, "Y", "yellow"),
+	// MAGENTA(4, "magenta"),
 	ORANGE(5, "O", "orange"),
 	WHITE(6, "W", "white"),
+	// BLACK(7, "black"),
 	NONE(-1, "X", "none");
 	
 	private int index = -1;

@@ -18,45 +18,43 @@
 */
 package com.videaps.cube.solving.access;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
+import lejos.nxt.I2CPort;
+import lejos.nxt.addon.ColorHTSensor;
+
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.togglz.junit.TogglzRule;
 
-import com.videaps.cube.solving.toggling.Features;
+import com.videaps.cube.solving.access.sensor.SensorFactory;
 
 
-@Deployment(resources = {"com/videaps/cube/solving/access/GetColorProcess.bpmn"})
+/**
+ *
+ */
 public class GetColorTest {
 
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
-
-	@Rule
-	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
-	
-	
 	@Before
 	public void setUp() {
-		togglzRule.disable(Features.USE_LEJOS);
 	}
 
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("sensorPort", "S1");
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_GetColor", variables);
-		assertTrue(processInstance.isEnded());  
+		List<Integer> colors = new ArrayList<Integer>();
+		I2CPort port = new SensorFactory().getSensor("S1");
+		ColorHTSensor sensor = new ColorHTSensor(port);
+		long start = System.currentTimeMillis();
+		while( (start + 10000) > System.currentTimeMillis() ) {
+			int color = sensor.getColor().getColor();
+			System.out.println("color="+color);
+			colors.add(color);
+		}
+		assertTrue(colors.size() > 0);
+		System.out.println("colors.size="+colors.size());
 	}
 
 }

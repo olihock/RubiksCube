@@ -48,6 +48,7 @@ public class BrickColorListener implements ExecutionListener {
 		
 		brickColors.add(color);
 		logger.info("brickColors="+brickColors);
+		logger.info("size="+brickColors.size());
 	}
 
 }

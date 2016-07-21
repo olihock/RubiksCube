@@ -15,9 +15,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_02h7fjo" sourceRef="ServiceTask_MoveTurnTable" targetRef="ParallelGateway_1ke5p81" />
     <bpmn:sequenceFlow id="SequenceFlow_1vqa76p" sourceRef="ServiceTask_MoveScanner" targetRef="ParallelGateway_1ke5p81" />
     <bpmn:endEvent id="EndEvent_09qjc3c">
-      <bpmn:incoming>SequenceFlow_07ejtjn</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1t0o40h</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="EndEvent_09qjc3c" />
+    <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="ServiceTask_0gt61kn" />
     <bpmn:parallelGateway id="ParallelGateway_1ke5p81">
       <bpmn:incoming>SequenceFlow_02h7fjo</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1vqa76p</bpmn:incoming>
@@ -26,10 +26,10 @@
     <bpmn:serviceTask id="ServiceTask_MoveScanner" name="Move Scanner" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="rotateMotorMotorPort">${initialiseCubeMotorPort}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorSpeed">${initialiseCubeSpeed}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorImmediateReturn">${initialiseCubeImmediateReturn}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${initialiseCubeAngle}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${75}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${115}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17cly4t</bpmn:incoming>
@@ -38,14 +38,70 @@
     <bpmn:serviceTask id="ServiceTask_MoveTurnTable" name="Move Turn Table" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="rotateMotorMotorPort">${moveTurnTableMotorPort}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorSpeed">${moveTurnTableSpeed}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorImmediateReturn">${moveTurnTableImmediateReturn}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${moveTurnTableAngle}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${50}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-15}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0cidwiz</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02h7fjo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1g4hz4s" name="Have Motors Ended?">
+      <bpmn:incoming>SequenceFlow_0x2ojnm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1t0o40h</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1ewod5z</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1t0o40h" name="Yes" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="EndEvent_09qjc3c">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${ !isScannerMoving && !isTurnTableMoving }]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ServiceTask_GetMotorState" name="Get Scanner State" camunda:class="com.videaps.cube.solving.access.motor.IsMotorMovingDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isMotorMovingMotorPort">C</camunda:inputParameter>
+          <camunda:outputParameter name="isScannerMoving">${isMotorMovingMoving}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0bq7hg5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0yxoo3p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0bq7hg5" sourceRef="ParallelGateway_0tvown8" targetRef="ServiceTask_GetMotorState" />
+    <bpmn:parallelGateway id="ParallelGateway_0tvown8">
+      <bpmn:incoming>SequenceFlow_1t3vggb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bq7hg5</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1kyqwdx</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1kyqwdx" sourceRef="ParallelGateway_0tvown8" targetRef="ServiceTask_GetTurnTableState" />
+    <bpmn:serviceTask id="ServiceTask_GetTurnTableState" name="Get Turn Table State" camunda:class="com.videaps.cube.solving.access.motor.IsMotorMovingDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isMotorMovingMotorPort">A</camunda:inputParameter>
+          <camunda:outputParameter name="isTurnTableMoving">${isMotorMovingMoving}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1kyqwdx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1mqeczd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1mqeczd" sourceRef="ServiceTask_GetTurnTableState" targetRef="ParallelGateway_02c94f9" />
+    <bpmn:parallelGateway id="ParallelGateway_02c94f9">
+      <bpmn:incoming>SequenceFlow_1mqeczd</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0yxoo3p</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0x2ojnm</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0yxoo3p" sourceRef="ServiceTask_GetMotorState" targetRef="ParallelGateway_02c94f9" />
+    <bpmn:sequenceFlow id="SequenceFlow_0x2ojnm" sourceRef="ParallelGateway_02c94f9" targetRef="ExclusiveGateway_1g4hz4s" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="ServiceTask_0gt61kn" />
+    <bpmn:sequenceFlow id="SequenceFlow_1t3vggb" sourceRef="ServiceTask_0gt61kn" targetRef="ParallelGateway_0tvown8" />
+    <bpmn:serviceTask id="ServiceTask_0gt61kn" name="Log Move State" camunda:class="com.videaps.cube.solving.access.LoggerDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="text">Cube has been initialised</camunda:inputParameter>
+          <camunda:inputParameter name="value">${0}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_07ejtjn</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1ewod5z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1t3vggb</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -68,60 +124,149 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_17cly4t_di" bpmnElement="SequenceFlow_17cly4t">
         <di:waypoint xsi:type="dc:Point" x="328" y="95" />
-        <di:waypoint xsi:type="dc:Point" x="328" y="59" />
-        <di:waypoint xsi:type="dc:Point" x="477" y="59" />
+        <di:waypoint xsi:type="dc:Point" x="328" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="399" y="60" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="298" y="67" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0cidwiz_di" bpmnElement="SequenceFlow_0cidwiz">
         <di:waypoint xsi:type="dc:Point" x="328" y="145" />
-        <di:waypoint xsi:type="dc:Point" x="328" y="182" />
-        <di:waypoint xsi:type="dc:Point" x="477" y="182" />
+        <di:waypoint xsi:type="dc:Point" x="328" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="399" y="181" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="298" y="153.5" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_02h7fjo_di" bpmnElement="SequenceFlow_02h7fjo">
-        <di:waypoint xsi:type="dc:Point" x="577" y="182" />
-        <di:waypoint xsi:type="dc:Point" x="704" y="182" />
-        <di:waypoint xsi:type="dc:Point" x="704" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="499" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="145" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="583.5" y="157" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1vqa76p_di" bpmnElement="SequenceFlow_1vqa76p">
-        <di:waypoint xsi:type="dc:Point" x="577" y="59" />
-        <di:waypoint xsi:type="dc:Point" x="704" y="59" />
-        <di:waypoint xsi:type="dc:Point" x="704" y="95" />
+        <di:waypoint xsi:type="dc:Point" x="499" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="577" y="95" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="583.5" y="34" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_09qjc3c_di" bpmnElement="EndEvent_09qjc3c">
-        <dc:Bounds x="797" y="102" width="36" height="36" />
+        <dc:Bounds x="1313" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="770" y="138" width="90" height="20" />
+          <dc:Bounds x="1286" y="138" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_07ejtjn_di" bpmnElement="SequenceFlow_07ejtjn">
-        <di:waypoint xsi:type="dc:Point" x="729" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="797" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="602" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="653" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="706" y="95" width="90" height="20" />
+          <dc:Bounds x="867" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ParallelGateway_1ke5p81_di" bpmnElement="ParallelGateway_1ke5p81">
-        <dc:Bounds x="679" y="95" width="50" height="50" />
+        <dc:Bounds x="552" y="95" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="659" y="145" width="90" height="20" />
+          <dc:Bounds x="532" y="145" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1t3ce1n_di" bpmnElement="ServiceTask_MoveScanner">
-        <dc:Bounds x="477" y="19" width="100" height="80" />
+        <dc:Bounds x="399" y="20" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1dffqkv_di" bpmnElement="ServiceTask_MoveTurnTable">
-        <dc:Bounds x="477" y="142" width="100" height="80" />
+        <dc:Bounds x="399" y="141" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1g4hz4s_di" bpmnElement="ExclusiveGateway_1g4hz4s" isMarkerVisible="true">
+        <dc:Bounds x="1164" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1144" y="59" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1t0o40h_di" bpmnElement="SequenceFlow_1t0o40h">
+        <di:waypoint xsi:type="dc:Point" x="1214" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1313" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1223" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_18x2jf2_di" bpmnElement="ServiceTask_GetMotorState">
+        <dc:Bounds x="886" y="20" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bq7hg5_di" bpmnElement="SequenceFlow_0bq7hg5">
+        <di:waypoint xsi:type="dc:Point" x="822" y="95" />
+        <di:waypoint xsi:type="dc:Point" x="822" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="886" y="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="817" y="110" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_0tvown8_di" bpmnElement="ParallelGateway_0tvown8">
+        <dc:Bounds x="797" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="777" y="145" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kyqwdx_di" bpmnElement="SequenceFlow_1kyqwdx">
+        <di:waypoint xsi:type="dc:Point" x="822" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="822" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="886" y="181" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="792" y="153" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1jt0pld_di" bpmnElement="ServiceTask_GetTurnTableState">
+        <dc:Bounds x="886" y="141" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mqeczd_di" bpmnElement="SequenceFlow_1mqeczd">
+        <di:waypoint xsi:type="dc:Point" x="986" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="1057" y="181" />
+        <di:waypoint xsi:type="dc:Point" x="1057" y="145" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="977" y="156" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_02c94f9_di" bpmnElement="ParallelGateway_02c94f9">
+        <dc:Bounds x="1032" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1012" y="145" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0yxoo3p_di" bpmnElement="SequenceFlow_0yxoo3p">
+        <di:waypoint xsi:type="dc:Point" x="986" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="1057" y="60" />
+        <di:waypoint xsi:type="dc:Point" x="1057" y="95" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="977" y="35" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0x2ojnm_di" bpmnElement="SequenceFlow_0x2ojnm">
+        <di:waypoint xsi:type="dc:Point" x="1082" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1164" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1117" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ewod5z_di" bpmnElement="SequenceFlow_1ewod5z">
+        <di:waypoint xsi:type="dc:Point" x="1189" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="1189" y="278" />
+        <di:waypoint xsi:type="dc:Point" x="703" y="278" />
+        <di:waypoint xsi:type="dc:Point" x="703" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="910" y="253" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1t3vggb_di" bpmnElement="SequenceFlow_1t3vggb">
+        <di:waypoint xsi:type="dc:Point" x="753" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="797" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="730" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0gt61kn_di" bpmnElement="ServiceTask_0gt61kn">
+        <dc:Bounds x="653" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -6,6 +6,14 @@
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+	<repositories>
+		<repository>
+			<id>camunda-bpm-nexus</id>
+			<name>camunda-bpm-nexus</name>
+			<url>https://app.camunda.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -23,6 +31,13 @@
 			<groupId>org.camunda.bpm</groupId>
 			<artifactId>camunda-engine</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.camunda.bpm.workbench</groupId>
+			<artifactId>camunda-workbench-dist-embeddable</artifactId>
+			<version>1.0.0-alpha8</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

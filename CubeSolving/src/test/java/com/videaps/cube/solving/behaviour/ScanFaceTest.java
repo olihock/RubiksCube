@@ -20,46 +20,30 @@ package com.videaps.cube.solving.behaviour;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.togglz.junit.TogglzRule;
-
-import com.videaps.cube.solving.toggling.Features;
 
 
+/**
+ *
+ */
 @Deployment(resources = {
-		"com/videaps/cube/solving/access/RotateMotorProcess.bpmn",
-		"com/videaps/cube/solving/access/GetColorProcess.bpmn",
-		"com/videaps/cube/solving/behaviour/ScanFaceProcess.bpmn", 
-		"com/videaps/cube/solving/behaviour/ScanAndTurnProcess.bpmn" } )
+		"com/videaps/cube/solving/behaviours/InitialiseCubeProcess.bpmn",
+		"com/videaps/cube/solving/behaviours/ScanAndTurnProcess.bpmn", 
+		"com/videaps/cube/solving/behaviours/ScanFaceProcess.bpmn"
+	} )
 public class ScanFaceTest {
 
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
-	@Rule
-	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
-	
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("getColorSensorPort", "S1");
-		
-		variables.put("rotateMotorMotorPort", "C");
-		variables.put("rotateMotorAcceleration", 0);
-		variables.put("rotateMotorSpeed", 999);
-		variables.put("rotateMotorAngle", 75);
-		variables.put("rotateMotorImmediateReturn", true);
-
-		togglzRule.disable(Features.USE_LEJOS);
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanFace", variables);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanFace");
 		assertTrue(processInstance.isEnded());  
 		
 	}

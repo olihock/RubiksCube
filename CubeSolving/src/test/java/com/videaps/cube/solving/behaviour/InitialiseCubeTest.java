@@ -47,21 +47,27 @@ public class InitialiseCubeTest {
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-
-		variables.put("initialiseCubeMotorPort", "C");
-		variables.put("initialiseCubeSpeed", 75);
-		variables.put("initialiseCubeImmediateReturn", true);
-		variables.put("initialiseCubeAngle", 110);
-		
-		variables.put("moveTurnTableMotorPort", "A");
-		variables.put("moveTurnTableSpeed", 75);
-		variables.put("moveTurnTableImmediateReturn", true);
-		variables.put("moveTurnTableAngle", -30);
+		Map<String, Object> variables = variables();
 		
 		ProcessInstance pi = pe.getRuntimeService().startProcessInstanceByKey("Process_InitialiseCube", variables);
 		assertTrue(pi.isEnded());  
 		
+	}
+
+
+	public static Map<String, Object> variables() {
+		Map<String, Object> variables = new HashMap<String, Object>();
+
+		variables.put("moveScannerMotorPort", "C");
+		variables.put("moveScannerSpeed", 75);
+		variables.put("moveScannerImmediateReturn", true);
+		variables.put("moveScannerAngle", 115);
+		
+		variables.put("moveTurnTableMotorPort", "A");
+		variables.put("moveTurnTableSpeed", 75);
+		variables.put("moveTurnTableImmediateReturn", true);
+		variables.put("moveTurnTableAngle", -15);
+		return variables;
 	}
 
 }
