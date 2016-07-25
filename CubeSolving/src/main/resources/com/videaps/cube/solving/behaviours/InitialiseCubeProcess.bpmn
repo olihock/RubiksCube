@@ -29,7 +29,7 @@
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${75}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${115}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${118}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17cly4t</bpmn:incoming>

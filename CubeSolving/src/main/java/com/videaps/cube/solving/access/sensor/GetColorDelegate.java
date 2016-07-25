@@ -26,7 +26,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.videaps.cube.solving.rubik.CubeColor;
+import com.videaps.cube.solving.access.ColorPicker;
 import com.videaps.cube.solving.toggling.Features;
 
 
@@ -45,11 +45,12 @@ public class GetColorDelegate implements JavaDelegate {
 		if(Features.USE_LEJOS.isActive()) {
 			I2CPort port = new SensorFactory().getSensor(sensorPort);
 			ColorHTSensor sensor = new ColorHTSensor(port);
-			color = sensor.getColor().getColor();
+			color = sensor.getColorID();
 		}
-		execution.setVariable("getColorColor", color);
+		String theColor = new ColorPicker().pickColor(color);
+		execution.setVariable("getColorColor", theColor);
 
-		logger.info("color="+color + ", " + CubeColor.getColorName(color));
+		logger.info("theColor="+theColor); 
 	}
 
 	

@@ -16,13 +16,13 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves;
+package com.videaps.cube.solving.access;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.ListUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.ExecutionListener;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,27 +30,29 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class BrickColorListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(BrickColorListener.class);
+public class SplitColorsDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(SplitColorsDelegate.class);
 
 	
-	public void notify(DelegateExecution execution) throws Exception {
-		
+	public void execute(DelegateExecution execution) throws Exception {
 		@SuppressWarnings("unchecked")
-		List<String> brickColors = (List<String>) execution.getVariable("brickColors");
-	    logger.info("brickColor="+brickColors);
-		if(brickColors == null) {
-			brickColors = new ArrayList<String>();
+		List<String> brickColorsInner = (List<String>) execution.getVariable("brickColorsInner");
+
+		StringBuffer colorBuf = new StringBuffer();
+		ColorPicker colorPicker = new ColorPicker();
+		
+		List<List<String>> partitions = ListUtils.partition(brickColorsInner, brickColorsInner.size());
+		for(List<String> partition : partitions) {
+			String colorStr = String.join("", partition);
+			logger.info("colorStr="+colorStr);
+			String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
+			logger.info("mostFrequentColor="+mostFrequentColor);
+			colorBuf.append(mostFrequentColor);
 		}
 		
-		String color = (String) execution.getVariable("getColorColor");
-		logger.info("color="+color);
-		
-		brickColors.add(color);
-		execution.setVariable("brickColors", brickColors);
-		logger.info("brickColors="+brickColors);
-		logger.info("size="+brickColors.size());
-
+		execution.setVariable("brickColorsSplit", colorBuf.toString());
+		logger.info("brickColorsSplit="+colorBuf.toString());
 	}
+
 
 }

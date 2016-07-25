@@ -26,7 +26,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorSpeed">${10}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${5}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorAngle">${20}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
         </camunda:inputOutput>
