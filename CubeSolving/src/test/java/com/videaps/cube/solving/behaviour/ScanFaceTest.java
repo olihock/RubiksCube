@@ -25,6 +25,9 @@ import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
+
+import com.videaps.cube.solving.toggling.Features;
 
 
 /**
@@ -41,9 +44,14 @@ public class ScanFaceTest {
 	@Rule
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
+	@Rule
+	public TogglzRule togglzRule = TogglzRule.allEnabled(Features.class);
 	
+	 
 	@Test
 	public void test() {
+		togglzRule.enable(Features.USE_LEJOS);
+		
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanFace");
 		assertTrue(processInstance.isEnded());  
 		

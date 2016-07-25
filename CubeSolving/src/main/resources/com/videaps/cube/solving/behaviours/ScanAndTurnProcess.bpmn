@@ -23,6 +23,7 @@
         <camunda:executionListener class="com.videaps.cube.solving.moves.BrickColorListener" event="end" />
         <camunda:inputOutput>
           <camunda:inputParameter name="getColorSensorPort">S1</camunda:inputParameter>
+          <camunda:outputParameter name="brickColors">${brickColors}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0k6opi0</bpmn:incoming>

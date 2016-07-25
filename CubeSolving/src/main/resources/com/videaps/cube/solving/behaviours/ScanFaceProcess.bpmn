@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
   <bpmn:process id="Process_ScanFace" name="Scan Face" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1">
+    <bpmn:startEvent id="StartEvent_ScanFace" name="Scan Face">
       <bpmn:outgoing>SequenceFlow_0szugef</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="EndEvent_0jt37dk">
-      <bpmn:incoming>SequenceFlow_0o2jiao</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_049wbjl</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:callActivity id="CallActivity_ScanBricks" name="Scan Front Bricks" calledElement="Process_ScanAndTurn">
+    <bpmn:callActivity id="CallActivity_ScanFrontBricks" name="Scan Front Bricks" calledElement="Process_ScanAndTurn">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="#{10}" target="moveTurnTableSpeed" />
         <camunda:in sourceExpression="#{-250}" target="moveTurnTableAngle" />
+        <camunda:out sourceExpression="${brickColors}" target="brickColorsOuter" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0myw5um</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1pj3rw3</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_0szugef" sourceRef="StartEvent_1" targetRef="ScriptTask_03bijdw" />
+    <bpmn:sequenceFlow id="SequenceFlow_0szugef" sourceRef="StartEvent_ScanFace" targetRef="CallActivity_InitialiseCube" />
     <bpmn:callActivity id="CallActivity_InitialiseCube" name="Initialise Cube" calledElement="Process_InitialiseCube">
-      <bpmn:incoming>SequenceFlow_1bf6aix</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0szugef</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0myw5um</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_1pj3rw3" sourceRef="CallActivity_ScanBricks" targetRef="ServiceTask_1w207n0" />
-    <bpmn:sequenceFlow id="SequenceFlow_15kp6f4" sourceRef="ServiceTask_1w207n0" targetRef="CallActivity_0wudcmv" />
-    <bpmn:serviceTask id="ServiceTask_1w207n0" name="Move Scanner To Center" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+    <bpmn:sequenceFlow id="SequenceFlow_1pj3rw3" sourceRef="CallActivity_ScanFrontBricks" targetRef="ServiceTask_MoveScannerToCenter" />
+    <bpmn:sequenceFlow id="SequenceFlow_15kp6f4" sourceRef="ServiceTask_MoveScannerToCenter" targetRef="CallActivity_ScanCenterBrick" />
+    <bpmn:serviceTask id="ServiceTask_MoveScannerToCenter" name="Move Scanner To Center" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
@@ -33,17 +34,15 @@
       <bpmn:incoming>SequenceFlow_1pj3rw3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_15kp6f4</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:callActivity id="CallActivity_0wudcmv" name="Scan Center Brick" calledElement="Process_ScanMoveScanner">
+    <bpmn:callActivity id="CallActivity_ScanCenterBrick" name="Scan Center Brick" calledElement="Process_ScanMoveScanner">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${brickColorsOuter}" target="brickColors" />
+        <camunda:out sourceExpression="${brickColors}" target="brickColorsOuter" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_15kp6f4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0mdb23e</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_1bf6aix" sourceRef="ScriptTask_03bijdw" targetRef="CallActivity_InitialiseCube" />
-    <bpmn:scriptTask id="ScriptTask_03bijdw" name="Initialise Color List">
-      <bpmn:incoming>SequenceFlow_0szugef</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1bf6aix</bpmn:outgoing>
-      <bpmn:script><![CDATA[execution.setVariable("brickColors", null);]]></bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:serviceTask id="ServiceTask_0vryvdp" name="Move Scanner To Rear" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+    <bpmn:serviceTask id="ServiceTask_MoveScannerToRear" name="Move Scanner To Rear" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
@@ -54,8 +53,8 @@
       <bpmn:incoming>SequenceFlow_13igwxg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_19ufmdh</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0mdb23e" sourceRef="CallActivity_0wudcmv" targetRef="ParallelGateway_0o1ekzv" />
-    <bpmn:sequenceFlow id="SequenceFlow_13igwxg" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_0vryvdp" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mdb23e" sourceRef="CallActivity_ScanCenterBrick" targetRef="ParallelGateway_0o1ekzv" />
+    <bpmn:sequenceFlow id="SequenceFlow_13igwxg" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_MoveScannerToRear" />
     <bpmn:sequenceFlow id="SequenceFlow_12teihy" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_0dvkhxb" />
     <bpmn:serviceTask id="ServiceTask_0dvkhxb" name="Move Turn Table To Rear" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
@@ -69,7 +68,7 @@
       <bpmn:outgoing>SequenceFlow_125qo7a</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_125qo7a" sourceRef="ServiceTask_0dvkhxb" targetRef="ParallelGateway_12zid6l" />
-    <bpmn:sequenceFlow id="SequenceFlow_19ufmdh" sourceRef="ServiceTask_0vryvdp" targetRef="ParallelGateway_12zid6l" />
+    <bpmn:sequenceFlow id="SequenceFlow_19ufmdh" sourceRef="ServiceTask_MoveScannerToRear" targetRef="ParallelGateway_12zid6l" />
     <bpmn:parallelGateway id="ParallelGateway_0o1ekzv">
       <bpmn:incoming>SequenceFlow_0mdb23e</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13igwxg</bpmn:outgoing>
@@ -81,39 +80,65 @@
       <bpmn:outgoing>SequenceFlow_0g4xwk5</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0g4xwk5" sourceRef="ParallelGateway_12zid6l" targetRef="CallActivity_1tx7awj" />
-    <bpmn:sequenceFlow id="SequenceFlow_0myw5um" sourceRef="CallActivity_InitialiseCube" targetRef="CallActivity_ScanBricks" />
-    <bpmn:sequenceFlow id="SequenceFlow_0o2jiao" sourceRef="CallActivity_1tx7awj" targetRef="EndEvent_0jt37dk" />
+    <bpmn:sequenceFlow id="SequenceFlow_0myw5um" sourceRef="CallActivity_InitialiseCube" targetRef="CallActivity_ScanFrontBricks" />
     <bpmn:callActivity id="CallActivity_1tx7awj" name="Scan Rear Bricks" calledElement="Process_ScanAndTurn">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${10}" target="moveTurnTableSpeed" />
         <camunda:in sourceExpression="${45}" target="moveTurnTableAngle" />
+        <camunda:in sourceExpression="${brickColorsOuter}" target="brickColors" />
+        <camunda:out sourceExpression="${brickColors}" target="brickColorsOuter" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0g4xwk5</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0o2jiao</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0ntv002</bpmn:outgoing>
     </bpmn:callActivity>
+    <bpmn:serviceTask id="ServiceTask_MoveScannerToInitialPosition" name="Move Scanner To Initial Position" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorToLimitDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="port">C</camunda:inputParameter>
+          <camunda:inputParameter name="speed">${150}</camunda:inputParameter>
+          <camunda:inputParameter name="limitAngle">${45}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ntv002</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06mfari</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_MoveTurnTableToInitialPosition" name="Move Turn Table To Initial Position" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorToLimitDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="port">A</camunda:inputParameter>
+          <camunda:inputParameter name="speed">${100}</camunda:inputParameter>
+          <camunda:inputParameter name="limitAngle">${0}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_06mfari</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_049wbjl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0ntv002" sourceRef="CallActivity_1tx7awj" targetRef="ServiceTask_MoveScannerToInitialPosition" />
+    <bpmn:sequenceFlow id="SequenceFlow_06mfari" sourceRef="ServiceTask_MoveScannerToInitialPosition" targetRef="ServiceTask_MoveTurnTableToInitialPosition" />
+    <bpmn:sequenceFlow id="SequenceFlow_049wbjl" sourceRef="ServiceTask_MoveTurnTableToInitialPosition" targetRef="EndEvent_0jt37dk" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_ScanFace">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="175" y="134" width="36" height="36" />
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_ScanFace">
+        <dc:Bounds x="300" y="104" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="148" y="170" width="90" height="20" />
+          <dc:Bounds x="273" y="140" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0jt37dk_di" bpmnElement="EndEvent_0jt37dk">
-        <dc:Bounds x="1404" y="280" width="36" height="36" />
+        <dc:Bounds x="1463" y="542" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1377" y="316" width="90" height="20" />
+          <dc:Bounds x="1436" y="578" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1vehdoj_di" bpmnElement="CallActivity_ScanBricks">
+      <bpmndi:BPMNShape id="CallActivity_1vehdoj_di" bpmnElement="CallActivity_ScanFrontBricks">
         <dc:Bounds x="268" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0szugef_di" bpmnElement="SequenceFlow_0szugef">
-        <di:waypoint xsi:type="dc:Point" x="211" y="152" />
-        <di:waypoint xsi:type="dc:Point" x="268" y="152" />
+        <di:waypoint xsi:type="dc:Point" x="318" y="140" />
+        <di:waypoint xsi:type="dc:Point" x="318" y="258" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="197" y="127" width="90" height="20" />
+          <dc:Bounds x="288" y="189" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_0agmf7x_di" bpmnElement="CallActivity_InitialiseCube">
@@ -136,23 +161,13 @@
           <dc:Bounds x="585" y="215" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1w207n0_di" bpmnElement="ServiceTask_1w207n0">
+      <bpmndi:BPMNShape id="ServiceTask_1w207n0_di" bpmnElement="ServiceTask_MoveScannerToCenter">
         <dc:Bounds x="470" y="258" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_0wudcmv_di" bpmnElement="CallActivity_0wudcmv">
+      <bpmndi:BPMNShape id="CallActivity_0wudcmv_di" bpmnElement="CallActivity_ScanCenterBrick">
         <dc:Bounds x="658" y="258" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1bf6aix_di" bpmnElement="SequenceFlow_1bf6aix">
-        <di:waypoint xsi:type="dc:Point" x="318" y="192" />
-        <di:waypoint xsi:type="dc:Point" x="318" y="258" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="288" y="215" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ScriptTask_03bijdw_di" bpmnElement="ScriptTask_03bijdw">
-        <dc:Bounds x="268" y="112" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0vryvdp_di" bpmnElement="ServiceTask_0vryvdp">
+      <bpmndi:BPMNShape id="ServiceTask_0vryvdp_di" bpmnElement="ServiceTask_MoveScannerToRear">
         <dc:Bounds x="947" y="176" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0mdb23e_di" bpmnElement="SequenceFlow_0mdb23e">
@@ -223,16 +238,38 @@
           <dc:Bounds x="288" y="379" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0o2jiao_di" bpmnElement="SequenceFlow_0o2jiao">
-        <di:waypoint xsi:type="dc:Point" x="1316" y="298" />
-        <di:waypoint xsi:type="dc:Point" x="1404" y="298" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1315" y="273" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_1tx7awj_di" bpmnElement="CallActivity_1tx7awj">
         <dc:Bounds x="1216" y="258" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1o6avo8_di" bpmnElement="ServiceTask_MoveScannerToInitialPosition">
+        <dc:Bounds x="1431" y="176" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1gzytsx_di" bpmnElement="ServiceTask_MoveTurnTableToInitialPosition">
+        <dc:Bounds x="1431" y="335" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ntv002_di" bpmnElement="SequenceFlow_0ntv002">
+        <di:waypoint xsi:type="dc:Point" x="1316" y="298" />
+        <di:waypoint xsi:type="dc:Point" x="1374" y="298" />
+        <di:waypoint xsi:type="dc:Point" x="1374" y="216" />
+        <di:waypoint xsi:type="dc:Point" x="1431" y="216" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1344" y="247" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_06mfari_di" bpmnElement="SequenceFlow_06mfari">
+        <di:waypoint xsi:type="dc:Point" x="1481" y="256" />
+        <di:waypoint xsi:type="dc:Point" x="1481" y="335" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1451" y="285.5" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_049wbjl_di" bpmnElement="SequenceFlow_049wbjl">
+        <di:waypoint xsi:type="dc:Point" x="1481" y="415" />
+        <di:waypoint xsi:type="dc:Point" x="1481" y="542" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1631" y="326.5" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -38,17 +38,19 @@ public class BrickColorListener implements ExecutionListener {
 		
 		@SuppressWarnings("unchecked")
 		List<Number> brickColors = (List<Number>) execution.getVariable("brickColors");
+	    logger.info("brickColor="+brickColors);
 		if(brickColors == null) {
 			brickColors = new ArrayList<Number>();
-			execution.setVariable("brickColors", brickColors);
 		}
 		
 		Number color = (Number) execution.getVariable("getColorColor");
 		logger.info("color="+color);
 		
 		brickColors.add(color);
+		execution.setVariable("brickColors", brickColors);
 		logger.info("brickColors="+brickColors);
 		logger.info("size="+brickColors.size());
+
 	}
 
 }
