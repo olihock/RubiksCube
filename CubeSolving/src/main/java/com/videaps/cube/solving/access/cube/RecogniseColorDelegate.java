@@ -16,45 +16,36 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.access.cube;
 
 import java.util.List;
 
-import org.apache.commons.collections4.ListUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.videaps.cube.solving.access.ColorPicker;
+
 
 /**
  *
  */
-public class SplitColorsDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(SplitColorsDelegate.class);
+public class RecogniseColorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(RecogniseColorDelegate.class);
 
-	
 	public void execute(DelegateExecution execution) throws Exception {
 		@SuppressWarnings("unchecked")
-		List<String> brickColorsInner = (List<String>) execution.getVariable("brickColorsInner");
+		List<String> colors = (List<String>) execution.getVariable("brickColors");
+		logger.info("colors="+colors);
 
-		StringBuffer colorBuf = new StringBuffer();
 		ColorPicker colorPicker = new ColorPicker();
-		
-		int partitionSize = brickColorsInner.size() / ColorPicker.NO_OF_BRICKS_PER_FACE;
-		logger.info("partitionSize="+partitionSize);
-		List<List<String>> partitions = ListUtils.partition(brickColorsInner, partitionSize);
-		for(List<String> partition : partitions) {
-			String colorStr = String.join("", partition);
-			logger.info("colorStr="+colorStr);
-			String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
-			logger.info("mostFrequentColor="+mostFrequentColor);
-			colorBuf.append(mostFrequentColor);
-		}
-		
-		execution.setVariable("brickColorsSplit", colorBuf.toString());
-		logger.info("brickColorsSplit="+colorBuf.toString());
-	}
+		String colorStr = String.join("", colors);
+		logger.info("colorStr="+colorStr);
+		String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
+		logger.info("mostFrequentColor="+mostFrequentColor);
 
+		execution.setVariable("color", mostFrequentColor);
+	}
 
 }

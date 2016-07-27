@@ -54,8 +54,8 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0mdb23e" sourceRef="CallActivity_ScanCenterBrick" targetRef="ParallelGateway_0o1ekzv" />
     <bpmn:sequenceFlow id="SequenceFlow_13igwxg" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_MoveScannerToRear" />
-    <bpmn:sequenceFlow id="SequenceFlow_12teihy" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_0dvkhxb" />
-    <bpmn:serviceTask id="ServiceTask_0dvkhxb" name="Move Turn Table To Rear" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+    <bpmn:sequenceFlow id="SequenceFlow_12teihy" sourceRef="ParallelGateway_0o1ekzv" targetRef="ServiceTask_MoveTurnTableToRear" />
+    <bpmn:serviceTask id="ServiceTask_MoveTurnTableToRear" name="Move Turn Table To Rear" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
@@ -66,7 +66,7 @@
       <bpmn:incoming>SequenceFlow_12teihy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_125qo7a</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_125qo7a" sourceRef="ServiceTask_0dvkhxb" targetRef="ParallelGateway_12zid6l" />
+    <bpmn:sequenceFlow id="SequenceFlow_125qo7a" sourceRef="ServiceTask_MoveTurnTableToRear" targetRef="ParallelGateway_12zid6l" />
     <bpmn:sequenceFlow id="SequenceFlow_19ufmdh" sourceRef="ServiceTask_MoveScannerToRear" targetRef="ParallelGateway_12zid6l" />
     <bpmn:parallelGateway id="ParallelGateway_0o1ekzv">
       <bpmn:incoming>SequenceFlow_0mdb23e</bpmn:incoming>
@@ -218,7 +218,7 @@
           <dc:Bounds x="826" y="335" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0dvkhxb_di" bpmnElement="ServiceTask_0dvkhxb">
+      <bpmndi:BPMNShape id="ServiceTask_0dvkhxb_di" bpmnElement="ServiceTask_MoveTurnTableToRear">
         <dc:Bounds x="947" y="327" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_125qo7a_di" bpmnElement="SequenceFlow_125qo7a">

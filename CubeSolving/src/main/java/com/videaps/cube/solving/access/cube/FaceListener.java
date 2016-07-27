@@ -16,13 +16,12 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.access.cube;
 
-import java.util.List;
+import java.util.Arrays;
 
-import org.apache.commons.collections4.ListUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,31 +29,27 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class SplitColorsDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(SplitColorsDelegate.class);
+public class FaceListener implements ExecutionListener {
+	private static final Logger logger = LoggerFactory.getLogger(FaceListener.class);
 
 	
-	public void execute(DelegateExecution execution) throws Exception {
-		@SuppressWarnings("unchecked")
-		List<String> brickColorsInner = (List<String>) execution.getVariable("brickColorsInner");
-
-		StringBuffer colorBuf = new StringBuffer();
-		ColorPicker colorPicker = new ColorPicker();
+	public void notify(DelegateExecution execution) throws Exception {
 		
-		int partitionSize = brickColorsInner.size() / ColorPicker.NO_OF_BRICKS_PER_FACE;
-		logger.info("partitionSize="+partitionSize);
-		List<List<String>> partitions = ListUtils.partition(brickColorsInner, partitionSize);
-		for(List<String> partition : partitions) {
-			String colorStr = String.join("", partition);
-			logger.info("colorStr="+colorStr);
-			String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
-			logger.info("mostFrequentColor="+mostFrequentColor);
-			colorBuf.append(mostFrequentColor);
+		Number brickNo = (Number) execution.getVariable("brickNo");
+	    logger.info("brickNo="+brickNo);
+	    
+	    String brickColor = (String) execution.getVariable("brickColor");
+	    logger.info("brickColor="+brickColor);
+	    
+		String[] faceColors = (String[]) execution.getVariable("faceColors");
+		if(faceColors == null) {
+			faceColors = new String[9];
 		}
 		
-		execution.setVariable("brickColorsSplit", colorBuf.toString());
-		logger.info("brickColorsSplit="+colorBuf.toString());
+		faceColors[brickNo.intValue()-1] = brickColor;
+		execution.setVariable("faceColors", faceColors);
+		
+		logger.info("faceColors="+Arrays.toString(faceColors));
 	}
-
 
 }

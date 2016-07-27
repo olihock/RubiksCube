@@ -29,7 +29,7 @@
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${75}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${118}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${113}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17cly4t</bpmn:incoming>
@@ -41,7 +41,7 @@
           <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${50}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${-15}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-32}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0cidwiz</bpmn:incoming>
@@ -90,7 +90,9 @@
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0yxoo3p" sourceRef="ServiceTask_GetMotorState" targetRef="ParallelGateway_02c94f9" />
     <bpmn:sequenceFlow id="SequenceFlow_0x2ojnm" sourceRef="ParallelGateway_02c94f9" targetRef="ExclusiveGateway_1g4hz4s" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="ServiceTask_0gt61kn" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="ServiceTask_0gt61kn">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ isScannerMoving || isTurnTableMoving }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1t3vggb" sourceRef="ServiceTask_0gt61kn" targetRef="ParallelGateway_0tvown8" />
     <bpmn:serviceTask id="ServiceTask_0gt61kn" name="Log Move State" camunda:class="com.videaps.cube.solving.access.LoggerDelegate">
       <bpmn:extensionElements>

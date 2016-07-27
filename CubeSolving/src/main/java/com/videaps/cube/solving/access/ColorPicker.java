@@ -36,8 +36,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ColorPicker {
 
-	private static final Map<Integer, String> colorMap = new HashMap<Integer, String>();
+	public static final int NO_OF_BRICKS_PER_FACE = 9;
 
+	private static final Map<Integer, String> colorMap = new HashMap<Integer, String>();
+	
 	
 	public ColorPicker() {
 		colorMap.put(Integer.valueOf(WHITE), "W");
@@ -48,6 +50,12 @@ public class ColorPicker {
 		colorMap.put(Integer.valueOf(BLUE), "B");
 	}
 
+	
+	public boolean contains(String theColor) {
+		boolean b = colorMap.containsValue(theColor);
+		return b;
+	}
+	
 	
 	public String pickColor(int colorId) {
 		String theColor = colorMap.get(Integer.valueOf(colorId));

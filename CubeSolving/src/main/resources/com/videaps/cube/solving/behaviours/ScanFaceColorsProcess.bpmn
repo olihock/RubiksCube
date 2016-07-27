@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_ScanFaceColors" name="Scan Face Colors" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_FaceBrickColorsToScan" name="Face Brick Colors to Scan">
+      <bpmn:outgoing>SequenceFlow_1md3r3r</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1md3r3r" sourceRef="StartEvent_FaceBrickColorsToScan" targetRef="CallActivity_InitialiseCube" />
+    <bpmn:callActivity id="CallActivity_InitialiseCube" name="Initialise Cube" calledElement="Process_InitialiseCube">
+      <bpmn:incoming>SequenceFlow_1md3r3r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0boud27</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0boud27" sourceRef="CallActivity_InitialiseCube" targetRef="CallActivity_ScanBrick1" />
+    <bpmn:callActivity id="CallActivity_ScanBrick1" name="Scan Brick 1" calledElement="Process_ScanBrickColor">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.videaps.cube.solving.access.cube.FaceListener" event="end" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="brickNo">${1}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in source="faceColors" target="faceColors" />
+        <camunda:out source="brickColor" target="brickColor" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0boud27</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1uqylsn</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="EndEvent_AllBrickColorsScanned" name="All Brick Colors Scanned">
+      <bpmn:incoming>SequenceFlow_1twedgt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1uqylsn" sourceRef="CallActivity_ScanBrick1" targetRef="ServiceTask_MoveToBrick7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1yz4ah6" sourceRef="ServiceTask_MoveToBrick7" targetRef="CallActivity_ScanBrick7" />
+    <bpmn:serviceTask id="ServiceTask_MoveToBrick7" name="Move To Brick 7" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-90}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${250}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAcceleration">${22}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1uqylsn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1yz4ah6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1twedgt" sourceRef="CallActivity_ScanBrick7" targetRef="EndEvent_AllBrickColorsScanned" />
+    <bpmn:callActivity id="CallActivity_ScanBrick7" name="Scan Brick 7" calledElement="Process_ScanBrickColor">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="brickNo">${7}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener class="com.videaps.cube.solving.access.cube.FaceListener" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1yz4ah6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1twedgt</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_ScanFaceColors">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_FaceBrickColorsToScan">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1md3r3r_di" bpmnElement="SequenceFlow_1md3r3r">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="256" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="187.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1wq1sb7_di" bpmnElement="CallActivity_InitialiseCube">
+        <dc:Bounds x="256" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0boud27_di" bpmnElement="SequenceFlow_0boud27">
+        <di:waypoint xsi:type="dc:Point" x="356" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="386" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="351" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_0hz2ap8_di" bpmnElement="CallActivity_ScanBrick1">
+        <dc:Bounds x="386" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_06huchz_di" bpmnElement="EndEvent_AllBrickColorsScanned">
+        <dc:Bounds x="1127" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1100" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1uqylsn_di" bpmnElement="SequenceFlow_1uqylsn">
+        <di:waypoint xsi:type="dc:Point" x="486" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="600" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="670" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1yz4ah6_di" bpmnElement="SequenceFlow_1yz4ah6">
+        <di:waypoint xsi:type="dc:Point" x="700" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="734" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="672" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1s9wbh0_di" bpmnElement="ServiceTask_MoveToBrick7">
+        <dc:Bounds x="600" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1twedgt_di" bpmnElement="SequenceFlow_1twedgt">
+        <di:waypoint xsi:type="dc:Point" x="834" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1127" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="685" y="244" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1ylxvu3_di" bpmnElement="CallActivity_ScanBrick7">
+        <dc:Bounds x="734" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
