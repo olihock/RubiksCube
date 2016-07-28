@@ -36,6 +36,8 @@ public class RotateMotorToLimitDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String port = (String) execution.getVariable("port");
 		Number speed = (Number) execution.getVariable("speed");
 		Number angle = (Number) execution.getVariable("limitAngle");

@@ -18,7 +18,7 @@
 */
 package com.videaps.cube.solving.access;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,19 @@ public class GetColorTest {
 	public void setUp() {
 	}
 
+	
+	@Test
+	public void calibrateWhite() {
+		I2CPort port = new SensorFactory().getSensor("S1");
+		ColorHTSensor sensor = new ColorHTSensor(port);
+		int rc = sensor.initWhiteBalance();
+		assertEquals(0, rc);
+		
+		int colorId = sensor.getColorID();
+		System.out.println("colorId="+colorId);
+		assertEquals(6, colorId);
+	}
+	
 	
 	@Test
 	public void test() {

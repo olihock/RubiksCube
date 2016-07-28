@@ -34,7 +34,8 @@ public class FaceListener implements ExecutionListener {
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		
+		logger.info(execution.getCurrentActivityName());
+
 		Number brickNo = (Number) execution.getVariable("brickNo");
 	    logger.info("brickNo="+brickNo);
 	    

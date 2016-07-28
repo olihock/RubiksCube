@@ -35,6 +35,8 @@ public class StopMotorDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(StopMotorDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String motorPort = (String) execution.getVariable("stopMotorMotorPort");
 		logger.info("motorPort="+motorPort);
 		

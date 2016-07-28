@@ -20,6 +20,7 @@ package com.videaps.cube.solving.access.sensor;
 
 import lejos.nxt.I2CPort;
 import lejos.nxt.addon.ColorHTSensor;
+import lejos.robotics.Color;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -38,19 +39,53 @@ public class GetColorDelegate implements JavaDelegate {
 
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String sensorPort = (String) execution.getVariable("getColorSensorPort");
 		logger.info("sensorPort="+sensorPort);
 		
-		int color = -1;
+		int colorId = -1;
 		if(Features.USE_LEJOS.isActive()) {
 			I2CPort port = new SensorFactory().getSensor(sensorPort);
 			ColorHTSensor sensor = new ColorHTSensor(port);
-			color = sensor.getColorID();
-		}
-		String theColor = new ColorPicker().pickColor(color);
-		execution.setVariable("getColorColor", theColor);
+			
+			Color color = sensor.getColor();
+			colorId = color.getColor();
 
+			// The ColorHTSensor mixes up Red and Orange and always returns Red.
+			// Therefore, the red color is treated separately in such, that
+			// the RGB values are fetched and evaluated if red or orange.
+			if(colorId == Color.RED) {
+				colorId = distinguishRedAndOrange(colorId, color);
+			}
+
+			logger.info("colorId="+colorId);
+		}
+		String theColor = new ColorPicker().pickColor(colorId);
 		logger.info("theColor="+theColor); 
+
+		execution.setVariable("getColorColor", theColor);
+	}
+
+
+	/*
+	 * This method evaluates if the RGB components of the given color
+	 * has a certain red value and green value range. Based on the result,
+	 * the decision is made if the color is red or orange.
+	 */
+	private int distinguishRedAndOrange(int colorId, Color color) {
+		int red = color.getRed();
+		int green = color.getGreen();
+		int blue = color.getBlue();
+
+		logger.info("rgb="+"("+red+","+green+","+blue+")");
+		
+		if(red <= 34 && green <= 7) {
+			colorId = Color.RED;
+		} else if(red >= 39 && green >= 9) {
+			colorId = Color.ORANGE;
+		}
+		return colorId;
 	}
 
 	

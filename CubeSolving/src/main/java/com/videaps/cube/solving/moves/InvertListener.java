@@ -41,6 +41,8 @@ public class InvertListener implements ExecutionListener {
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String port = (String) execution.getVariable("turnTablePort");
 		Number direction = (Number) execution.getVariable("turnTableDirection");
 		Number count = (Number) execution.getVariable("turnTableCount");

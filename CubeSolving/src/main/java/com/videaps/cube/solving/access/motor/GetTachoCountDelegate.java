@@ -36,6 +36,8 @@ public class GetTachoCountDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String motorPort = (String) execution.getVariable("getTachoCountMotorPort");
 		logger.info("motorPort="+motorPort);
 		

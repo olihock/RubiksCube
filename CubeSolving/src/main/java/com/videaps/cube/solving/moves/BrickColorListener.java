@@ -35,6 +35,7 @@ public class BrickColorListener implements ExecutionListener {
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
 		
 		@SuppressWarnings("unchecked")
 		List<String> brickColors = (List<String>) execution.getVariable("brickColors");

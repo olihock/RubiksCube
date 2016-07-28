@@ -35,6 +35,8 @@ public class SplitColorsDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		@SuppressWarnings("unchecked")
 		List<String> brickColorsInner = (List<String>) execution.getVariable("brickColorsInner");
 

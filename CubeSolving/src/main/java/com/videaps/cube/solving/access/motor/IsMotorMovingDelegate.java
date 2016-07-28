@@ -35,6 +35,8 @@ public class IsMotorMovingDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(IsMotorMovingDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String motorPort = (String) execution.getVariable("isMotorMovingMotorPort");
 		logger.info("motorPort="+motorPort);
 		

@@ -32,6 +32,8 @@ public class LoggerDelegate implements JavaDelegate {
 
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		String text = (String) execution.getVariable("text");
 		Number value = (Number) execution.getVariable("value");
 		

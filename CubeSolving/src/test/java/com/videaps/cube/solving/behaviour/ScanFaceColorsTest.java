@@ -49,7 +49,7 @@ public class ScanFaceColorsTest {
 	 
 	@Test
 	public void test() {
-		togglzRule.disable(Features.USE_LEJOS);
+		togglzRule.enable(Features.USE_LEJOS);
 		
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanFaceColors");
 		assertTrue(processInstance.isEnded());  

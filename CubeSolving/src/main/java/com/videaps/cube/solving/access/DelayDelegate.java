@@ -35,6 +35,8 @@ public class DelayDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(DelayDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		Number milliseconds = (Number) execution.getVariable("delayMilliseconds");
 		logger.info("milliseconds="+milliseconds);
 		

@@ -35,6 +35,8 @@ public class RecogniseColorDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(RecogniseColorDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		@SuppressWarnings("unchecked")
 		List<String> colors = (List<String>) execution.getVariable("brickColors");
 		logger.info("colors="+colors);

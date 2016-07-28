@@ -24,17 +24,22 @@ import static lejos.robotics.Color.ORANGE;
 import static lejos.robotics.Color.RED;
 import static lejos.robotics.Color.WHITE;
 import static lejos.robotics.Color.YELLOW;
+import static lejos.robotics.Color.MAGENTA; // This is used for blue.
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
 public class ColorPicker {
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(ColorPicker.class);
 
 	public static final int NO_OF_BRICKS_PER_FACE = 9;
 
@@ -47,7 +52,10 @@ public class ColorPicker {
 		colorMap.put(Integer.valueOf(YELLOW), "Y");
 		colorMap.put(Integer.valueOf(ORANGE), "O");
 		colorMap.put(Integer.valueOf(GREEN), "G");
+		// HT Color sensor recognizes Blue brick as Magenta, 
+		// so blue and magenta is mapped to "B".
 		colorMap.put(Integer.valueOf(BLUE), "B");
+		colorMap.put(Integer.valueOf(MAGENTA), "B");
 	}
 
 	

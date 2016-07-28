@@ -38,6 +38,8 @@ public class CalculateAlgorithmDelegate implements JavaDelegate {
 	
 
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
 		@SuppressWarnings("unchecked")
 		List<String> cubeStateList = (List<String>) execution.getVariable("cubeStateList");
 		

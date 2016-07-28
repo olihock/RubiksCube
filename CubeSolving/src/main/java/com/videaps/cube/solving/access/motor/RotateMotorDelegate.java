@@ -36,6 +36,8 @@ public class RotateMotorDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+		
 		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
 		Number speed = (Number) execution.getVariable("rotateMotorSpeed");
 		Number acceleration = (Number) execution.getVariable("rotateMotorAcceleration");
