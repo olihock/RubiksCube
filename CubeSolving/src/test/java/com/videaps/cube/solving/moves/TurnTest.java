@@ -16,33 +16,45 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.moves;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.togglz.junit.TogglzRule;
+
+import com.videaps.cube.solving.rubik.Direction;
+import com.videaps.cube.solving.toggling.Features;
 
 
-/**
- *
- */
-public class LoggerDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(LoggerDelegate.class);
+@Deployment(resources = {
+	"com/videaps/cube/solving/moves/TurnProcess.bpmn" } )
+public class TurnTest {
 
+	@Rule
+	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
 
-	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
-		String text = (String) execution.getVariable("text");
-		Number value = (Number) execution.getVariable("value");
+	
+	@Test
+	public void test() {
+		toggle.enable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("direction", Direction.RIGHT.getValue());
+		variables.put("count", 2);
 		
-		String message = text + ": " + value;
-		if(value == null) {
-			message = text;
-		}
-		
-		logger.info(message);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Turn", variables);
+		assertTrue(processInstance.isEnded());  
 	}
 
 }

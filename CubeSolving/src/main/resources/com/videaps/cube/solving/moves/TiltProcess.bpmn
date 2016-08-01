@@ -4,38 +4,39 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_10s8djf</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_10s8djf" sourceRef="StartEvent_1" targetRef="ServiceTask_1iwz8ld" />
-    <bpmn:sequenceFlow id="SequenceFlow_075il6d" sourceRef="ServiceTask_1iwz8ld" targetRef="ServiceTask_0733qvk" />
-    <bpmn:sequenceFlow id="SequenceFlow_0aztra3" sourceRef="ServiceTask_0733qvk" targetRef="ServiceTask_1xb071n" />
+    <bpmn:sequenceFlow id="SequenceFlow_10s8djf" sourceRef="StartEvent_1" targetRef="ServiceTask_MoveCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_075il6d" sourceRef="ServiceTask_MoveCube" targetRef="ServiceTask_Wait" />
+    <bpmn:sequenceFlow id="SequenceFlow_0aztra3" sourceRef="ServiceTask_Wait" targetRef="ServiceTask_PullBack" />
     <bpmn:endEvent id="EndEvent_1tsu2st">
       <bpmn:incoming>SequenceFlow_1chkixj</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1chkixj" sourceRef="ServiceTask_1xb071n" targetRef="EndEvent_1tsu2st" />
-    <bpmn:serviceTask id="ServiceTask_1iwz8ld" name="Move Cube" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate">
+    <bpmn:sequenceFlow id="SequenceFlow_1chkixj" sourceRef="ServiceTask_PullBack" targetRef="EndEvent_1tsu2st" />
+    <bpmn:serviceTask id="ServiceTask_MoveCube" name="Move Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="rotateMotorMotorPort">${moveCubePort}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorSpeed">${moveCubeSpeed}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAcceleration">${moveCubeAcceleration}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${moveCubeAngle}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorImmediateReturn">${moveCubeImmediateReturn}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorMotorPort">B</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${60}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_10s8djf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_075il6d</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_0733qvk" name="Wait" camunda:class="com.videaps.cube.solving.access.DelayDelegate">
+    <bpmn:serviceTask id="ServiceTask_Wait" name="Wait" camunda:class="com.videaps.cube.solving.access.DelayDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="delayMilliseconds">${1000}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_075il6d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0aztra3</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_1xb071n" name="Pull Back" camunda:class="com.videaps.cube.solving.access.RotateMotorDelegate">
+    <bpmn:serviceTask id="ServiceTask_PullBack" name="Pull Back" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="rotateMotorMotorPort">${pullBackPort}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorSpeed">${pullBackSpeed}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAcceleration">${pullBackAcceleration}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${pullBackAngle}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorImmediateReturn">${pullBackImmediateReturn}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorMotorPort">B</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-60}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0aztra3</bpmn:incoming>
@@ -81,13 +82,13 @@
           <dc:Bounds x="887" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1iwz8ld_di" bpmnElement="ServiceTask_1iwz8ld">
+      <bpmndi:BPMNShape id="ServiceTask_1iwz8ld_di" bpmnElement="ServiceTask_MoveCube">
         <dc:Bounds x="315" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0733qvk_di" bpmnElement="ServiceTask_0733qvk">
+      <bpmndi:BPMNShape id="ServiceTask_0733qvk_di" bpmnElement="ServiceTask_Wait">
         <dc:Bounds x="540" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1xb071n_di" bpmnElement="ServiceTask_1xb071n">
+      <bpmndi:BPMNShape id="ServiceTask_1xb071n_di" bpmnElement="ServiceTask_PullBack">
         <dc:Bounds x="776" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

@@ -16,33 +16,23 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
+import org.togglz.junit.TogglzRule;
 
+import com.videaps.cube.solving.toggling.Features;
 
 /**
  *
  */
-public class LoggerDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(LoggerDelegate.class);
+public abstract class BaseTest {
 
+	@Rule
+	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
 
-	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
-		String text = (String) execution.getVariable("text");
-		Number value = (Number) execution.getVariable("value");
-		
-		String message = text + ": " + value;
-		if(value == null) {
-			message = text;
-		}
-		
-		logger.info(message);
-	}
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
 }

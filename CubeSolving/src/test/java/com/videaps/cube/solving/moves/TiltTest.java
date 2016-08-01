@@ -18,10 +18,7 @@
 */
 package com.videaps.cube.solving.moves;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
@@ -46,24 +43,9 @@ public class TiltTest {
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		
-		variables.put("moveCubePort", "B");
-		variables.put("moveCubeSpeed", 350);
-		variables.put("moveCubeAcceleration", 0);
-		variables.put("moveCubeAngle", 60);
-		variables.put("moveCubeImmediateReturn", false);
-		
-		variables.put("delayMilliseconds", 2000);
-		
-		variables.put("pullBackPort", "B");
-		variables.put("pullBackSpeed", 350);
-		variables.put("pullBackAcceleration", 0);
-		variables.put("pullBackAngle", -60);
-		variables.put("pullBackImmediateReturn", false);
-		
 		toggle.enable(Features.USE_LEJOS);
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Tilt", variables);
+
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Tilt");
 		assertTrue(processInstance.isEnded());  
 	}
 

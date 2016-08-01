@@ -16,33 +16,33 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- *
- */
-public class LoggerDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(LoggerDelegate.class);
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Test;
 
 
-	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
+@Deployment(resources = {
+		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
+		"com/videaps/cube/solving/moves/FaceSequenceDecision.dmn"
+	} )
+public class ScanCubeTest extends BaseTest {
 
-		String text = (String) execution.getVariable("text");
-		Number value = (Number) execution.getVariable("value");
+	@Test
+	public void test() {
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "U");
+		variables.put("toFace", "F");
 		
-		String message = text + ": " + value;
-		if(value == null) {
-			message = text;
-		}
-		
-		logger.info(message);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
 	}
 
 }

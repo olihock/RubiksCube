@@ -23,6 +23,14 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.camunda.bpm.dmn</groupId>
+				<artifactId>camunda-engine-dmn-bom</artifactId>
+				<version>7.5.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -32,7 +40,10 @@
 			<artifactId>camunda-engine</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.camunda.bpm.dmn</groupId>
+			<artifactId>camunda-engine-dmn</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.camunda.bpm.workbench</groupId>
 			<artifactId>camunda-workbench-dist-embeddable</artifactId>
