@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_Turn" name="Turn" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0wx0ulm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0wx0ulm" sourceRef="StartEvent_1" targetRef="ServiceTask_TurnCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gk8xxg" sourceRef="ServiceTask_TurnCube" targetRef="EndEvent_13u9bo4" />
+    <bpmn:endEvent id="EndEvent_13u9bo4">
+      <bpmn:incoming>SequenceFlow_0gk8xxg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_TurnCube" name="Turn Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="turnTablePort">A</camunda:inputParameter>
+          <camunda:inputParameter name="turnTableDirection">${direction}</camunda:inputParameter>
+          <camunda:inputParameter name="turnTableCount">${count}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener class="com.videaps.cube.solving.access.cube.InvertListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wx0ulm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gk8xxg</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Turn">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="372" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="345" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wx0ulm_di" bpmnElement="SequenceFlow_0wx0ulm">
+        <di:waypoint xsi:type="dc:Point" x="408" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="513" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="215" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gk8xxg_di" bpmnElement="SequenceFlow_0gk8xxg">
+        <di:waypoint xsi:type="dc:Point" x="613" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="726" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_13u9bo4_di" bpmnElement="EndEvent_13u9bo4">
+        <dc:Bounds x="726" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="699" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1kms5rh_di" bpmnElement="ServiceTask_TurnCube">
+        <dc:Bounds x="513" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

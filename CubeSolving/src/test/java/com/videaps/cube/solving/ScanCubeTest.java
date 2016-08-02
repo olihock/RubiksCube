@@ -25,21 +25,94 @@ import java.util.Map;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
+
+import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
 		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
-		"com/videaps/cube/solving/moves/FaceSequenceDecision.dmn"
+		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
+		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
+		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
+		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn"
 	} )
 public class ScanCubeTest extends BaseTest {
 
 	@Test
-	public void test() {
+	public void testUpperToFront() {
+		toggle.disable(Features.USE_LEJOS);
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("fromFace", "U");
 		variables.put("toFace", "F");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
+	}
+
+	
+	@Test
+	public void testFrontToDown() {
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "F");
+		variables.put("toFace", "D");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
+	}
+
+
+	@Test
+	public void testDownToLeft() {
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "D");
+		variables.put("toFace", "L");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
+	}
+
+	
+	@Test
+	public void testLeftToRight() {
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "L");
+		variables.put("toFace", "R");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
+	}
+
+	
+	@Test
+	public void testRightToBack() {
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "R");
+		variables.put("toFace", "B");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
+		assertTrue(processInstance.isEnded());  
+	}
+
+	
+	@Test
+	public void testBackToUpper() {
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("fromFace", "B");
+		variables.put("toFace", "U");
 		
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube", variables);
 		assertTrue(processInstance.isEnded());  

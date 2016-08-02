@@ -31,7 +31,7 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/TiltProcess.bpmn" } )
+		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn" } )
 public class TiltTest {
 
 	@Rule

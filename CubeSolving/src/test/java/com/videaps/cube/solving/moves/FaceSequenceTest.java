@@ -46,7 +46,7 @@ public class FaceSequenceTest {
 	public void test() throws FileNotFoundException {
 		DmnEngine dmnEngine = DmnEngineConfiguration.createDefaultDmnEngineConfiguration().buildEngine();
 
-	    File dmn = new File("C:/Users/Oliver/Development/github/RubiksCube/CubeSolving/src/main/resources/com/videaps/cube/solving/moves/FaceSequenceDecision.dmn");
+	    File dmn = new File("C:/Users/Oliver/Development/github/RubiksCube/CubeSolving/src/main/resources/com/videaps/cube/solving/moves/cube/FaceSequence.dmn");
 	    InputStream inputStream = new FileInputStream(dmn);
 	    
 	    VariableMap variables = Variables.createVariables();
@@ -57,8 +57,7 @@ public class FaceSequenceTest {
 	    DmnDecisionTableResult result = dmnEngine.evaluateDecisionTable(decision, variables);
 	    
 	    String sequence = (String) result.getSingleResult().get("moveSequence");
-	    assertEquals("tilt", sequence);
-	    System.out.println("sequence="+sequence);
+	    assertEquals("upperToFront", sequence);
 	}
 
 }
