@@ -16,42 +16,36 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving;
+package com.videaps.cube.solving.moves.cube;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
-import org.junit.Before;
 import org.junit.Test;
 
+import com.videaps.cube.solving.BaseTest;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
-		"com/videaps/cube/solving/moves/ScanFace.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
 		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
+		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
 		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
+		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn"
 	} )
-public class ScanCubeTest extends BaseTest {
+public class LeftToRightTest extends BaseTest {
 
-	@Before
-	public void setUp() throws Exception {
-		toggle.enable(Features.USE_LEJOS);
-	}
-
-	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		toggle.disable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_LeftToRight", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

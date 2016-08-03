@@ -25,7 +25,7 @@
     <bpmn:serviceTask id="ServiceTask_Wait" name="Wait" camunda:class="com.videaps.cube.solving.access.DelayDelegate">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="delayMilliseconds">${1000}</camunda:inputParameter>
+          <camunda:inputParameter name="delayMilliseconds">${125}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_075il6d</bpmn:incoming>

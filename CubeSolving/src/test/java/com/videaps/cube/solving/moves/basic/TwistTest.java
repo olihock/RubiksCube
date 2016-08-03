@@ -16,42 +16,60 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving;
+package com.videaps.cube.solving.moves.basic;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
-import org.junit.Before;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
 
+import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
-		"com/videaps/cube/solving/moves/ScanFace.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
-	} )
-public class ScanCubeTest extends BaseTest {
+		"com/videaps/cube/solving/moves/TwistProcess.bpmn" } )
+public class TwistTest {
 
-	@Before
-	public void setUp() throws Exception {
-		toggle.enable(Features.USE_LEJOS);
-	}
+	@Rule
+	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
+
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
 	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		final int angle = 35;
+		
+		Map<String, Object> variables = new HashMap<String, Object>();
+		
+		variables.put("holdCubePort", "B");
+		variables.put("holdCubeSpeed", 350);
+		variables.put("holdCubeAngle", angle);
+		
+		variables.put("turnTablePort", "A");
+		variables.put("turnTableSpeed", 350);
+		variables.put("turnTableDirection", Direction.RIGHT.getValue());
+		variables.put("turnTableCount", 2);
+		
+		variables.put("delayMilliseconds", 2);
+		
+		variables.put("pullBackPort", "B");
+		variables.put("pullBackSpeed", 350);
+		variables.put("pullBackAcceleration", 0);
+		variables.put("pullBackAngle", -angle);
+		variables.put("pullBackImmediateReturn", false);
+		
+		toggle.enable(Features.USE_LEJOS);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Twist", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

@@ -16,42 +16,44 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving;
+package com.videaps.cube.solving.moves.basic;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
-import org.junit.Before;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
 
+import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
-		"com/videaps/cube/solving/moves/ScanFace.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
-	} )
-public class ScanCubeTest extends BaseTest {
+	"com/videaps/cube/solving/moves/TurnProcess.bpmn" } )
+public class TurnTest {
 
-	@Before
-	public void setUp() throws Exception {
-		toggle.enable(Features.USE_LEJOS);
-	}
+	@Rule
+	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
+
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
 	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		toggle.enable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("direction", Direction.RIGHT.getValue());
+		variables.put("count", 2);
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Turn", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

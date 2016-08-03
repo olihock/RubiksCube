@@ -2,58 +2,27 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
   <bpmn:process id="Process_ScanCube" name="Scan Cube" isExecutable="true">
     <bpmn:startEvent id="StartEvent_ScanCube" name="Start Scan Cube">
-      <bpmn:outgoing>SequenceFlow_1fitn70</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_029g3l1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="EndEvent_ScanCube" name="End Scan Cube">
-      <bpmn:incoming>SequenceFlow_0ytj1q6</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0zuij90</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1v3tzpd</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1fitn70" sourceRef="StartEvent_ScanCube" targetRef="BusinessRuleTask_FaceSequence" />
-    <bpmn:businessRuleTask id="BusinessRuleTask_FaceSequence" name="Face Sequence" camunda:resultVariable="moveSequence" camunda:decisionRef="faceSequence" camunda:mapDecisionResult="singleEntry">
+    <bpmn:sequenceFlow id="SequenceFlow_029g3l1" sourceRef="StartEvent_ScanCube" targetRef="ServiceTask_CreateFaceOrderList" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v3tzpd" sourceRef="CallActivity_ScanCube" targetRef="EndEvent_ScanCube" />
+    <bpmn:callActivity id="CallActivity_ScanCube" name="Scan Cube" calledElement="Process_ScanFace">
       <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="fromFace">${fromFace}</camunda:inputParameter>
-          <camunda:inputParameter name="toFace">${toFace}</camunda:inputParameter>
-        </camunda:inputOutput>
-        <camunda:properties>
-          <camunda:property name="moveSequence" value="${moveSequence}" />
-        </camunda:properties>
+        <camunda:in sourceExpression="${faceOrder.getLeft()}" target="fromFace" />
+        <camunda:in sourceExpression="${faceOrder.getRight()}" target="toFace" />
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1fitn70</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1hjd1j1</bpmn:outgoing>
-    </bpmn:businessRuleTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1hjd1j1" sourceRef="BusinessRuleTask_FaceSequence" targetRef="ServiceTask_LogFaceSequence" />
-    <bpmn:serviceTask id="ServiceTask_LogFaceSequence" name="Log Face Sequence" camunda:class="com.videaps.cube.solving.access.LoggerDelegate">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="text">${moveSequence}</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1hjd1j1</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_199djno</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_1sq0rgx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1v3tzpd</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="faceOrderList" camunda:elementVariable="faceOrder" />
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_1sq0rgx" sourceRef="ServiceTask_CreateFaceOrderList" targetRef="CallActivity_ScanCube" />
+    <bpmn:serviceTask id="ServiceTask_CreateFaceOrderList" name="Create Face Order List" camunda:class="com.videaps.cube.solving.moves.FaceOrderDelegate">
+      <bpmn:incoming>SequenceFlow_029g3l1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1sq0rgx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_199djno" sourceRef="ServiceTask_LogFaceSequence" targetRef="ExclusiveGateway_WhichMoveToMake" />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_WhichMoveToMake" name="Which Move To Make">
-      <bpmn:incoming>SequenceFlow_199djno</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_UpperToFlow</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_FrontToDown</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_UpperToFlow" name="Upper To Front" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveUpperFaceToFront">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "upperToFront"}]]></bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0ytj1q6" sourceRef="CallActivity_MoveUpperFaceToFront" targetRef="EndEvent_ScanCube" />
-    <bpmn:callActivity id="CallActivity_MoveUpperFaceToFront" name="Move Upper Face To Front" calledElement="Process_UpperToFront">
-      <bpmn:incoming>SequenceFlow_UpperToFlow</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0ytj1q6</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_FrontToDown" name="Front To Down" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveFrontFaceToDown">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "frontToDown"}]]></bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:callActivity id="CallActivity_MoveFrontFaceToDown" name="Move Front Face To Down" calledElement="Process_FrontToDown">
-      <bpmn:incoming>SequenceFlow_FrontToDown</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0zuij90</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_0zuij90" sourceRef="CallActivity_MoveFrontFaceToDown" targetRef="EndEvent_ScanCube" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_ScanCube">
@@ -64,83 +33,38 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1rpmf1f_di" bpmnElement="EndEvent_ScanCube">
-        <dc:Bounds x="1096" y="458" width="36" height="36" />
+        <dc:Bounds x="1026" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1069" y="494" width="90" height="20" />
+          <dc:Bounds x="999" y="138" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1fitn70_di" bpmnElement="SequenceFlow_1fitn70">
+      <bpmndi:BPMNEdge id="SequenceFlow_029g3l1_di" bpmnElement="SequenceFlow_029g3l1">
         <di:waypoint xsi:type="dc:Point" x="183" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="257" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="312" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="175" y="95" width="90" height="20" />
+          <dc:Bounds x="327" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="BusinessRuleTask_0xjce1e_di" bpmnElement="BusinessRuleTask_FaceSequence">
-        <dc:Bounds x="257" y="80" width="100" height="80" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1v3tzpd_di" bpmnElement="SequenceFlow_1v3tzpd">
+        <di:waypoint xsi:type="dc:Point" x="661" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1026" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="798.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_0z93ndi_di" bpmnElement="CallActivity_ScanCube">
+        <dc:Bounds x="561" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1hjd1j1_di" bpmnElement="SequenceFlow_1hjd1j1">
-        <di:waypoint xsi:type="dc:Point" x="357" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="392" y="120" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1sq0rgx_di" bpmnElement="SequenceFlow_1sq0rgx">
+        <di:waypoint xsi:type="dc:Point" x="412" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="561" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="374.5" y="95" width="90" height="20" />
+          <dc:Bounds x="441.5" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1rh80xs_di" bpmnElement="ServiceTask_LogFaceSequence">
-        <dc:Bounds x="392" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="ServiceTask_0g9ae3p_di" bpmnElement="ServiceTask_CreateFaceOrderList">
+        <dc:Bounds x="312" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_199djno_di" bpmnElement="SequenceFlow_199djno">
-        <di:waypoint xsi:type="dc:Point" x="492" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="569" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="560" y="95" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1o3z18l_di" bpmnElement="ExclusiveGateway_WhichMoveToMake" isMarkerVisible="true">
-        <dc:Bounds x="569" y="95" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="549" y="54" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1gshpyo_di" bpmnElement="SequenceFlow_UpperToFlow">
-        <di:waypoint xsi:type="dc:Point" x="619" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="776" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="645" y="88" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0ytj1q6_di" bpmnElement="SequenceFlow_0ytj1q6">
-        <di:waypoint xsi:type="dc:Point" x="876" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="986" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="986" y="476" />
-        <di:waypoint xsi:type="dc:Point" x="1096" y="476" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="929" y="95" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_00d6d9r_di" bpmnElement="CallActivity_MoveUpperFaceToFront">
-        <dc:Bounds x="776" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1sq8wes_di" bpmnElement="SequenceFlow_FrontToDown">
-        <di:waypoint xsi:type="dc:Point" x="594" y="145" />
-        <di:waypoint xsi:type="dc:Point" x="594" y="256" />
-        <di:waypoint xsi:type="dc:Point" x="776" y="256" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="643" y="222.5" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_1pu3neh_di" bpmnElement="CallActivity_MoveFrontFaceToDown">
-        <dc:Bounds x="776" y="216" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0zuij90_di" bpmnElement="SequenceFlow_0zuij90">
-        <di:waypoint xsi:type="dc:Point" x="876" y="256" />
-        <di:waypoint xsi:type="dc:Point" x="986" y="256" />
-        <di:waypoint xsi:type="dc:Point" x="986" y="476" />
-        <di:waypoint xsi:type="dc:Point" x="1096" y="476" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="926.5" y="231" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

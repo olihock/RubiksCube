@@ -18,35 +18,34 @@
 */
 package com.videaps.cube.solving.moves;
 
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.togglz.junit.TogglzRule;
-
-import com.videaps.cube.solving.toggling.Features;
+import org.apache.commons.lang3.tuple.Pair;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-@Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn" } )
-public class TiltTest {
-
-	@Rule
-	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
-
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
+/**
+ * This delegate creates a list of pairs, that reflects the face order to scan the cube face brick colors.
+ */
+public class FaceOrderDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(FaceOrderDelegate.class);
 
 	
-	@Test
-	public void test() {
-		toggle.enable(Features.USE_LEJOS);
-
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Tilt");
-		assertTrue(processInstance.isEnded());  
+	public void execute(DelegateExecution execution) throws Exception {
+		Collection<Pair<String, String>> faceOrderList = new ArrayList<Pair<String, String>>();
+		faceOrderList.add(Pair.of("U", "F"));
+		faceOrderList.add(Pair.of("F", "D"));
+		faceOrderList.add(Pair.of("D", "L"));
+		faceOrderList.add(Pair.of("L", "R"));
+		faceOrderList.add(Pair.of("R", "B"));
+		faceOrderList.add(Pair.of("B", "U"));
+		
+		execution.setVariable("faceOrderList", faceOrderList);
+		logger.info("faceOrderList="+faceOrderList);
 	}
 
 }
