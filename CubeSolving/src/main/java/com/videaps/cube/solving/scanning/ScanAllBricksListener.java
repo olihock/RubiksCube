@@ -22,31 +22,23 @@ import java.util.Collection;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
 public class ScanAllBricksListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(ScanAllBricksListener.class);
-
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		@SuppressWarnings("unchecked")
 		Collection<String> cubeColors = (Collection<String>) execution.getVariable("cubeColors");
 		execution.setVariable("cubeColors", cubeColors);
 
 		String[] faceColors = (String[]) execution.getVariable("faceColors");
-	    logger.info("faceColors="+faceColors);
 
 	    String fromFace = (String) execution.getVariable("fromFace");
 	    String faceState = concate(fromFace, faceColors);
 	    cubeColors.add(faceState);
-	    logger.info("cubeColors="+cubeColors);
 	}
 	
 	

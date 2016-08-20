@@ -36,14 +36,14 @@ public class RotateMotorToLimitDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
+//		logger.info(execution.getCurrentActivityName());
 
 		String port = (String) execution.getVariable("port");
 		Number speed = (Number) execution.getVariable("speed");
 		Number angle = (Number) execution.getVariable("limitAngle");
 		Boolean returnNow = (Boolean) execution.getVariable("returnNow");
 		
-		logInfo(port, speed, angle, returnNow);
+//		logInfo(port, speed, angle, returnNow);
 
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
@@ -55,7 +55,7 @@ public class RotateMotorToLimitDelegate implements JavaDelegate {
 		}
 		
 		execution.setVariable("tachoCount", tachoCount);
-		logger.info("tachoCount="+tachoCount);
+//		logger.info("tachoCount="+tachoCount);
 	}
 
 

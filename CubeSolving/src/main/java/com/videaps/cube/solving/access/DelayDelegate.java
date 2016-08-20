@@ -22,8 +22,6 @@ import lejos.util.Delay;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.toggling.Features;
 
@@ -32,13 +30,9 @@ import com.videaps.cube.solving.toggling.Features;
  *
  */
 public class DelayDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(DelayDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		Number milliseconds = (Number) execution.getVariable("delayMilliseconds");
-		logger.info("milliseconds="+milliseconds);
 		
 		if(Features.USE_LEJOS.isActive()) {
 			Delay.msDelay(milliseconds != null ? milliseconds.longValue() : 0L);

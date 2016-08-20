@@ -24,21 +24,16 @@ import java.util.Collection;
 import org.apache.commons.lang3.tuple.Pair;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  * This delegate creates a list of pairs, that reflects the face order to scan the cube face brick colors.
  */
 public class InitialiseCubeValuesDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(InitialiseCubeValuesDelegate.class);
-
 	
 	public void execute(DelegateExecution execution) throws Exception {
 		Collection<Pair<String, String>> faceOrderList = createFaceOrder();
 		execution.setVariable("faceOrderList", faceOrderList);
-		logger.info("faceOrderList="+faceOrderList);
 		
 		// This list will take the 9 brick colors for all 6 faces. Each face is of
 		// format "F:GGGYYYOOO".

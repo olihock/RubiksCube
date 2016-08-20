@@ -23,35 +23,24 @@ import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
 public class BrickColorListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(BrickColorListener.class);
-
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-		
 		@SuppressWarnings("unchecked")
 		List<String> brickColors = (List<String>) execution.getVariable("brickColors");
-	    logger.info("brickColor="+brickColors);
 		if(brickColors == null) {
 			brickColors = new ArrayList<String>();
 		}
 		
 		String color = (String) execution.getVariable("getColorColor");
-		logger.info("color="+color);
 		
 		brickColors.add(color);
 		execution.setVariable("brickColors", brickColors);
-		logger.info("brickColors="+brickColors);
-		logger.info("size="+brickColors.size());
-
 	}
 
 }

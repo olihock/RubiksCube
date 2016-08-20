@@ -22,8 +22,6 @@ import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.toggling.Features;
 
@@ -32,13 +30,9 @@ import com.videaps.cube.solving.toggling.Features;
  *
  */
 public class IsMotorMovingDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(IsMotorMovingDelegate.class);
 
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		String motorPort = (String) execution.getVariable("isMotorMovingMotorPort");
-		logger.info("motorPort="+motorPort);
 		
 		boolean moving = false;
 		if(Features.USE_LEJOS.isActive()) {
@@ -47,7 +41,6 @@ public class IsMotorMovingDelegate implements JavaDelegate {
 		}
 	
 		execution.setVariable("isMotorMovingMoving", moving);
-		logger.info("moving="+moving);
 	}
 
 }

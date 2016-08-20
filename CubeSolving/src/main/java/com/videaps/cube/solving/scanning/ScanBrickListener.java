@@ -18,29 +18,18 @@
 */
 package com.videaps.cube.solving.scanning;
 
-import java.util.Arrays;
-
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
  *
  */
 public class ScanBrickListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(ScanBrickListener.class);
-
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		Number brickNo = (Number) execution.getVariable("brickNo");
-	    logger.info("brickNo="+brickNo);
-	    
 	    String brickColor = (String) execution.getVariable("brickColor");
-	    logger.info("brickColor="+brickColor);
 	    
 		String[] faceColors = (String[]) execution.getVariable("faceColors");
 		if(faceColors == null) {
@@ -49,8 +38,6 @@ public class ScanBrickListener implements ExecutionListener {
 		
 		faceColors[brickNo.intValue()-1] = brickColor;
 		execution.setVariable("faceColors", faceColors);
-		
-		logger.info("faceColors="+Arrays.toString(faceColors));
 	}
 
 }

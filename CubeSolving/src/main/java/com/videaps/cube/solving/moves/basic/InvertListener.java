@@ -22,8 +22,6 @@ import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.access.motor.MotorFactory;
 import com.videaps.cube.solving.rubik.Direction;
@@ -34,15 +32,12 @@ import com.videaps.cube.solving.toggling.Features;
  *
  */
 public class InvertListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(InvertListener.class);
 
 	private static final int QUARTER = 90;
 	private static final int VARIANCE = 5;
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		String port = (String) execution.getVariable("turnTablePort");
 		Number direction = (Number) execution.getVariable("turnTableDirection");
 		Number count = (Number) execution.getVariable("turnTableCount");
@@ -54,7 +49,6 @@ public class InvertListener implements ExecutionListener {
 			invertedAngle = invert(angle, direction.intValue(), count.intValue(), motor.getTachoCount());
 		}
 		execution.setVariable("rotateMotorAngle", invertedAngle);
-		logger.info("invertedAngle="+invertedAngle);
 	}
 
 	

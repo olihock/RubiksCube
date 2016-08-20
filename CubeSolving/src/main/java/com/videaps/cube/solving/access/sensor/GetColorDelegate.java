@@ -24,8 +24,6 @@ import lejos.robotics.Color;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.access.ColorPicker;
 import com.videaps.cube.solving.toggling.Features;
@@ -35,14 +33,9 @@ import com.videaps.cube.solving.toggling.Features;
  * 
  */
 public class GetColorDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
-
 
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		String sensorPort = (String) execution.getVariable("getColorSensorPort");
-		logger.info("sensorPort="+sensorPort);
 		
 		int colorId = -1;
 		if(Features.USE_LEJOS.isActive()) {
@@ -58,11 +51,8 @@ public class GetColorDelegate implements JavaDelegate {
 			if(colorId == Color.RED) {
 				colorId = distinguishRedAndOrange(colorId, color);
 			}
-
-			logger.info("colorId="+colorId);
 		}
 		String theColor = new ColorPicker().pickColor(colorId);
-		logger.info("theColor="+theColor); 
 
 		execution.setVariable("getColorColor", theColor);
 	}
@@ -76,9 +66,6 @@ public class GetColorDelegate implements JavaDelegate {
 	private int distinguishRedAndOrange(int colorId, Color color) {
 		int red = color.getRed();
 		int green = color.getGreen();
-		int blue = color.getBlue();
-
-		logger.info("rgb="+"("+red+","+green+","+blue+")");
 		
 		if(red <= 34 && green <= 7) {
 			colorId = Color.RED;

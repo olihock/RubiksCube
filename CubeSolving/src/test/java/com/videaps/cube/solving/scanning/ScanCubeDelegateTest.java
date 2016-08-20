@@ -18,28 +18,41 @@
 */
 package com.videaps.cube.solving.scanning;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
+import java.util.Arrays;
+import java.util.Collection;
 
-import com.videaps.cube.solving.access.ColorPicker;
+import org.apache.commons.lang3.ArrayUtils;
+import org.junit.Before;
+import org.junit.Test;
 
+public class ScanCubeDelegateTest {
 
-/**
- *
- */
-public class RecogniseColorDelegate implements JavaDelegate {
-
-	public void execute(DelegateExecution execution) throws Exception {
-		@SuppressWarnings("unchecked")
-		List<String> colors = (List<String>) execution.getVariable("brickColors");
-
-		ColorPicker colorPicker = new ColorPicker();
-		String colorStr = String.join("", colors);
-		String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
-
-		execution.setVariable("color", mostFrequentColor);
+	@Before
+	public void setUp() throws Exception {
 	}
 
+	@Test
+	public void test() {
+		String[] cubeColors = { "U:BGYRGYBWW", "F:YBBOOGOBG", "D:YYWOBRGWX", "L:RGRYXBRWB", "R:OGGOYROBR", "B:OWWYROYRW" };
+		ScanCubeDelegate scanCube = new ScanCubeDelegate();
+		Collection<String> replacedCubeColors = scanCube.replaceCenterBrick(Arrays.asList(cubeColors));
+		System.out.println(replacedCubeColors);
+	}
+
+	
+	@Test
+	public void testColorUndetected() {
+		String[] cubeColors = { "U:BGYRGYBWW", "F:YBBOOGOBG", "D:YYWOBRGWX", "L:RGRYWBRWB", "R:OGGOYROBR", "B:OWWYROYRW" };
+		
+		ScanCubeDelegate scanCube = new ScanCubeDelegate();
+		String cubeColorStr = ArrayUtils.toString(cubeColors);
+		
+		int xCount = scanCube.countUndetected(cubeColorStr);
+		assertEquals(1, xCount);
+		Collection<String> replacedCubeColors = scanCube.replaceOneUndetectedBrick(cubeColorStr, Arrays.asList(cubeColors));
+		
+		System.out.println(replacedCubeColors);
+	}
 }
