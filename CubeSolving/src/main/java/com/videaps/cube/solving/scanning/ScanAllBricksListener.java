@@ -16,10 +16,9 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves;
+package com.videaps.cube.solving.scanning;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
@@ -30,28 +29,34 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
-public class BrickColorListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(BrickColorListener.class);
+public class ScanAllBricksListener implements ExecutionListener {
+	private static final Logger logger = LoggerFactory.getLogger(ScanAllBricksListener.class);
 
 	
 	public void notify(DelegateExecution execution) throws Exception {
 		logger.info(execution.getCurrentActivityName());
-		
-		@SuppressWarnings("unchecked")
-		List<String> brickColors = (List<String>) execution.getVariable("brickColors");
-	    logger.info("brickColor="+brickColors);
-		if(brickColors == null) {
-			brickColors = new ArrayList<String>();
-		}
-		
-		String color = (String) execution.getVariable("getColorColor");
-		logger.info("color="+color);
-		
-		brickColors.add(color);
-		execution.setVariable("brickColors", brickColors);
-		logger.info("brickColors="+brickColors);
-		logger.info("size="+brickColors.size());
 
+		@SuppressWarnings("unchecked")
+		Collection<String> cubeColors = (Collection<String>) execution.getVariable("cubeColors");
+		execution.setVariable("cubeColors", cubeColors);
+
+		String[] faceColors = (String[]) execution.getVariable("faceColors");
+	    logger.info("faceColors="+faceColors);
+
+	    String fromFace = (String) execution.getVariable("fromFace");
+	    String faceState = concate(fromFace, faceColors);
+	    cubeColors.add(faceState);
+	    logger.info("cubeColors="+cubeColors);
+	}
+	
+	
+	private String concate(String face, String[] brickColors) {
+		StringBuffer buf = new StringBuffer(face);
+		buf.append(":");
+		for(String brickColor : brickColors) {
+			buf.append(brickColor);
+		}
+		return buf.toString();
 	}
 
 }

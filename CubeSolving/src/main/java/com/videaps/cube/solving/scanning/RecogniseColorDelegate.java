@@ -16,41 +16,38 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access.cube;
+package com.videaps.cube.solving.scanning;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.ExecutionListener;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.videaps.cube.solving.access.ColorPicker;
 
 
 /**
  *
  */
-public class FaceListener implements ExecutionListener {
-	private static final Logger logger = LoggerFactory.getLogger(FaceListener.class);
+public class RecogniseColorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(RecogniseColorDelegate.class);
 
-	
-	public void notify(DelegateExecution execution) throws Exception {
+	public void execute(DelegateExecution execution) throws Exception {
 		logger.info(execution.getCurrentActivityName());
 
-		Number brickNo = (Number) execution.getVariable("brickNo");
-	    logger.info("brickNo="+brickNo);
-	    
-	    String brickColor = (String) execution.getVariable("brickColor");
-	    logger.info("brickColor="+brickColor);
-	    
-		String[] faceColors = (String[]) execution.getVariable("faceColors");
-		if(faceColors == null) {
-			faceColors = new String[9];
-		}
-		
-		faceColors[brickNo.intValue()-1] = brickColor;
-		execution.setVariable("faceColors", faceColors);
-		
-		logger.info("faceColors="+Arrays.toString(faceColors));
+		@SuppressWarnings("unchecked")
+		List<String> colors = (List<String>) execution.getVariable("brickColors");
+		logger.info("colors="+colors);
+
+		ColorPicker colorPicker = new ColorPicker();
+		String colorStr = String.join("", colors);
+		logger.info("colorStr="+colorStr);
+		String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
+		logger.info("mostFrequentColor="+mostFrequentColor);
+
+		execution.setVariable("color", mostFrequentColor);
 	}
 
 }

@@ -48,7 +48,7 @@ public class ScanFaceTest extends BaseTest {
 
 	@Before
 	public void setUp() {
-		toggle.enable(Features.USE_LEJOS);
+		toggle.disable(Features.USE_LEJOS);
 	}
 	
 	

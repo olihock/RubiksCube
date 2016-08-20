@@ -16,36 +16,41 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves;
+package com.videaps.cube.solving.scanning;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * This delegate creates a list of pairs, that reflects the face order to scan the cube face brick colors.
+ *
  */
-public class FaceOrderDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(FaceOrderDelegate.class);
+public class ScanBrickListener implements ExecutionListener {
+	private static final Logger logger = LoggerFactory.getLogger(ScanBrickListener.class);
 
 	
-	public void execute(DelegateExecution execution) throws Exception {
-		Collection<Pair<String, String>> faceOrderList = new ArrayList<Pair<String, String>>();
-		faceOrderList.add(Pair.of("U", "F"));
-		faceOrderList.add(Pair.of("F", "D"));
-		faceOrderList.add(Pair.of("D", "L"));
-		faceOrderList.add(Pair.of("L", "R"));
-		faceOrderList.add(Pair.of("R", "B"));
-		faceOrderList.add(Pair.of("B", "U"));
+	public void notify(DelegateExecution execution) throws Exception {
+		logger.info(execution.getCurrentActivityName());
+
+		Number brickNo = (Number) execution.getVariable("brickNo");
+	    logger.info("brickNo="+brickNo);
+	    
+	    String brickColor = (String) execution.getVariable("brickColor");
+	    logger.info("brickColor="+brickColor);
+	    
+		String[] faceColors = (String[]) execution.getVariable("faceColors");
+		if(faceColors == null) {
+			faceColors = new String[9];
+		}
 		
-		execution.setVariable("faceOrderList", faceOrderList);
-		logger.info("faceOrderList="+faceOrderList);
+		faceColors[brickNo.intValue()-1] = brickColor;
+		execution.setVariable("faceColors", faceColors);
+		
+		logger.info("faceColors="+Arrays.toString(faceColors));
 	}
 
 }

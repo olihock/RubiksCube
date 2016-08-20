@@ -16,38 +16,46 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access.cube;
+package com.videaps.cube.solving.scanning;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.videaps.cube.solving.access.ColorPicker;
-
 
 /**
- *
+ * This delegate creates a list of pairs, that reflects the face order to scan the cube face brick colors.
  */
-public class RecogniseColorDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(RecogniseColorDelegate.class);
+public class InitialiseCubeValuesDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(InitialiseCubeValuesDelegate.class);
 
+	
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
+		Collection<Pair<String, String>> faceOrderList = createFaceOrder();
+		execution.setVariable("faceOrderList", faceOrderList);
+		logger.info("faceOrderList="+faceOrderList);
+		
+		// This list will take the 9 brick colors for all 6 faces. Each face is of
+		// format "F:GGGYYYOOO".
+		Collection<String> cubeColors = new ArrayList<String>();
+		execution.setVariable("cubeColors", cubeColors);
+	}
 
-		@SuppressWarnings("unchecked")
-		List<String> colors = (List<String>) execution.getVariable("brickColors");
-		logger.info("colors="+colors);
 
-		ColorPicker colorPicker = new ColorPicker();
-		String colorStr = String.join("", colors);
-		logger.info("colorStr="+colorStr);
-		String mostFrequentColor = colorPicker.mostFrequentColor(colorStr);
-		logger.info("mostFrequentColor="+mostFrequentColor);
-
-		execution.setVariable("color", mostFrequentColor);
+	private Collection<Pair<String, String>> createFaceOrder() {
+		Collection<Pair<String, String>> faceOrderList = new ArrayList<Pair<String, String>>();
+		faceOrderList.add(Pair.of("U", "F"));
+		faceOrderList.add(Pair.of("F", "D"));
+		faceOrderList.add(Pair.of("D", "L"));
+		faceOrderList.add(Pair.of("L", "R"));
+		faceOrderList.add(Pair.of("R", "B"));
+		faceOrderList.add(Pair.of("B", "U"));
+		return faceOrderList;
 	}
 
 }

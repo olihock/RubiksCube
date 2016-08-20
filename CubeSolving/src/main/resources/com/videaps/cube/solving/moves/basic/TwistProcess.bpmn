@@ -29,7 +29,7 @@
           <camunda:inputParameter name="rotateMotorMotorPort">${turnTablePort}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${turnTableSpeed}</camunda:inputParameter>
         </camunda:inputOutput>
-        <camunda:executionListener class="com.videaps.cube.solving.moves.InvertListener" event="start" />
+        <camunda:executionListener class="com.videaps.cube.solving.moves.basic.InvertListener" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0of0rxx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gk8xxg</bpmn:outgoing>

@@ -29,11 +29,14 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCubeProcess.bpmn",
-		"com/videaps/cube/solving/moves/ScanFace.bpmn",
+		"com/videaps/cube/solving/ScanCube.bpmn",
+		"com/videaps/cube/solving/scanning/InitialiseFace.bpmn",
+		"com/videaps/cube/solving/scanning/ScanFace.bpmn",
+		"com/videaps/cube/solving/scanning/FaceSequence.dmn",
+		"com/videaps/cube/solving/scanning/ScanAllBricks.bpmn",
+		"com/videaps/cube/solving/scanning/ScanSingleBrick.bpmn",
 		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
 		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
 		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
 		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
 		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
@@ -45,7 +48,7 @@ public class ScanCubeTest extends BaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		toggle.enable(Features.USE_LEJOS);
+		toggle.disable(Features.USE_LEJOS);
 	}
 
 	
