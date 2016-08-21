@@ -52,7 +52,7 @@ public class ScanCubeDelegate implements JavaDelegate {
 			replacedCubeColors = replaceOneUndetectedBrick(cubeColorsStr, replacedCubeColors);
 		}
 		
-		execution.setVariable("replacedCubeColors", replacedCubeColors);
+		execution.setVariable("cubeColors", replacedCubeColors);
 		
 		logger.info("cubeColors="+replacedCubeColors);
 	}
@@ -75,7 +75,7 @@ public class ScanCubeDelegate implements JavaDelegate {
 	public int countUndetected(String cubeColorsStr) {
 		// The prefix of the faceColors need to be ignored. For example, R: and B: (Right and Back)
 		// are also used as colors Red and Blue.
-		cubeColorsStr = cubeColorsStr.replaceAll("[RB]:", "");
+		cubeColorsStr = cubeColorsStr.replaceAll("[WYOGRB]:", "");
 		int xCount = StringUtils.countMatches(cubeColorsStr, "X");
 		return xCount;
 	}

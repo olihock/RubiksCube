@@ -16,7 +16,7 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +38,16 @@ public class CalculateAlgorithmDelegate implements JavaDelegate {
 	
 
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
 		@SuppressWarnings("unchecked")
 		List<String> cubeStateList = (List<String>) execution.getVariable("cubeStateList");
 		
 		String algorithm = new Computer().solveCube(cubeStateList);
-		logger.info("algorithm="+algorithm);
 		algorithm = tidyUpAlgorithm(algorithm);
-		logger.info("algorithm="+algorithm);
 		List<String> notations = splitAlgorithm(algorithm);
-		logger.info("notations="+notations);
 		
 		execution.setVariable("notations", notations);
+		
+		logger.info("notations="+notations);
 	}
 
 	

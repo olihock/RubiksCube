@@ -23,7 +23,7 @@
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">6</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:callActivity>
-    <bpmn:serviceTask id="ServiceTask_CalculateAlgorithm" name="Calculate Algorithm" camunda:class="com.videaps.cube.solving.access.CalculateAlgorithmDelegate">
+    <bpmn:serviceTask id="ServiceTask_CalculateAlgorithm" name="Calculate Algorithm" camunda:class="com.videaps.cube.solving.algorithm.CalculateAlgorithmDelegate">
       <bpmn:incoming>SequenceFlow_0gusu3g</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ea9v18</bpmn:outgoing>
     </bpmn:serviceTask>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_RightToDown" name="Right To Down" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0vncsnr</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_1sm74t2">
+      <bpmn:incoming>SequenceFlow_1jehq3u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="CallActivity_Tilt" name="Tilt" calledElement="Process_Tilt">
+      <bpmn:incoming>SequenceFlow_12bwjnb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jehq3u</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_TurnLeft" name="Turn Left" calledElement="Process_Turn">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${1}" target="direction" />
+        <camunda:in sourceExpression="${1}" target="count" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0vncsnr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12bwjnb</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_12bwjnb" sourceRef="CallActivity_TurnLeft" targetRef="CallActivity_Tilt" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jehq3u" sourceRef="CallActivity_Tilt" targetRef="EndEvent_1sm74t2" />
+    <bpmn:sequenceFlow id="SequenceFlow_0vncsnr" sourceRef="StartEvent_1" targetRef="CallActivity_TurnLeft" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_RightToDown">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1sm74t2_di" bpmnElement="EndEvent_1sm74t2">
+        <dc:Bounds x="732" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="705" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1q3dbyd_di" bpmnElement="CallActivity_Tilt">
+        <dc:Bounds x="497" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1cznmip_di" bpmnElement="CallActivity_TurnLeft">
+        <dc:Bounds x="275" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_12bwjnb_di" bpmnElement="SequenceFlow_12bwjnb">
+        <di:waypoint xsi:type="dc:Point" x="375" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="497" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="391" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jehq3u_di" bpmnElement="SequenceFlow_1jehq3u">
+        <di:waypoint xsi:type="dc:Point" x="597" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="732" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="619.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vncsnr_di" bpmnElement="SequenceFlow_0vncsnr">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="275" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="197" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

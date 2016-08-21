@@ -53,6 +53,6 @@ public class ScanCubeDelegateTest {
 		assertEquals(1, xCount);
 		Collection<String> replacedCubeColors = scanCube.replaceOneUndetectedBrick(cubeColorStr, Arrays.asList(cubeColors));
 		
-		System.out.println(replacedCubeColors);
+		assertEquals(0, scanCube.countUndetected(ArrayUtils.toString(replacedCubeColors)));
 	}
 }

@@ -16,36 +16,34 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.moves.rack;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.impl.pvm.runtime.ExecutionImpl;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
 import org.junit.Test;
 
-import com.videaps.cube.solving.algorithm.CalculateAlgorithmDelegate;
+import com.videaps.cube.solving.BaseTest;
+import com.videaps.cube.solving.toggling.Features;
 
-public class CalculateAlgorithmTest {
+
+@Deployment(resources = {
+		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn"
+	} )
+public class DownToDownTest extends BaseTest {
 
 	@Test
-	public void test() throws Exception {
-		String[] cubeState = { "L:BYRGBOGGG", "R:BBRBGRRYW", "U:WOGRRYYBY", "D:WYBOOOYGB", "F:GWOBWROGY", "B:WWRWYWORO" };
-		List<String> cubeStateList = Arrays.asList(cubeState);
+	public void test() {
+		toggle.enable(Features.USE_LEJOS);
 
-		DelegateExecution execution = new ExecutionImpl();
-		execution.setVariable("cubeStateList", cubeStateList);
-
-		CalculateAlgorithmDelegate calculateAlgorithmDelegate = new CalculateAlgorithmDelegate();
-		calculateAlgorithmDelegate.execute(execution);
+		Map<String, Object> variables = new HashMap<String, Object>();
 		
-		@SuppressWarnings("unchecked")
-		List<String> notations = (List<String>) execution.getVariable("notations");
-		assertNotNull(notations);
-		System.out.println(notations);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_DownToDown", variables);
+		assertTrue(processInstance.isEnded());  
 	}
 
 }
