@@ -16,27 +16,35 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.algorithm;
 
-import lejos.util.Delay;
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.impl.pvm.runtime.ExecutionImpl;
+import org.junit.Test;
 
-import com.videaps.cube.solving.toggling.Features;
+import com.videaps.cube.solving.algorithm.CalculateDelegate;
 
+public class CalculateTest {
 
-/**
- *
- */
-public class DelayDelegate implements JavaDelegate {
+	@Test
+	public void test() throws Exception {
+		String[] cubeState = { "L:BYRGBOGGG", "R:BBRBGRRYW", "U:WOGRRYYBY", "D:WYBOOOYGB", "F:GWOBWROGY", "B:WWRWYWORO" };
+		List<String> cubeStateList = Arrays.asList(cubeState);
 
-	public void execute(DelegateExecution execution) throws Exception {
-		Number milliseconds = (Number) execution.getVariable("delayMilliseconds");
+		DelegateExecution execution = new ExecutionImpl();
+		execution.setVariable("cubeStateList", cubeStateList);
+
+		CalculateDelegate calculateAlgorithmDelegate = new CalculateDelegate();
+		calculateAlgorithmDelegate.execute(execution);
 		
-		if(Features.USE_LEJOS.isActive()) {
-			Delay.msDelay(milliseconds != null ? milliseconds.longValue() : 250);
-		}
+		@SuppressWarnings("unchecked")
+		List<String> notations = (List<String>) execution.getVariable("notations");
+		assertNotNull(notations);
 	}
 
 }

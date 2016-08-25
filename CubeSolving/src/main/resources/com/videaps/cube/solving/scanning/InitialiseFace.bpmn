@@ -17,7 +17,7 @@
     <bpmn:endEvent id="EndEvent_09qjc3c">
       <bpmn:incoming>SequenceFlow_1t0o40h</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="ServiceTask_0gt61kn" />
+    <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="Task_LogMoveState" />
     <bpmn:parallelGateway id="ParallelGateway_1ke5p81">
       <bpmn:incoming>SequenceFlow_02h7fjo</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1vqa76p</bpmn:incoming>
@@ -90,21 +90,13 @@
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0yxoo3p" sourceRef="ServiceTask_GetMotorState" targetRef="ParallelGateway_02c94f9" />
     <bpmn:sequenceFlow id="SequenceFlow_0x2ojnm" sourceRef="ParallelGateway_02c94f9" targetRef="ExclusiveGateway_1g4hz4s" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="ServiceTask_0gt61kn">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ isScannerMoving || isTurnTableMoving }</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1t3vggb" sourceRef="ServiceTask_0gt61kn" targetRef="ParallelGateway_0tvown8" />
-    <bpmn:serviceTask id="ServiceTask_0gt61kn" name="Log Move State" camunda:class="com.videaps.cube.solving.access.LoggerDelegate">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="text">Cube has been initialised</camunda:inputParameter>
-          <camunda:inputParameter name="value">${0}</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="Task_LogMoveState" />
+    <bpmn:sequenceFlow id="SequenceFlow_1t3vggb" sourceRef="Task_LogMoveState" targetRef="ParallelGateway_0tvown8" />
+    <bpmn:task id="Task_LogMoveState" name="Log Move State">
       <bpmn:incoming>SequenceFlow_07ejtjn</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1ewod5z</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1t3vggb</bpmn:outgoing>
-    </bpmn:serviceTask>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_InitialiseFace">
@@ -267,7 +259,7 @@
           <dc:Bounds x="730" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0gt61kn_di" bpmnElement="ServiceTask_0gt61kn">
+      <bpmndi:BPMNShape id="Task_1aph0kl_di" bpmnElement="Task_LogMoveState">
         <dc:Bounds x="653" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

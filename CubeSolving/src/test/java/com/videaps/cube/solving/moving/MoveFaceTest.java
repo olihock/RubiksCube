@@ -16,45 +16,58 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving;
+package com.videaps.cube.solving.moving;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.videaps.cube.solving.BaseTest;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCube.bpmn",
-		"com/videaps/cube/solving/scanning/InitialiseFace.bpmn",
-		"com/videaps/cube/solving/scanning/ScanFace.bpmn",
-		"com/videaps/cube/solving/scanning/FaceSequence.dmn",
-		"com/videaps/cube/solving/scanning/ScanAllBricks.bpmn",
-		"com/videaps/cube/solving/scanning/ScanSingleBrick.bpmn",
+		"com/videaps/cube/solving/moving/MoveFace.bpmn",
+		"com/videaps/cube/solving/moving/WalkCube.bpmn",
+		"com/videaps/cube/solving/moving/CubeMove.dmn",
+		"com/videaps/cube/solving/moving/Direction.dmn",
+		"com/videaps/cube/solving/moves/basic/Twist.bpmn",
 		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
 		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
+		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToFront.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToLeft.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToRight.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToUpper.bpmn",
+		"com/videaps/cube/solving/moves/rack/FrontToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn"
 	} )
-public class ScanCubeTest extends BaseTest {
+public class MoveFaceTest extends BaseTest {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		toggle.disable(Features.USE_LEJOS);
 	}
-
+	
 	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		System.out.println(new Exception().getStackTrace()[0].getMethodName());
+		
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("notation", "F");
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_MoveFace", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

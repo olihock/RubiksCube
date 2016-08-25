@@ -8,7 +8,7 @@
       <bpmn:incoming>SequenceFlow_0hdd736</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_029g3l1" sourceRef="StartEvent_ScanCube" targetRef="ServiceTask_InitialiseScanner" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v3tzpd" sourceRef="CallActivity_ScanCube" targetRef="ServiceTask_0rtgxxl" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v3tzpd" sourceRef="CallActivity_ScanCube" targetRef="ServiceTask_FindAndReplaceCenterBrick" />
     <bpmn:callActivity id="CallActivity_ScanCube" name="Scan Cube" calledElement="Process_ScanFace">
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${faceOrder.getLeft()}" target="fromFace" />
@@ -37,8 +37,14 @@
       <bpmn:incoming>SequenceFlow_029g3l1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00i4ilr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0hdd736" sourceRef="ServiceTask_0rtgxxl" targetRef="EndEvent_ScanCube" />
-    <bpmn:serviceTask id="ServiceTask_0rtgxxl" name="Find And Replace Center Brick" camunda:class="com.videaps.cube.solving.scanning.ScanCubeDelegate">
+    <bpmn:sequenceFlow id="SequenceFlow_0hdd736" sourceRef="ServiceTask_FindAndReplaceCenterBrick" targetRef="EndEvent_ScanCube" />
+    <bpmn:serviceTask id="ServiceTask_FindAndReplaceCenterBrick" name="Find And Replace Center Brick" camunda:class="com.videaps.cube.solving.scanning.ScanCubeDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="cubeColors"><![CDATA[${ execution.getVariable("cubeColors") }]]></camunda:inputParameter>
+          <camunda:outputParameter name="cubeColors">${ cubeColors }</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1v3tzpd</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0hdd736</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -101,7 +107,7 @@
           <dc:Bounds x="879" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0rtgxxl_di" bpmnElement="ServiceTask_0rtgxxl">
+      <bpmndi:BPMNShape id="ServiceTask_0rtgxxl_di" bpmnElement="ServiceTask_FindAndReplaceCenterBrick">
         <dc:Bounds x="763" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

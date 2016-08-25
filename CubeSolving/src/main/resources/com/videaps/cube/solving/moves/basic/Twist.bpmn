@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_Twist" name="Twist" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Twist" name="Start Twist">
+      <bpmn:outgoing>SequenceFlow_0wx0ulm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0wx0ulm" sourceRef="StartEvent_Twist" targetRef="ServiceTask_HoldCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0of0rxx" sourceRef="ServiceTask_HoldCube" targetRef="ServiceTask_TurnTable" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gk8xxg" sourceRef="ServiceTask_TurnTable" targetRef="ServiceTask_Wait" />
+    <bpmn:sequenceFlow id="SequenceFlow_1nky9mi" sourceRef="ServiceTask_Wait" targetRef="ServiceTask_ReleaseCube" />
+    <bpmn:endEvent id="EndEvent_Twist" name="End Twist">
+      <bpmn:incoming>SequenceFlow_03uxp3g</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_03uxp3g" sourceRef="ServiceTask_ReleaseCube" targetRef="EndEvent_Twist" />
+    <bpmn:serviceTask id="ServiceTask_HoldCube" name="Hold Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">B</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${35}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wx0ulm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0of0rxx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_TurnTable" name="Turn Table" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle"><![CDATA[${ execution.getVariable("rotateMotorAngle") }]]></camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener class="com.videaps.cube.solving.moves.basic.InvertListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0of0rxx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gk8xxg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_ReleaseCube" name="Release Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rotateMotorMotorPort">B</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorSpeed">${350}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-35}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1nky9mi</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_03uxp3g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Wait" name="Wait" camunda:class="com.videaps.cube.solving.access.DelayDelegate">
+      <bpmn:incoming>SequenceFlow_0gk8xxg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1nky9mi</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_17pahz0">    <bpmn:text>InvertListener specifies which way the turn table needs to be moved.</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_1qq7dn9" sourceRef="ServiceTask_TurnTable" targetRef="TextAnnotation_17pahz0" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Twist">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Twist">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wx0ulm_di" bpmnElement="SequenceFlow_0wx0ulm">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="311" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="215" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0of0rxx_di" bpmnElement="SequenceFlow_0of0rxx">
+        <di:waypoint xsi:type="dc:Point" x="411" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="513" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="417" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gk8xxg_di" bpmnElement="SequenceFlow_0gk8xxg">
+        <di:waypoint xsi:type="dc:Point" x="613" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="713" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1nky9mi_di" bpmnElement="SequenceFlow_1nky9mi">
+        <di:waypoint xsi:type="dc:Point" x="813" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="902" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_13u9bo4_di" bpmnElement="EndEvent_Twist">
+        <dc:Bounds x="1077" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1050" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_03uxp3g_di" bpmnElement="SequenceFlow_03uxp3g">
+        <di:waypoint xsi:type="dc:Point" x="1002" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="1077" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="994.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_089mrzu_di" bpmnElement="ServiceTask_HoldCube">
+        <dc:Bounds x="311" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1kms5rh_di" bpmnElement="ServiceTask_TurnTable">
+        <dc:Bounds x="513" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0v42bhy_di" bpmnElement="ServiceTask_ReleaseCube">
+        <dc:Bounds x="902" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0ux7q6u_di" bpmnElement="ServiceTask_Wait">
+        <dc:Bounds x="713" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_17pahz0_di" bpmnElement="TextAnnotation_17pahz0">
+        <dc:Bounds x="513" y="219" width="171" height="67" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1qq7dn9_di" bpmnElement="Association_1qq7dn9">
+        <di:waypoint xsi:type="dc:Point" x="574" y="160" />
+        <di:waypoint xsi:type="dc:Point" x="590" y="219" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -29,6 +29,10 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
+		"com/videaps/cube/solving/MainProcess.bpmn",
+		
+		"com/videaps/cube/solving/ReactOnCube.bpmn",
+		
 		"com/videaps/cube/solving/ScanCube.bpmn",
 		"com/videaps/cube/solving/scanning/InitialiseFace.bpmn",
 		"com/videaps/cube/solving/scanning/ScanFace.bpmn",
@@ -43,18 +47,57 @@ import com.videaps.cube.solving.toggling.Features;
 		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
 		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
 		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
+
+		// Calculate Algorithm has only a delegate, so no diagrams to be deployed.
+		
+		"com/videaps/cube/solving/SolveCube.bpmn",
+		"com/videaps/cube/solving/moving/MoveFace.bpmn",
+		"com/videaps/cube/solving/moving/WalkCube.bpmn",
+		"com/videaps/cube/solving/moving/CubeMove.dmn",
+		"com/videaps/cube/solving/moving/Direction.dmn",
+		"com/videaps/cube/solving/moves/basic/Twist.bpmn",
+		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
+		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
+		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToFront.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToLeft.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToRight.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToUpper.bpmn",
+		"com/videaps/cube/solving/moves/rack/FrontToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn",
+
+		"com/videaps/cube/solving/moving/MoveFace.bpmn",
+		"com/videaps/cube/solving/moving/CubeMove.dmn",
+		"com/videaps/cube/solving/moving/Direction.dmn",
+		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
+		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
+		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToFront.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToLeft.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToRight.bpmn",
+		"com/videaps/cube/solving/moves/rack/DownToUpper.bpmn",
+		"com/videaps/cube/solving/moves/rack/FrontToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
+		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn"
+
 	} )
-public class ScanCubeTest extends BaseTest {
+public class MainTest extends BaseTest {
 
 	@Before
 	public void setUp() throws Exception {
 		toggle.disable(Features.USE_LEJOS);
 	}
 
-	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Main");
 		assertTrue(processInstance.isEnded());  
 	}
 

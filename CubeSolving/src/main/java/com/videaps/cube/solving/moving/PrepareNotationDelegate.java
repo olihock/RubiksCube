@@ -16,27 +16,40 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.access;
+package com.videaps.cube.solving.moving;
 
-import lejos.util.Delay;
-
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-
-import com.videaps.cube.solving.toggling.Features;
 
 
 /**
  *
  */
-public class DelayDelegate implements JavaDelegate {
+public class PrepareNotationDelegate implements JavaDelegate {
 
 	public void execute(DelegateExecution execution) throws Exception {
-		Number milliseconds = (Number) execution.getVariable("delayMilliseconds");
+		String notation = (String) execution.getVariable("notation");
+		Pair<String, String> pair = split(notation);
 		
-		if(Features.USE_LEJOS.isActive()) {
-			Delay.msDelay(milliseconds != null ? milliseconds.longValue() : 250);
+		String face = pair.getLeft();
+		execution.setVariable("face", face);
+		
+		String direction = pair.getRight();
+		execution.setVariable("direction", direction);
+	}
+
+	
+	private Pair<String, String> split(String notation) {
+		Pair<String, String> pair = null;
+		
+		if(notation.length() == 1) {
+			pair = new ImmutablePair<String, String>(notation, "");
+		} else if(notation.length() == 2) {
+			pair = new ImmutablePair<String, String>(notation.substring(0, 1), notation.substring(1));
 		}
+		return pair;
 	}
 
 }

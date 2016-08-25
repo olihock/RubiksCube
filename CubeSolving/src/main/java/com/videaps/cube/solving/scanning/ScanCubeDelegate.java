@@ -55,6 +55,17 @@ public class ScanCubeDelegate implements JavaDelegate {
 		execution.setVariable("cubeColors", replacedCubeColors);
 		
 		logger.info("cubeColors="+replacedCubeColors);
+		log(replacedCubeColors);
+	}
+
+
+	private void log(Collection<String> replacedCubeColors) {
+		StringBuffer buf = new StringBuffer();
+		for(String faceState : replacedCubeColors) {
+			buf.append("\"").append(faceState).append("\", ");
+		}
+		buf.delete(buf.length()-2, buf.length());
+		logger.info(buf.toString());
 	}
 
 

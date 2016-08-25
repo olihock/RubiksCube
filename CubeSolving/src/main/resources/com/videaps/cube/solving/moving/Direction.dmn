@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="direction" name="Direction">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Notation">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>notation</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Angle" name="angle" typeRef="integer" />
+      <rule id="row-355145008-1">
+        <description>Turns the cube right.</description>
+        <inputEntry id="UnaryTests_0jyhs93">        <text><![CDATA[""]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1k6zbec">        <text>-1</text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-2">
+        <description>Turns the cube left.</description>
+        <inputEntry id="UnaryTests_0d39zov">        <text><![CDATA["'"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_05gs1jd">        <text>1</text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-3">
+        <description>Turns the cube half way round.</description>
+        <inputEntry id="UnaryTests_1su387m">        <text><![CDATA["2"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1y6qyip">        <text>2</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

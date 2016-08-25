@@ -29,23 +29,10 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/ScanCube.bpmn",
-		"com/videaps/cube/solving/scanning/InitialiseFace.bpmn",
-		"com/videaps/cube/solving/scanning/ScanFace.bpmn",
-		"com/videaps/cube/solving/scanning/FaceSequence.dmn",
-		"com/videaps/cube/solving/scanning/ScanAllBricks.bpmn",
-		"com/videaps/cube/solving/scanning/ScanSingleBrick.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
+		"com/videaps/cube/solving/ReactOnCube.bpmn"
 	} )
-public class ScanCubeTest extends BaseTest {
-
+public class ReactOnCubeTest extends BaseTest {
+	
 	@Before
 	public void setUp() throws Exception {
 		toggle.disable(Features.USE_LEJOS);
@@ -54,7 +41,7 @@ public class ScanCubeTest extends BaseTest {
 	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ScanCube");
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_ReactOnCube");
 		assertTrue(processInstance.isEnded());  
 	}
 

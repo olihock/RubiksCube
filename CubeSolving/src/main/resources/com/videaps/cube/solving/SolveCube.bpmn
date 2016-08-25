@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
-  <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:startEvent id="StartEvent_1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_SolveCube" name="Solve Cube" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_SolveCube" name="Start Solve Cube">
       <bpmn:outgoing>SequenceFlow_1rv5kds</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1rv5kds" sourceRef="StartEvent_1" targetRef="EndEvent_1k4jtyy" />
-    <bpmn:endEvent id="EndEvent_1k4jtyy">
-      <bpmn:incoming>SequenceFlow_1rv5kds</bpmn:incoming>
+    <bpmn:sequenceFlow id="SequenceFlow_1rv5kds" sourceRef="StartEvent_SolveCube" targetRef="CallActivity_MoveFaces" />
+    <bpmn:endEvent id="EndEvent_SolveCube" name="Solve Cube">
+      <bpmn:incoming>SequenceFlow_0xkqnzy</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xkqnzy" sourceRef="CallActivity_MoveFaces" targetRef="EndEvent_SolveCube" />
+    <bpmn:callActivity id="CallActivity_MoveFaces" name="Move Faces" calledElement="Process_MoveFace">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${ notation }" target="notation" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1rv5kds</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xkqnzy</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="notations" camunda:elementVariable="notation" />
+    </bpmn:callActivity>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_SolveCube">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_SolveCube">
         <dc:Bounds x="173" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1rv5kds_di" bpmnElement="SequenceFlow_1rv5kds">
         <di:waypoint xsi:type="dc:Point" x="209" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="913" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="290" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="209.5" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_1k4jtyy_di" bpmnElement="EndEvent_1k4jtyy">
-        <dc:Bounds x="913" y="102" width="36" height="36" />
+      <bpmndi:BPMNShape id="EndEvent_1k4jtyy_di" bpmnElement="EndEvent_SolveCube">
+        <dc:Bounds x="720" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="886" y="138" width="90" height="20" />
+          <dc:Bounds x="693" y="138" width="90" height="20" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xkqnzy_di" bpmnElement="SequenceFlow_0xkqnzy">
+        <di:waypoint xsi:type="dc:Point" x="390" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="720" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="606.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_08y6zr4_di" bpmnElement="CallActivity_MoveFaces">
+        <dc:Bounds x="290" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

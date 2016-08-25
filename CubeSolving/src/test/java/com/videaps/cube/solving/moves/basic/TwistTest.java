@@ -26,6 +26,7 @@ import java.util.Map;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.togglz.junit.TogglzRule;
@@ -35,7 +36,7 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/TwistProcess.bpmn" } )
+		"com/videaps/cube/solving/moves/basic/Twist.bpmn" } )
 public class TwistTest {
 
 	@Rule
@@ -45,30 +46,19 @@ public class TwistTest {
 	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
 	
+	@Before
+	public void setUp() {
+		toggle.disable(Features.USE_LEJOS);
+	}
+	
+	
 	@Test
 	public void test() {
-		final int angle = 35;
-		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
-		variables.put("holdCubePort", "B");
-		variables.put("holdCubeSpeed", 350);
-		variables.put("holdCubeAngle", angle);
-		
-		variables.put("turnTablePort", "A");
-		variables.put("turnTableSpeed", 350);
 		variables.put("turnTableDirection", Direction.RIGHT.getValue());
 		variables.put("turnTableCount", 2);
 		
-		variables.put("delayMilliseconds", 2);
-		
-		variables.put("pullBackPort", "B");
-		variables.put("pullBackSpeed", 350);
-		variables.put("pullBackAcceleration", 0);
-		variables.put("pullBackAngle", -angle);
-		variables.put("pullBackImmediateReturn", false);
-		
-		toggle.enable(Features.USE_LEJOS);
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Twist", variables);
 		assertTrue(processInstance.isEnded());  
 	}

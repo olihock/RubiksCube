@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
   <bpmn:process id="Process_Turn" name="Turn" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1">
+    <bpmn:startEvent id="StartEvent_Turn" name="Start Turn">
       <bpmn:outgoing>SequenceFlow_0wx0ulm</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0wx0ulm" sourceRef="StartEvent_1" targetRef="ServiceTask_TurnCube" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gk8xxg" sourceRef="ServiceTask_TurnCube" targetRef="EndEvent_13u9bo4" />
-    <bpmn:endEvent id="EndEvent_13u9bo4">
+    <bpmn:sequenceFlow id="SequenceFlow_0wx0ulm" sourceRef="StartEvent_Turn" targetRef="ServiceTask_TurnCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gk8xxg" sourceRef="ServiceTask_TurnCube" targetRef="EndEvent_Turn" />
+    <bpmn:endEvent id="EndEvent_Turn" name="End Turn">
       <bpmn:incoming>SequenceFlow_0gk8xxg</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="ServiceTask_TurnCube" name="Turn Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateMotorDelegate">
@@ -26,7 +26,7 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Turn">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Turn">
         <dc:Bounds x="372" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="345" y="138" width="90" height="20" />
@@ -46,7 +46,7 @@
           <dc:Bounds x="618" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_13u9bo4_di" bpmnElement="EndEvent_13u9bo4">
+      <bpmndi:BPMNShape id="EndEvent_13u9bo4_di" bpmnElement="EndEvent_Turn">
         <dc:Bounds x="726" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="699" y="138" width="90" height="20" />

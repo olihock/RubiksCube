@@ -19,6 +19,7 @@
 package com.videaps.cube.solving.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -28,19 +29,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.rubik.Computer;
+import com.videaps.cube.solving.toggling.Features;
 
 
 /**
  *
  */
-public class CalculateAlgorithmDelegate implements JavaDelegate {
-	private static final Logger logger = LoggerFactory.getLogger(CalculateAlgorithmDelegate.class);
+public class CalculateDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(CalculateDelegate.class);
 	
 
 	public void execute(DelegateExecution execution) throws Exception {
 		@SuppressWarnings("unchecked")
 		List<String> cubeStateList = (List<String>) execution.getVariable("cubeStateList");
+		logger.info("cubeStateList="+cubeStateList);
 		
+		if(!Features.USE_LEJOS.isActive()) {
+			// This is for testing without leJOS runtime usage.
+			String[] cubeState = { "U:OOWGGWWRW", "F:OWOOWBOWW", "D:YORBBRRRR", "L:GRBGRBGWB", "R:GGGYOOBBB", "B:RYYGYYYYY" };
+			cubeStateList = Arrays.asList(cubeState);
+		}
+
 		String algorithm = new Computer().solveCube(cubeStateList);
 		algorithm = tidyUpAlgorithm(algorithm);
 		List<String> notations = splitAlgorithm(algorithm);

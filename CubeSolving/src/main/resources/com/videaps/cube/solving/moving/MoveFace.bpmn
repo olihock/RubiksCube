@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+  <bpmn:process id="Process_MoveFace" name="Move Face" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_MoveFace" name="Start Move Face">
+      <bpmn:outgoing>SequenceFlow_1h4a2m4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1h4a2m4" sourceRef="StartEvent_MoveFace" targetRef="ServiceTask_PrepareNotation" />
+    <bpmn:serviceTask id="ServiceTask_PrepareNotation" name="Prepare Notation" camunda:class="com.videaps.cube.solving.moving.PrepareNotationDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="face">${face}</camunda:outputParameter>
+          <camunda:outputParameter name="direction">${direction}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1h4a2m4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_182b4eo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="BusinessRuleTask_Direction" name="Get Direction" camunda:resultVariable="direction" camunda:decisionRef="direction" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="notation">${direction}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17pgv9g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_17ls23n</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="SequenceFlow_182b4eo" sourceRef="ServiceTask_PrepareNotation" targetRef="BusinessRuleTask_GetWayToFace" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_GetWayToFace" name="Get Way To Face" camunda:resultVariable="move" camunda:decisionRef="cubeMove" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="face">${face}</camunda:inputParameter>
+          <camunda:inputParameter name="way">goTo</camunda:inputParameter>
+          <camunda:outputParameter name="move">${move}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_182b4eo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1gjx58m</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1gjx58m" sourceRef="BusinessRuleTask_GetWayToFace" targetRef="CallActivity_WalkCubeToFace" />
+    <bpmn:callActivity id="CallActivity_WalkCubeToFace" name="Walk Cube To Face" calledElement="Process_WalkCube">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${move}" target="move" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1gjx58m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_17pgv9g</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_17pgv9g" sourceRef="CallActivity_WalkCubeToFace" targetRef="BusinessRuleTask_Direction" />
+    <bpmn:sequenceFlow id="SequenceFlow_17ls23n" sourceRef="BusinessRuleTask_Direction" targetRef="CallActivity_TwistFace" />
+    <bpmn:callActivity id="CallActivity_TwistFace" name="Twist Face" calledElement="Process_Twist">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${direction}" target="turnTableDirection" />
+        <camunda:in sourceExpression="${1}" target="turnTableCount" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17ls23n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0i9upr8</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="EndEvent_MoveFace" name="End Move Face">
+      <bpmn:incoming>SequenceFlow_0t3b053</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0i9upr8" sourceRef="CallActivity_TwistFace" targetRef="BusinessRuleTask_GetReturnFromFace" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_GetReturnFromFace" name="Get Return From Face" camunda:resultVariable="move" camunda:decisionRef="cubeMove" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="face">${face}</camunda:inputParameter>
+          <camunda:inputParameter name="way">return</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0i9upr8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12oq9ph</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="SequenceFlow_12oq9ph" sourceRef="BusinessRuleTask_GetReturnFromFace" targetRef="CallActivity_ReturnCubeFromFace" />
+    <bpmn:callActivity id="CallActivity_ReturnCubeFromFace" name="Return Cube From Face" calledElement="Process_WalkCube">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${move}" target="move" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_12oq9ph</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0t3b053</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0t3b053" sourceRef="CallActivity_ReturnCubeFromFace" targetRef="EndEvent_MoveFace" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_MoveFace">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_MoveFace">
+        <dc:Bounds x="173" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="146" y="123" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1h4a2m4_di" bpmnElement="SequenceFlow_1h4a2m4">
+        <di:waypoint xsi:type="dc:Point" x="209" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="260" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="260" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="311" y="105" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="213.5" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_007xlqc_di" bpmnElement="ServiceTask_PrepareNotation">
+        <dc:Bounds x="311" y="65" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0rxjhte_di" bpmnElement="BusinessRuleTask_Direction">
+        <dc:Bounds x="469" y="199" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_182b4eo_di" bpmnElement="SequenceFlow_182b4eo">
+        <di:waypoint xsi:type="dc:Point" x="411" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="469" y="105" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="247.5" y="279" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BusinessRuleTask_16ot7vj_di" bpmnElement="BusinessRuleTask_GetWayToFace">
+        <dc:Bounds x="469" y="65" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gjx58m_di" bpmnElement="SequenceFlow_1gjx58m">
+        <di:waypoint xsi:type="dc:Point" x="569" y="105" />
+        <di:waypoint xsi:type="dc:Point" x="633" y="105" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="476" y="175" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_0z1xipx_di" bpmnElement="CallActivity_WalkCubeToFace">
+        <dc:Bounds x="633" y="65" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_17pgv9g_di" bpmnElement="SequenceFlow_17pgv9g">
+        <di:waypoint xsi:type="dc:Point" x="683" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="683" y="172" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="172" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="199" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="147" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_17ls23n_di" bpmnElement="SequenceFlow_17ls23n">
+        <di:waypoint xsi:type="dc:Point" x="569" y="239" />
+        <di:waypoint xsi:type="dc:Point" x="601" y="239" />
+        <di:waypoint xsi:type="dc:Point" x="601" y="239" />
+        <di:waypoint xsi:type="dc:Point" x="633" y="239" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="288" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1t6r9dw_di" bpmnElement="CallActivity_TwistFace">
+        <dc:Bounds x="633" y="199" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_18zc3ia_di" bpmnElement="EndEvent_MoveFace">
+        <dc:Bounds x="839" y="350" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="386" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0i9upr8_di" bpmnElement="SequenceFlow_0i9upr8">
+        <di:waypoint xsi:type="dc:Point" x="683" y="279" />
+        <di:waypoint xsi:type="dc:Point" x="683" y="302" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="302" />
+        <di:waypoint xsi:type="dc:Point" x="519" y="328" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="277" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0onpyv6_di" bpmnElement="BusinessRuleTask_GetReturnFromFace">
+        <dc:Bounds x="469" y="328" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_12oq9ph_di" bpmnElement="SequenceFlow_12oq9ph">
+        <di:waypoint xsi:type="dc:Point" x="569" y="368" />
+        <di:waypoint xsi:type="dc:Point" x="633" y="368" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="343" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1fyi41t_di" bpmnElement="CallActivity_ReturnCubeFromFace">
+        <dc:Bounds x="633" y="328" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0t3b053_di" bpmnElement="SequenceFlow_0t3b053">
+        <di:waypoint xsi:type="dc:Point" x="733" y="368" />
+        <di:waypoint xsi:type="dc:Point" x="839" y="368" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="741" y="343" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
