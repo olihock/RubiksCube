@@ -50,6 +50,7 @@
       <bpmn:extensionElements>
         <camunda:in sourceExpression="${direction}" target="turnTableDirection" />
         <camunda:in sourceExpression="${1}" target="turnTableCount" />
+        <camunda:in sourceExpression="A" target="turnTablePort" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17ls23n</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0i9upr8</bpmn:outgoing>

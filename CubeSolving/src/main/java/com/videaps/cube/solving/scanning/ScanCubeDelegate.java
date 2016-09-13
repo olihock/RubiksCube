@@ -20,6 +20,8 @@ package com.videaps.cube.solving.scanning;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +37,18 @@ import org.slf4j.LoggerFactory;
 public class ScanCubeDelegate implements JavaDelegate {
 	private static final Logger logger = LoggerFactory.getLogger(ScanCubeDelegate.class);
 
+	private final Map<String, String> oppositeFaceMap = new HashMap<String, String>();
+	
+	
+	public ScanCubeDelegate() {
+		oppositeFaceMap.put("F", "B");
+		oppositeFaceMap.put("U", "D");
+		oppositeFaceMap.put("B", "F");
+		oppositeFaceMap.put("L", "R");
+		oppositeFaceMap.put("R", "L");
+		oppositeFaceMap.put("D", "U");
+	}
+
 	
 	public void execute(DelegateExecution execution) throws Exception {
 		logger.info(execution.getCurrentActivityName());
@@ -42,9 +56,9 @@ public class ScanCubeDelegate implements JavaDelegate {
 		@SuppressWarnings("unchecked")
 		Collection<String> cubeColors = (Collection<String>) execution.getVariable("cubeColors");
 		logger.info("cubeColors="+cubeColors);
-		
-		Collection<String> replacedCubeColors = replaceCenterBrick(cubeColors);
-		
+
+		Collection<String> replacedCubeColors = replaceLabelBrick(cubeColors);
+
 		String cubeColorsStr = ArrayUtils.toString(cubeColors);
 		int xCount = countUndetected(cubeColorsStr);
 		logger.info("xCount="+xCount);
@@ -59,6 +73,21 @@ public class ScanCubeDelegate implements JavaDelegate {
 	}
 
 
+	private Collection<String> replaceLabelBrick(Collection<String> cubeColors) {
+		Collection<String> replacedCubeColors = null;
+		int yellowCount = countYellowCenterBricks(cubeColors);
+		if(yellowCount == 1) {
+			String yellowFace = findFaceWithYellowCenterBrick(cubeColors);
+			String oppositeFace = oppositeFaceMap.get(yellowFace);
+			replacedCubeColors = replaceWhiteCenterBrick(cubeColors, oppositeFace);
+		} else {
+			// This is to be able to carry on from here.
+			replacedCubeColors = cubeColors;
+		}
+		return replacedCubeColors;
+	}
+
+
 	private void log(Collection<String> replacedCubeColors) {
 		StringBuffer buf = new StringBuffer();
 		for(String faceState : replacedCubeColors) {
@@ -69,10 +98,32 @@ public class ScanCubeDelegate implements JavaDelegate {
 	}
 
 
-	public Collection<String> replaceCenterBrick(Collection<String> cubeColors) {
+	private int countYellowCenterBricks(Collection<String> cubeColors) {
+		// Count the yellow center bricks to ensure only one exists.
+		int yellowCount = 0;
+		for(String faceColors: cubeColors) {
+			if("Y".equals(String.valueOf(faceColors.charAt(6)))) {
+				yellowCount++;
+			}
+		}
+		return yellowCount;
+	}
+	
+	private String findFaceWithYellowCenterBrick(Collection<String> cubeColors) {
+		String yellowFace = null;
+		for(String faceColors: cubeColors) {
+			if("Y".equals(String.valueOf(faceColors.charAt(6)))) {
+				yellowFace = String.valueOf(faceColors.charAt(0));
+				break;
+			}
+		}
+		return yellowFace;
+	}
+	
+	private Collection<String> replaceWhiteCenterBrick(Collection<String> cubeColors, String faceWithWhiteCenterBrick) {
 		Collection<String> replacedCubeColors = new ArrayList<String>();
 		for(String faceColors: cubeColors) {
-			if("X".equals(String.valueOf(faceColors.charAt(6)))) {
+			if(faceWithWhiteCenterBrick.equals(String.valueOf(faceColors.charAt(0)))) {
 				String preStr = faceColors.substring(0, 6); 
 				String postStr = faceColors.substring(7, faceColors.length());
 				faceColors = preStr+"W"+postStr;
@@ -81,6 +132,20 @@ public class ScanCubeDelegate implements JavaDelegate {
 		}
 		return replacedCubeColors;
 	}
+	
+	
+//	public Collection<String> replaceCenterBrick(Collection<String> cubeColors) {
+//		Collection<String> replacedCubeColors = new ArrayList<String>();
+//		for(String faceColors: cubeColors) {
+//			if("X".equals(String.valueOf(faceColors.charAt(6)))) {
+//				String preStr = faceColors.substring(0, 6); 
+//				String postStr = faceColors.substring(7, faceColors.length());
+//				faceColors = preStr+"W"+postStr;
+//			}
+//			replacedCubeColors.add(faceColors);
+//		}
+//		return replacedCubeColors;
+//	}
 
 
 	public int countUndetected(String cubeColorsStr) {

@@ -92,7 +92,7 @@ public class MainTest extends BaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		toggle.disable(Features.USE_LEJOS);
+		toggle.enable(Features.USE_LEJOS);
 	}
 
 	@Test

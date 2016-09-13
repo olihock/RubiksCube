@@ -35,10 +35,6 @@ public class ScanCubeDelegateTest {
 
 	@Test
 	public void test() {
-		String[] cubeColors = { "U:BGYRGYBWW", "F:YBBOOGOBG", "D:YYWOBRGWX", "L:RGRYXBRWB", "R:OGGOYROBR", "B:OWWYROYRW" };
-		ScanCubeDelegate scanCube = new ScanCubeDelegate();
-		Collection<String> replacedCubeColors = scanCube.replaceCenterBrick(Arrays.asList(cubeColors));
-		System.out.println(replacedCubeColors);
 	}
 
 	

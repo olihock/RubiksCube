@@ -21,6 +21,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_0izwdio" sourceRef="StartEvent_ReactOnCube" targetRef="ServiceTask_CheckDistance" />
     <bpmn:sequenceFlow id="SequenceFlow_0na5z26" sourceRef="ServiceTask_CheckDistance" targetRef="ExclusiveGateway_IsCubeInRack" />
     <bpmn:serviceTask id="ServiceTask_CheckDistance" name="Check Distance" camunda:class="com.videaps.cube.solving.access.sensor.GetDistanceDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="getDistanceSensorPort">S1</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ck923x</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0izwdio</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0na5z26</bpmn:outgoing>

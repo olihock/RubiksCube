@@ -77,7 +77,7 @@ public class SolveCubeTest extends BaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		toggle.disable(Features.USE_LEJOS);
+		toggle.enable(Features.USE_LEJOS);
 	}
 
 	
@@ -88,9 +88,9 @@ public class SolveCubeTest extends BaseTest {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		List<String> notations = new ArrayList<String>();
-		notations.add("F");
+		notations.add("D'");
+		notations.add("L'");
 		notations.add("U'");
-		notations.add("B2");
 		
 		variables.put("notations", notations);
 		
