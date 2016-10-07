@@ -22,6 +22,8 @@ import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.toggling.Features;
 
@@ -30,6 +32,7 @@ import com.videaps.cube.solving.toggling.Features;
  *
  */
 public class RotateMotorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(RotateMotorDelegate.class);
 	
 	public void execute(DelegateExecution execution) throws Exception {
 		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
@@ -38,6 +41,14 @@ public class RotateMotorDelegate implements JavaDelegate {
 		Number angle = (Number) execution.getVariable("rotateMotorAngle");
 		Boolean immediateReturn = (Boolean) execution.getVariable("rotateMotorImmediateReturn");
 
+		if(logger.isInfoEnabled()) {
+			logger.info("port="+execution.getVariable("port"));
+			logger.info("speed="+speed);
+			logger.info("acceleration="+acceleration);
+			logger.info("angle="+execution.getVariable("angle"));
+			logger.info("immediateReturn="+execution.getVariable("immediateReturn"));
+		}
+		
 		int tachoCount = -1;
 		if(Features.USE_LEJOS.isActive()) {
 			RemoteMotor motor = new MotorFactory().getMotor(motorPort);

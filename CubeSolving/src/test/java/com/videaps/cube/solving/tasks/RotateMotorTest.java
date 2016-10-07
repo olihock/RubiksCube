@@ -16,35 +16,35 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.algorithm;
+package com.videaps.cube.solving.tasks;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.impl.pvm.runtime.ExecutionImpl;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Before;
 import org.junit.Test;
 
-import com.videaps.cube.solving.algorithm.CalculateDelegate;
+import com.videaps.cube.solving.BaseTest;
+import com.videaps.cube.solving.toggling.Features;
 
-public class CalculateTest {
 
+@Deployment(resources = {
+		"com/videaps/cube/solving/tasks/RotateMotors.bpmn"
+	} )
+public class RotateMotorTest extends BaseTest {
+
+	@Before
+	public void setUp() {
+		toggle.disable(Features.USE_LEJOS);
+	}
+
+	
 	@Test
-	public void test() throws Exception {
-		String[] cubeState = { "U:YYYGGGOOB", "F:BBRYYRBBR", "D:RRGWBWWBW", "L:BYWOOBOOW", "R:YWGYRRYRR", "B:OOOGWGGWG" };
-		List<String> cubeStateList = Arrays.asList(cubeState);
-
-		DelegateExecution execution = new ExecutionImpl();
-		execution.setVariable("cubeStateList", cubeStateList);
-
-		CalculateDelegate calculateAlgorithmDelegate = new CalculateDelegate();
-		calculateAlgorithmDelegate.execute(execution);
-		
-		@SuppressWarnings("unchecked")
-		List<String> notations = (List<String>) execution.getVariable("notations");
-		assertNotNull(notations);
+	public void test() {
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(
+				"Process_RotateMotors");
+		assertTrue(processInstance.isEnded());  
 	}
 
 }

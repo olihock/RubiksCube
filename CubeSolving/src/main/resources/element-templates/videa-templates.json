@@ -1,0 +1,300 @@
+[
+  {
+    "name": "Motor Rotation",
+    "id": "com.videaps.cube.solving.access.motor.RotateMotor",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Implementation",
+        "type": "String",
+        "value": "com.videaps.cube.solving.access.motor.RotateMotorDelegate",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:class"
+        }
+      },
+      {
+        "label": "Port",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "port"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Angle",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "angle"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Task Priority",
+        "type": "Dropdown",
+        "value": "50",
+        "choices": [
+          { "name": "low", "value": "20" },
+          { "name": "medium", "value": "50" },
+          { "name": "height", "value": "100" }
+        ],
+
+        "label": "Return Strategy",
+        "type": "Dropdown",
+        "value": "false",
+        "choices": [
+          { "name": "Immediate Return", "value": "true" },
+          { "name": "Wait for Completion", "value": "false" }
+        ],
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "immediateReturn"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Mail Task",
+    "id": "com.camunda.example.MailTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Implementation Type",
+        "type": "String",
+        "value": "com.mycompany.MailTaskImpl",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:class"
+        }
+      },
+      {
+        "label": "Sender",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "sender"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Receivers",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "receivers"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Template",
+        "description": "By the way, you can use freemarker templates ${...} here",
+        "value": "Hello ${firstName}!",
+        "type": "Text",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "messageBody",
+          "scriptFormat": "freemarker"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Result Status",
+        "description": "The process variable to which to assign the send result to",
+        "type": "String",
+        "value": "mailSendResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${ resultStatus }"
+        }
+      },
+      {
+        "label": "Send Async?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
+  },
+  {
+    "name": "AsyncAwesomeTask",
+    "id": "com.camunda.example.AwesomeTask",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ],
+    "entriesVisible": {
+      "_all": true,
+      "asyncBefore": false
+    }
+  },
+  {
+    "name": "Custom ServiceTask",
+    "id": "com.camunda.example.CustomServiceTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Delegate to Call",
+        "type": "String",
+        "editable": false,
+        "value": "com.camunda.example.FooDelegate",
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      }
+    ],
+    "entriesVisible": {
+      "_all": true,
+      "delegate": false,
+      "implementation": false
+    }
+  },
+  {
+    "name": "VIP-Order Path",
+    "id": "e.com.merce.FastPath",
+    "appliesTo": [
+      "bpmn:SequenceFlow"
+    ],
+    "properties": [
+      {
+        "label": "VIP-Ordering",
+        "type": "String",
+        "editable": false,
+        "value": "${ customer.vip }",
+        "binding": {
+          "type": "property",
+          "name": "conditionExpression"
+        }
+      },
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "YEY YEA!",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "name": "WS Caller Task",
+    "id": "com.camunda.example.WsCaller",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "^https://.*",
+            "message": "Must be https URL"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Check Invoice Task",
+    "id": "com.camunda.example.CheckInvoiceTask",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Candidate Users",
+        "description": "Users able to carry out this task",
+        "type": "String",
+        "value": "Walt, Jeff, Lisa",
+        "binding": {
+          "type": "property",
+          "name": "camunda:candidateUsers"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\s*(\\w+,\\s?)*\\w+\\s*",
+            "message": "Use comma separated list of user names"
+          }
+        }
+      },
+      {
+        "label": "Candidate Groups",
+        "description": "Groups able to carry out this task",
+        "type": "String",
+        "value": "Backoffice",
+        "binding": {
+          "type": "property",
+          "name": "camunda:candidateGroups"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "\\s*(\\w+,\\s?)*\\w+\\s*",
+            "message": "Use comma separated list of group names"
+          }
+        }
+      },
+      {
+        "label": "Task Priority",
+        "type": "Dropdown",
+        "value": "50",
+        "choices": [
+          { "name": "low", "value": "20" },
+          { "name": "medium", "value": "50" },
+          { "name": "height", "value": "100" }
+        ],
+        "binding": {
+          "type": "property",
+          "name": "camunda:priority"
+        }
+      }
+    ],
+    "entriesVisible": {
+      "_all": true,
+      "candidateUsers": false,
+      "candidateGroups": false
+    }
+  }
+]
