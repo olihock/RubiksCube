@@ -18,34 +18,25 @@
 */
 package com.videaps.cube.solving.moves.cube;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.junit.Test;
 
 import com.videaps.cube.solving.BaseTest;
-import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/FaceSequence.dmn",
+		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
+		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
 		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn"
 	} )
 public class LeftToRightTest extends BaseTest {
 
 	@Test
 	public void test() {
-		toggle.disable(Features.USE_LEJOS);
-
-		Map<String, Object> variables = new HashMap<String, Object>();
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_LeftToRight", variables);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_LeftToRight");
 		assertTrue(processInstance.isEnded());  
 	}
 

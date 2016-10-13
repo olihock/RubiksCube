@@ -9,7 +9,7 @@
       {
         "label": "Implementation",
         "type": "String",
-        "value": "com.videaps.cube.solving.access.motor.RotateMotorDelegate",
+        "value": "com.videaps.cube.solving.access.motor.RotateDelegate",
         "editable": false,
         "binding": {
           "type": "property",

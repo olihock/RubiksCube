@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
   <bpmn:process id="Process_BackToUpper" name="Back To Upper" isExecutable="true">
     <bpmn:startEvent id="StartEvent_BackToUpper" name="Start Back To Upper">
       <bpmn:outgoing>SequenceFlow_0uy6mp9</bpmn:outgoing>
@@ -8,39 +8,13 @@
       <bpmn:incoming>SequenceFlow_1dwsjck</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:callActivity id="CallActivity_TiltThreeTimes" name="Tilt Three Times" calledElement="Process_Tilt">
-      <bpmn:incoming>SequenceFlow_1q6vheg</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0uy6mp9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dwsjck</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics isSequential="true">
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">3</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_TurnRight" name="Turn Right" calledElement="Process_Turn">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="${-1}" target="direction" />
-        <camunda:in sourceExpression="${1}" target="count" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1tq4vzw</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1q6vheg</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_1gbqyr8" name="Tilt Twice" calledElement="Process_Tilt">
-      <bpmn:incoming>SequenceFlow_1v0o4jv</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1tq4vzw</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics isSequential="true">
-        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">2</bpmn:loopCardinality>
-      </bpmn:multiInstanceLoopCharacteristics>
-    </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_TurnLeft" name="Turn Left" calledElement="Process_Turn">
-      <bpmn:extensionElements>
-        <camunda:in sourceExpression="${1}" target="direction" />
-        <camunda:in sourceExpression="${1}" target="count" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0uy6mp9</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1v0o4jv</bpmn:outgoing>
-    </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_0uy6mp9" sourceRef="StartEvent_BackToUpper" targetRef="CallActivity_TurnLeft" />
-    <bpmn:sequenceFlow id="SequenceFlow_1v0o4jv" sourceRef="CallActivity_TurnLeft" targetRef="CallActivity_1gbqyr8" />
-    <bpmn:sequenceFlow id="SequenceFlow_1tq4vzw" sourceRef="CallActivity_1gbqyr8" targetRef="CallActivity_TurnRight" />
-    <bpmn:sequenceFlow id="SequenceFlow_1q6vheg" sourceRef="CallActivity_TurnRight" targetRef="CallActivity_TiltThreeTimes" />
+    <bpmn:sequenceFlow id="SequenceFlow_0uy6mp9" sourceRef="StartEvent_BackToUpper" targetRef="CallActivity_TiltThreeTimes" />
     <bpmn:sequenceFlow id="SequenceFlow_1dwsjck" sourceRef="CallActivity_TiltThreeTimes" targetRef="EndEvent_BackToUpper" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -49,56 +23,28 @@
         <dc:Bounds x="173" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0x99uc5_di" bpmnElement="EndEvent_BackToUpper">
-        <dc:Bounds x="930" y="102" width="36" height="36" />
+        <dc:Bounds x="444" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="903" y="138" width="90" height="20" />
+          <dc:Bounds x="432" y="138" width="65" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_022749c_di" bpmnElement="CallActivity_TiltThreeTimes">
-        <dc:Bounds x="748" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_19j903b_di" bpmnElement="CallActivity_TurnRight">
-        <dc:Bounds x="584" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1gbqyr8_di" bpmnElement="CallActivity_1gbqyr8">
-        <dc:Bounds x="425" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_0ipvpw3_di" bpmnElement="CallActivity_TurnLeft">
-        <dc:Bounds x="267" y="80" width="100" height="80" />
+        <dc:Bounds x="275" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0uy6mp9_di" bpmnElement="SequenceFlow_0uy6mp9">
         <di:waypoint xsi:type="dc:Point" x="209" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="267" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="275" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="193" y="95" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1v0o4jv_di" bpmnElement="SequenceFlow_1v0o4jv">
-        <di:waypoint xsi:type="dc:Point" x="367" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="425" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="351" y="95" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1tq4vzw_di" bpmnElement="SequenceFlow_1tq4vzw">
-        <di:waypoint xsi:type="dc:Point" x="525" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="584" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="509.5" y="95" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1q6vheg_di" bpmnElement="SequenceFlow_1q6vheg">
-        <di:waypoint xsi:type="dc:Point" x="684" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="748" y="120" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="671" y="95" width="90" height="20" />
+          <dc:Bounds x="242" y="105" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1dwsjck_di" bpmnElement="SequenceFlow_1dwsjck">
-        <di:waypoint xsi:type="dc:Point" x="848" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="930" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="375" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="409" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="409" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="444" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="844" y="95" width="90" height="20" />
+          <dc:Bounds x="424" y="120" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

@@ -22,33 +22,50 @@ import lejos.nxt.remote.RemoteMotor;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.toggling.Features;
 
 
 /**
- *
+ * @since 1.1
  */
-public class RotateMotorDelegate implements JavaDelegate {
+public class RotateDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(RotateDelegate.class);
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		String motorPort = (String) execution.getVariable("rotateMotorMotorPort");
-		Number speed = (Number) execution.getVariable("rotateMotorSpeed");
-		Number acceleration = (Number) execution.getVariable("rotateMotorAcceleration");
-		Number angle = (Number) execution.getVariable("rotateMotorAngle");
-		Boolean immediateReturn = (Boolean) execution.getVariable("rotateMotorImmediateReturn");
-		
-		int tachoCount = -1;
-		if(Features.USE_LEJOS.isActive()) {
-			RemoteMotor motor = new MotorFactory().getMotor(motorPort);
-			motor.setSpeed(speed!=null?speed.intValue():999);
-			motor.setAcceleration(acceleration!=null?acceleration.intValue():0);
-			motor.rotate(angle!=null?angle.intValue():0, immediateReturn!=null?immediateReturn:false);
+		String port = (String) execution.getVariable("port");
+		Integer angle = Integer.valueOf(String.valueOf(execution.getVariable("angle")));
+		Boolean immediateReturn = Boolean.valueOf((String)execution.getVariable("immediateReturn"));
+		Integer speed = readSpeed(execution);
 
-			tachoCount = motor.getTachoCount();
-		}
+		log(execution, port, angle, immediateReturn, speed);
 		
-		execution.setVariable("rotateMotorTachoCount", tachoCount);
+		if(Features.USE_LEJOS.isActive()) {
+			RemoteMotor motor = new MotorFactory().getMotor(port);
+			motor.setSpeed(speed != null ? speed : (int)motor.getMaxSpeed());
+			motor.rotate(angle.intValue(), immediateReturn);
+		}
+	}
+
+
+	private Integer readSpeed(DelegateExecution execution) {
+		Object speedVar = execution.getVariable("speed");
+		Integer speed = speedVar != null ? Integer.valueOf(String.valueOf(speedVar)) : null;
+		return speed;
+	}
+
+	
+	private void log(DelegateExecution execution, String port, Integer angle, Boolean immediateReturn, Integer speed) {
+		if(logger.isInfoEnabled()) {
+			logger.info(execution.getCurrentActivityName()+" -->");
+			logger.info("port="+port);
+			logger.info("angle="+angle);
+			logger.info("immediateReturn="+immediateReturn);
+			logger.info("speed="+speed);
+			logger.info("<--");
+		}
 	}
 
 }

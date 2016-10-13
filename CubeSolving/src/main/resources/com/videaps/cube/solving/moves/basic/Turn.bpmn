@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
+  <bpmn:process id="Process_Turn" name="Turn" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Turn" name="Start Turn">
+      <bpmn:outgoing>SequenceFlow_0wx0ulm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0wx0ulm" sourceRef="StartEvent_Turn" targetRef="Task_InvertAngle" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gk8xxg" sourceRef="ServiceTask_TurnCube" targetRef="EndEvent_Turn" />
+    <bpmn:endEvent id="EndEvent_Turn" name="End Turn">
+      <bpmn:incoming>SequenceFlow_0gk8xxg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="ServiceTask_TurnCube" name="Turn Cube" camunda:class="com.videaps.cube.solving.access.motor.RotateDelegate" camunda:modelerTemplate="com.videaps.cube.solving.access.motor.RotateMotor">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="immediateReturn">false</camunda:inputParameter>
+          <camunda:inputParameter name="port">A</camunda:inputParameter>
+          <camunda:inputParameter name="speed">350</camunda:inputParameter>
+          <camunda:inputParameter name="angle">${-angle}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0dzyacb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0gk8xxg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0dzyacb" sourceRef="Task_InvertAngle" targetRef="ServiceTask_TurnCube" />
+    <bpmn:serviceTask id="Task_InvertAngle" name="Invert Angle" camunda:class="com.videaps.cube.solving.moves.basic.InvertDelegate">
+      <bpmn:extensionElements>
+        <camunda:field name="port">        <camunda:string>A</camunda:string>
+</camunda:field>
+        <camunda:field name="angle">        <camunda:expression>${-angle}</camunda:expression>
+</camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wx0ulm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0dzyacb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_0srskc9">    <bpmn:text>Check if turn table can be turned by this angle. In case it is blocked by the rack, the angle will be changed for hardwares sake.</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_1f7p4ly" sourceRef="Task_InvertAngle" targetRef="TextAnnotation_0srskc9" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Turn">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_Turn">
+        <dc:Bounds x="286" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="281" y="138" width="49" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wx0ulm_di" bpmnElement="SequenceFlow_0wx0ulm">
+        <di:waypoint xsi:type="dc:Point" x="322" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="393" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="105" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gk8xxg_di" bpmnElement="SequenceFlow_0gk8xxg">
+        <di:waypoint xsi:type="dc:Point" x="668" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="726" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="697" y="105" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_13u9bo4_di" bpmnElement="EndEvent_Turn">
+        <dc:Bounds x="726" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="699" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1kms5rh_di" bpmnElement="ServiceTask_TurnCube">
+        <dc:Bounds x="568" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dzyacb_di" bpmnElement="SequenceFlow_0dzyacb">
+        <di:waypoint xsi:type="dc:Point" x="493" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="568" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="531" y="105" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1kj8nwn_di" bpmnElement="Task_InvertAngle">
+        <dc:Bounds x="393" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0srskc9_di" bpmnElement="TextAnnotation_0srskc9">
+        <dc:Bounds x="425" y="208" width="183" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1f7p4ly_di" bpmnElement="Association_1f7p4ly">
+        <di:waypoint xsi:type="dc:Point" x="465" y="160" />
+        <di:waypoint xsi:type="dc:Point" x="491" y="208" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
