@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
   <bpmn:process id="Process_ScanFace" name="Scan Face" isExecutable="true">
     <bpmn:startEvent id="StartEvent_ScanCube" name="Start Scan Cube">
       <bpmn:outgoing>SequenceFlow_0i14axa</bpmn:outgoing>
@@ -49,31 +49,31 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "upperToFront"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0ytj1q6" sourceRef="CallActivity_MoveUpperFaceToFront" targetRef="EndEvent_ScanCube" />
-    <bpmn:callActivity id="CallActivity_MoveUpperFaceToFront" name="Move Upper Face To Front" calledElement="Process_UpperToFront">
+    <bpmn:callActivity id="CallActivity_MoveUpperFaceToFront" name="Move Upper Face To Front" calledElement="Process_Scan_UpperToFront">
       <bpmn:incoming>SequenceFlow_UpperToFlow</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ytj1q6</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="SequenceFlow_FrontToDown" name="Front To Down" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveFrontFaceToDown">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "frontToDown"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:callActivity id="CallActivity_MoveFrontFaceToDown" name="Move Front Face To Down" calledElement="Process_FrontToDown">
+    <bpmn:callActivity id="CallActivity_MoveFrontFaceToDown" name="Move Front Face To Down" calledElement="Process_Scan_FrontToDown">
       <bpmn:incoming>SequenceFlow_FrontToDown</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0zuij90</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="SequenceFlow_0zuij90" sourceRef="CallActivity_MoveFrontFaceToDown" targetRef="EndEvent_ScanCube" />
-    <bpmn:callActivity id="CallActivity_MoveDownFaceToLeft" name="Move Down Face To Left" calledElement="Process_DownToLeft">
+    <bpmn:callActivity id="CallActivity_MoveDownFaceToLeft" name="Move Down Face To Left" calledElement="Process_Scan_DownToLeft">
       <bpmn:incoming>SequenceFlow_DownToLeft</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fv6w91</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveLeftFactToRight" name="Move Left Face To Right" calledElement="Process_LeftToRight">
+    <bpmn:callActivity id="CallActivity_MoveLeftFactToRight" name="Move Left Face To Right" calledElement="Process_Scan_LeftToRight">
       <bpmn:incoming>SequenceFlow_LeftToRight</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0v6eit1</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveRightFaceToBack" name="Move Right Face To Back" calledElement="Process_RightToBack">
+    <bpmn:callActivity id="CallActivity_MoveRightFaceToBack" name="Move Right Face To Back" calledElement="Process_Scan_RightToBack">
       <bpmn:incoming>SequenceFlow_RightToBack</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0cjoku9</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveBackFaceToUpper" name="Move Back Face To Upper" calledElement="Process_BackToUpper">
+    <bpmn:callActivity id="CallActivity_MoveBackFaceToUpper" name="Move Back Face To Upper" calledElement="Process_Scan_BackToUpper">
       <bpmn:incoming>SequenceFlow_BackToUpper</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vcf5df</bpmn:outgoing>
     </bpmn:callActivity>

@@ -18,47 +18,36 @@
 */
 package com.videaps.cube.solving.moves.basic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.togglz.junit.TogglzRule;
 
-import com.videaps.cube.solving.rubik.Direction;
+import com.videaps.cube.solving.BaseTest;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
+		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
 		"com/videaps/cube/solving/moves/basic/Twist.bpmn" } )
-public class TwistTest {
+public class TwistTest extends BaseTest {
 
-	@Rule
-	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
-
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
-
-	
 	@Before
 	public void setUp() {
-		toggle.disable(Features.USE_LEJOS);
+		toggle.enable(Features.USE_LEJOS);
 	}
 	
 	
 	@Test
 	public void test() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		
-		variables.put("turnTableDirection", Direction.RIGHT.getValue());
-		variables.put("turnTableCount", 2);
-		
+		variables.put("angle", "90");
+
 		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Twist", variables);
 		assertTrue(processInstance.isEnded());  
 	}

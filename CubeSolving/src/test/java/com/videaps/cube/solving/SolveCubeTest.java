@@ -36,13 +36,13 @@ import com.videaps.cube.solving.toggling.Features;
 @Deployment(resources = {
 		"com/videaps/cube/solving/SolveCube.bpmn",
 
-		"com/videaps/cube/solving/moving/MoveFace.bpmn",
-		"com/videaps/cube/solving/moving/WalkCube.bpmn",
-		"com/videaps/cube/solving/moving/CubeMove.dmn",
-		"com/videaps/cube/solving/moving/Direction.dmn",
+		"com/videaps/cube/solving/moves/MoveFace.bpmn",
+		"com/videaps/cube/solving/moves/WalkCube.bpmn",
+		"com/videaps/cube/solving/moves/CubeMove.dmn",
+		"com/videaps/cube/solving/moves/Direction.dmn",
 		"com/videaps/cube/solving/moves/basic/Twist.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
+		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
+		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
 		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
 		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
 		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
@@ -54,24 +54,6 @@ import com.videaps.cube.solving.toggling.Features;
 		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
 		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
 		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn",
-
-		"com/videaps/cube/solving/moving/MoveFace.bpmn",
-		"com/videaps/cube/solving/moving/CubeMove.dmn",
-		"com/videaps/cube/solving/moving/Direction.dmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToFront.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToRight.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToUpper.bpmn",
-		"com/videaps/cube/solving/moves/rack/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn"
-
 	} )
 public class SolveCubeTest extends BaseTest {
 
@@ -88,9 +70,7 @@ public class SolveCubeTest extends BaseTest {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		List<String> notations = new ArrayList<String>();
-		notations.add("D'");
-		notations.add("L'");
-		notations.add("U'");
+		notations.add("R");
 		
 		variables.put("notations", notations);
 		

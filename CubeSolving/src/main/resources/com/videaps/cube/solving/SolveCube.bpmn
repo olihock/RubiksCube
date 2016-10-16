@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
   <bpmn:process id="Process_SolveCube" name="Solve Cube" isExecutable="true">
     <bpmn:startEvent id="StartEvent_SolveCube" name="Start Solve Cube">
       <bpmn:outgoing>SequenceFlow_1rv5kds</bpmn:outgoing>
@@ -31,16 +31,16 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_1k4jtyy_di" bpmnElement="EndEvent_SolveCube">
-        <dc:Bounds x="720" y="102" width="36" height="36" />
+        <dc:Bounds x="475" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="693" y="138" width="90" height="20" />
+          <dc:Bounds x="465" y="138" width="56" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0xkqnzy_di" bpmnElement="SequenceFlow_0xkqnzy">
         <di:waypoint xsi:type="dc:Point" x="390" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="720" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="475" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="606.5" y="95" width="90" height="20" />
+          <dc:Bounds x="433" y="105" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_08y6zr4_di" bpmnElement="CallActivity_MoveFaces">

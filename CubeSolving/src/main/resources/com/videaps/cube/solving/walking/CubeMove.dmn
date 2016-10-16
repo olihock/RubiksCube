@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="cubeMove" name="Cube Move">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Face">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>face</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1b9bcdz" label="Way">
+        <inputExpression id="LiteralExpression_13ddwht" typeRef="string">        <text>way</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Move" name="move" typeRef="string" />
+      <rule id="row-355145008-4">
+        <inputEntry id="UnaryTests_0hprlvz">        <text><![CDATA["F"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0ve9jjc">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1ibrrxa">        <text><![CDATA["FrontToDown"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-10">
+        <inputEntry id="UnaryTests_01zlvla">        <text><![CDATA["F"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_01tqs6x">        <text><![CDATA["return"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_15iecko">        <text><![CDATA["DownToFront"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-5">
+        <inputEntry id="UnaryTests_06hbt12">        <text><![CDATA["U"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1v2ihn4">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0rdwkqg">        <text><![CDATA["UpperToDown"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-11">
+        <inputEntry id="UnaryTests_165nre5">        <text><![CDATA["U"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1evqq88">        <text><![CDATA["return"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0aqhj7o">        <text><![CDATA["DownToUpper"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-6">
+        <inputEntry id="UnaryTests_11urv32">        <text><![CDATA["B"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0mbsnsd">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1l5m9nf">        <text><![CDATA["BackToDown"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-12">
+        <inputEntry id="UnaryTests_0r3hds3">        <text><![CDATA["B"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1xgjp8w">        <text><![CDATA["return"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_13kuwhb">        <text><![CDATA["DownToBack"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-8">
+        <inputEntry id="UnaryTests_1u4p5u4">        <text><![CDATA["L"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1xaz9o6">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0hha9ho">        <text><![CDATA["LeftToDown"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-14">
+        <inputEntry id="UnaryTests_1l9au91">        <text><![CDATA["L"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_14eu1tp">        <text><![CDATA["return"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0d769d5">        <text><![CDATA["DownToLeft"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-9">
+        <inputEntry id="UnaryTests_1e3bs4x">        <text><![CDATA["R"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1emjyew">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_09nojak">        <text><![CDATA["RightToDown"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-15">
+        <inputEntry id="UnaryTests_1t2pntq">        <text><![CDATA["R"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0xn8d5w">        <text><![CDATA["return"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0928o46">        <text><![CDATA["DownToRight"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-355145008-7">
+        <inputEntry id="UnaryTests_1q0gbti">        <text><![CDATA["D"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_13emhdo">        <text><![CDATA["goTo"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1g2toqa">        <text><![CDATA["DownToDown"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

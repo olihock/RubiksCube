@@ -24,9 +24,10 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.impl.el.FixedValue;
 import org.camunda.bpm.engine.impl.el.JuelExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.access.motor.MotorFactory;
-import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 
 
@@ -34,6 +35,7 @@ import com.videaps.cube.solving.toggling.Features;
  * @since 1.1
  */
 public class InvertDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(InvertDelegate.class);
 
 	private FixedValue port;
 	private JuelExpression angle;
@@ -44,18 +46,22 @@ public class InvertDelegate implements JavaDelegate {
 	
 	public void execute(DelegateExecution execution) throws Exception {
 		String myPort = (String) port.getValue(execution);
-		Long myAngle = (Long) angle.getValue(execution); 
+		int myAngle = ((Number) angle.getValue(execution)).intValue(); 
 
+		logger.info("angle="+myAngle);
+		
 		long invertedAngle = 0;
 		if(Features.USE_LEJOS.isActive()) {
 			RemoteMotor motor = new MotorFactory().getMotor(myPort);
 			invertedAngle = invert(myAngle, myAngle/Math.abs(myAngle), Math.abs(myAngle)/QUARTER, motor.getTachoCount());
 		}
+		
+		logger.info("invertedAngle="+ -invertedAngle);
 		execution.setVariable("angle", -invertedAngle);
 	}
 
 	
-	private long invert(long originalDegrees, long direction, long count, int tachoCount) {
+	private long invert(int originalDegrees, int direction, int count, int tachoCount) {
 		long degrees = originalDegrees;
 		if(Direction.LEFT.getValue() == direction && inInterval(0, tachoCount)) {
 			degrees = QUARTER * 3 * direction * (-1);

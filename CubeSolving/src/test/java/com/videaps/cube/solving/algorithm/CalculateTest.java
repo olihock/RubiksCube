@@ -33,7 +33,7 @@ public class CalculateTest {
 
 	@Test
 	public void test() throws Exception {
-		String[] cubeState = { "U:YYYGGGOOB", "F:BBRYYRBBR", "D:RRGWBWWBW", "L:BYWOOBOOW", "R:YWGYRRYRR", "B:OOOGWGGWG" };
+		String[] cubeState = { "F:RRRWWWWWW", "U:GGGGGGGGG", "D:BBBBBBBBB", "L:YYYRRRRRR", "R:WWWOOOOOO", "B:OOOYYYYYY" };
 		List<String> cubeStateList = Arrays.asList(cubeState);
 
 		DelegateExecution execution = new ExecutionImpl();

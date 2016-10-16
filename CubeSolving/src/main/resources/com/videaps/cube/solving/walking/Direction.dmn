@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <dmn:decision id="direction" name="Direction">
+    <dmn:decisionTable id="decisionTable">
+      <dmn:input id="input1" label="Notation">
+        <dmn:inputExpression id="inputExpression1" typeRef="string">        <dmn:text>notation</dmn:text>
+</dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="output1" label="Angle" name="angle" typeRef="integer" />
+      <dmn:rule id="row-355145008-1">
+        <dmn:description>Turns the face clockwise</dmn:description>
+        <dmn:inputEntry id="UnaryTests_0jyhs93">        <dmn:text><![CDATA[""]]></dmn:text>
+</dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_1k6zbec">        <dmn:text>-90</dmn:text>
+</dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="row-355145008-2">
+        <dmn:description>Turns the face counter-clockwise</dmn:description>
+        <dmn:inputEntry id="UnaryTests_0d39zov">        <dmn:text><![CDATA["'"]]></dmn:text>
+</dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_05gs1jd">        <dmn:text>90</dmn:text>
+</dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="row-355145008-3">
+        <dmn:description>Turns the face half way round</dmn:description>
+        <dmn:inputEntry id="UnaryTests_1su387m">        <dmn:text><![CDATA["2"]]></dmn:text>
+</dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_1y6qyip">        <dmn:text>180</dmn:text>
+</dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+</dmn:definitions>

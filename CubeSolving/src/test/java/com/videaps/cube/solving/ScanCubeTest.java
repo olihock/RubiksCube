@@ -30,19 +30,21 @@ import com.videaps.cube.solving.toggling.Features;
 
 @Deployment(resources = {
 		"com/videaps/cube/solving/ScanCube.bpmn",
+
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/core/Turn.bpmn",
+
 		"com/videaps/cube/solving/scanning/InitialiseFace.bpmn",
 		"com/videaps/cube/solving/scanning/ScanFace.bpmn",
 		"com/videaps/cube/solving/scanning/FaceSequence.dmn",
 		"com/videaps/cube/solving/scanning/ScanAllBricks.bpmn",
 		"com/videaps/cube/solving/scanning/ScanSingleBrick.bpmn",
-		"com/videaps/cube/solving/moves/basic/TiltProcess.bpmn",
-		"com/videaps/cube/solving/moves/basic/TurnProcess.bpmn",
-		"com/videaps/cube/solving/moves/cube/UpperToFront.bpmn",
-		"com/videaps/cube/solving/moves/cube/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/cube/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn",
+		"com/videaps/cube/solving/scanning/moves/UpperToFront.bpmn",
+		"com/videaps/cube/solving/scanning/moves/FrontToDown.bpmn",
+		"com/videaps/cube/solving/scanning/moves/DownToLeft.bpmn",
+		"com/videaps/cube/solving/scanning/moves/LeftToRight.bpmn",
+		"com/videaps/cube/solving/scanning/moves/RightToBack.bpmn",
+		"com/videaps/cube/solving/scanning/moves/BackToUpper.bpmn",
 	} )
 public class ScanCubeTest extends BaseTest {
 

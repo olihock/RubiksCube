@@ -30,7 +30,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.togglz.junit.TogglzRule;
 
-import com.videaps.cube.solving.rubik.Direction;
 import com.videaps.cube.solving.toggling.Features;
 
 
