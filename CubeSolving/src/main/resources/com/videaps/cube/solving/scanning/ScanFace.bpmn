@@ -38,60 +38,60 @@
     <bpmn:sequenceFlow id="SequenceFlow_199djno" sourceRef="ServiceTask_LogFaceSequence" targetRef="ExclusiveGateway_WhichMoveToMake" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_WhichMoveToMake" name="Which Move To Make">
       <bpmn:incoming>SequenceFlow_199djno</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_UpperToFlow</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_FrontToDown</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_DownToLeft</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_LeftToRight</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_RightToBack</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_BackToUpper</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromUpperToFrontUp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromFrontToDownUp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromDownToLeftUp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromLeftToRightUp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromRightToBackUp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_FromBackToUpperUp</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_UpperToFlow" name="Upper To Front" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveUpperFaceToFront">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "upperToFront"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_FromUpperToFrontUp" name="fromUpperToFrontUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_FromUpperToFrontUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromUpperToFrontUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0ytj1q6" sourceRef="CallActivity_MoveUpperFaceToFront" targetRef="EndEvent_ScanCube" />
-    <bpmn:callActivity id="CallActivity_MoveUpperFaceToFront" name="Move Upper Face To Front" calledElement="Process_Scan_UpperToFront">
-      <bpmn:incoming>SequenceFlow_UpperToFlow</bpmn:incoming>
+    <bpmn:sequenceFlow id="SequenceFlow_0ytj1q6" sourceRef="CallActivity_FromUpperToFrontUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:callActivity id="CallActivity_FromUpperToFrontUp" name="From Upper To Front Up" calledElement="Process_FromUpperToFrontUp">
+      <bpmn:incoming>SequenceFlow_FromUpperToFrontUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ytj1q6</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_FrontToDown" name="Front To Down" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveFrontFaceToDown">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "frontToDown"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_FromFrontToDownUp" name="fromFrontToDownUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_FromFrontToDownUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromFrontToDownUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:callActivity id="CallActivity_MoveFrontFaceToDown" name="Move Front Face To Down" calledElement="Process_Scan_FrontToDown">
-      <bpmn:incoming>SequenceFlow_FrontToDown</bpmn:incoming>
+    <bpmn:callActivity id="CallActivity_FromFrontToDownUp" name="From Front To Down Up" calledElement="Process_FromFrontToDownUp">
+      <bpmn:incoming>SequenceFlow_FromFrontToDownUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0zuij90</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_0zuij90" sourceRef="CallActivity_MoveFrontFaceToDown" targetRef="EndEvent_ScanCube" />
-    <bpmn:callActivity id="CallActivity_MoveDownFaceToLeft" name="Move Down Face To Left" calledElement="Process_Scan_DownToLeft">
-      <bpmn:incoming>SequenceFlow_DownToLeft</bpmn:incoming>
+    <bpmn:sequenceFlow id="SequenceFlow_0zuij90" sourceRef="CallActivity_FromFrontToDownUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:callActivity id="CallActivity_FromDownToLeftUp" name="From Down To Left Up" calledElement="Process_FromDownToLeftUp">
+      <bpmn:incoming>SequenceFlow_FromDownToLeftUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1fv6w91</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveLeftFactToRight" name="Move Left Face To Right" calledElement="Process_Scan_LeftToRight">
-      <bpmn:incoming>SequenceFlow_LeftToRight</bpmn:incoming>
+    <bpmn:callActivity id="CallActivity_FromLeftToRightUp" name="From Left To Right Up" calledElement="Process_FromLeftToRightUp">
+      <bpmn:incoming>SequenceFlow_FromLeftToRightUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0v6eit1</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveRightFaceToBack" name="Move Right Face To Back" calledElement="Process_Scan_RightToBack">
-      <bpmn:incoming>SequenceFlow_RightToBack</bpmn:incoming>
+    <bpmn:callActivity id="CallActivity_MoveBackFaceUp" name="From Right To Back Up" calledElement="Process_FromRightToBackUp">
+      <bpmn:incoming>SequenceFlow_FromRightToBackUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0cjoku9</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_MoveBackFaceToUpper" name="Move Back Face To Upper" calledElement="Process_Scan_BackToUpper">
-      <bpmn:incoming>SequenceFlow_BackToUpper</bpmn:incoming>
+    <bpmn:callActivity id="CallActivity_FromBackToUpperUp" name="From Back To Upper Up" calledElement="Process_FromBackToUpperUp">
+      <bpmn:incoming>SequenceFlow_FromBackToUpperUp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vcf5df</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_1fv6w91" sourceRef="CallActivity_MoveDownFaceToLeft" targetRef="EndEvent_ScanCube" />
-    <bpmn:sequenceFlow id="SequenceFlow_0v6eit1" sourceRef="CallActivity_MoveLeftFactToRight" targetRef="EndEvent_ScanCube" />
-    <bpmn:sequenceFlow id="SequenceFlow_0cjoku9" sourceRef="CallActivity_MoveRightFaceToBack" targetRef="EndEvent_ScanCube" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vcf5df" sourceRef="CallActivity_MoveBackFaceToUpper" targetRef="EndEvent_ScanCube" />
-    <bpmn:sequenceFlow id="SequenceFlow_DownToLeft" name="Down To Left" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveDownFaceToLeft">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "downToLeft"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_1fv6w91" sourceRef="CallActivity_FromDownToLeftUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0v6eit1" sourceRef="CallActivity_FromLeftToRightUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cjoku9" sourceRef="CallActivity_MoveBackFaceUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vcf5df" sourceRef="CallActivity_FromBackToUpperUp" targetRef="EndEvent_ScanCube" />
+    <bpmn:sequenceFlow id="SequenceFlow_FromDownToLeftUp" name="fromDownToLeftUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_FromDownToLeftUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromDownToLeftUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_LeftToRight" name="Left To Right" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveLeftFactToRight">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "leftToRight"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_FromLeftToRightUp" name="fromLeftToRightUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_FromLeftToRightUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromLeftToRightUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_RightToBack" name="Right To Back" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveRightFaceToBack">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "rightToBack"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_FromRightToBackUp" name="fromRightToBackUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveBackFaceUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromRightToBackUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_BackToUpper" name="Back To Upper" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_MoveBackFaceToUpper">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "backToUpper"}]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_FromBackToUpperUp" name="fromBackToUpperUp" sourceRef="ExclusiveGateway_WhichMoveToMake" targetRef="CallActivity_FromBackToUpperUp">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${moveSequence == "fromBackToUpperUp"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0i14axa" sourceRef="StartEvent_ScanCube" targetRef="CallActivity_ScanBricks" />
     <bpmn:sequenceFlow id="SequenceFlow_17fvnnr" sourceRef="CallActivity_ScanBricks" targetRef="BusinessRuleTask_FaceSequence" />
@@ -144,11 +144,11 @@
           <dc:Bounds x="549" y="54" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1gshpyo_di" bpmnElement="SequenceFlow_UpperToFlow">
+      <bpmndi:BPMNEdge id="SequenceFlow_1gshpyo_di" bpmnElement="SequenceFlow_FromUpperToFrontUp">
         <di:waypoint xsi:type="dc:Point" x="619" y="120" />
         <di:waypoint xsi:type="dc:Point" x="776" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="634" y="98" width="90" height="20" />
+          <dc:Bounds x="638" y="98" width="87" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0ytj1q6_di" bpmnElement="SequenceFlow_0ytj1q6">
@@ -160,18 +160,18 @@
           <dc:Bounds x="929" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_00d6d9r_di" bpmnElement="CallActivity_MoveUpperFaceToFront">
+      <bpmndi:BPMNShape id="CallActivity_00d6d9r_di" bpmnElement="CallActivity_FromUpperToFrontUp">
         <dc:Bounds x="776" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1sq8wes_di" bpmnElement="SequenceFlow_FrontToDown">
+      <bpmndi:BPMNEdge id="SequenceFlow_1sq8wes_di" bpmnElement="SequenceFlow_FromFrontToDownUp">
         <di:waypoint xsi:type="dc:Point" x="594" y="145" />
         <di:waypoint xsi:type="dc:Point" x="594" y="224" />
         <di:waypoint xsi:type="dc:Point" x="776" y="224" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="637" y="200" width="90" height="20" />
+          <dc:Bounds x="641" y="200" width="82" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_1pu3neh_di" bpmnElement="CallActivity_MoveFrontFaceToDown">
+      <bpmndi:BPMNShape id="CallActivity_1pu3neh_di" bpmnElement="CallActivity_FromFrontToDownUp">
         <dc:Bounds x="776" y="184" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0zuij90_di" bpmnElement="SequenceFlow_0zuij90">
@@ -183,16 +183,16 @@
           <dc:Bounds x="926.5" y="231" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="CallActivity_0wy9awj_di" bpmnElement="CallActivity_MoveDownFaceToLeft">
+      <bpmndi:BPMNShape id="CallActivity_0wy9awj_di" bpmnElement="CallActivity_FromDownToLeftUp">
         <dc:Bounds x="776" y="289" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1cjh5az_di" bpmnElement="CallActivity_MoveLeftFactToRight">
+      <bpmndi:BPMNShape id="CallActivity_1cjh5az_di" bpmnElement="CallActivity_FromLeftToRightUp">
         <dc:Bounds x="776" y="397" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_04gzt0k_di" bpmnElement="CallActivity_MoveRightFaceToBack">
+      <bpmndi:BPMNShape id="CallActivity_04gzt0k_di" bpmnElement="CallActivity_MoveBackFaceUp">
         <dc:Bounds x="776" y="504" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_02ue9nn_di" bpmnElement="CallActivity_MoveBackFaceToUpper">
+      <bpmndi:BPMNShape id="CallActivity_02ue9nn_di" bpmnElement="CallActivity_FromBackToUpperUp">
         <dc:Bounds x="776" y="613" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1fv6w91_di" bpmnElement="SequenceFlow_1fv6w91">
@@ -231,36 +231,36 @@
           <dc:Bounds x="956" y="554.5" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0jm94uy_di" bpmnElement="SequenceFlow_DownToLeft">
+      <bpmndi:BPMNEdge id="SequenceFlow_0jm94uy_di" bpmnElement="SequenceFlow_FromDownToLeftUp">
         <di:waypoint xsi:type="dc:Point" x="594" y="145" />
         <di:waypoint xsi:type="dc:Point" x="594" y="329" />
         <di:waypoint xsi:type="dc:Point" x="776" y="329" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="640" y="310" width="90" height="20" />
+          <dc:Bounds x="645" y="310" width="80" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0bezz46_di" bpmnElement="SequenceFlow_LeftToRight">
+      <bpmndi:BPMNEdge id="SequenceFlow_0bezz46_di" bpmnElement="SequenceFlow_FromLeftToRightUp">
         <di:waypoint xsi:type="dc:Point" x="594" y="145" />
         <di:waypoint xsi:type="dc:Point" x="594" y="437" />
         <di:waypoint xsi:type="dc:Point" x="776" y="437" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="641" y="417" width="90" height="20" />
+          <dc:Bounds x="645" y="417" width="85" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0qcymdz_di" bpmnElement="SequenceFlow_RightToBack">
+      <bpmndi:BPMNEdge id="SequenceFlow_0qcymdz_di" bpmnElement="SequenceFlow_FromRightToBackUp">
         <di:waypoint xsi:type="dc:Point" x="594" y="145" />
         <di:waypoint xsi:type="dc:Point" x="594" y="544" />
         <di:waypoint xsi:type="dc:Point" x="776" y="544" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="645" y="522.5" width="90" height="20" />
+          <dc:Bounds x="648" y="523" width="84" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0osqqbu_di" bpmnElement="SequenceFlow_BackToUpper">
+      <bpmndi:BPMNEdge id="SequenceFlow_0osqqbu_di" bpmnElement="SequenceFlow_FromBackToUpperUp">
         <di:waypoint xsi:type="dc:Point" x="594" y="145" />
         <di:waypoint xsi:type="dc:Point" x="594" y="653" />
         <di:waypoint xsi:type="dc:Point" x="776" y="653" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="651" y="633" width="90" height="20" />
+          <dc:Bounds x="655" y="633" width="85" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0i14axa_di" bpmnElement="SequenceFlow_0i14axa">

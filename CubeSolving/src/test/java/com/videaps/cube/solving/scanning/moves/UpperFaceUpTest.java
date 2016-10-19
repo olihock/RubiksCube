@@ -16,12 +16,9 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.basic;
+package com.videaps.cube.solving.scanning.moves;
 
 import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
@@ -33,22 +30,20 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
-		"com/videaps/cube/solving/moves/basic/Twist.bpmn" } )
-public class TwistTest extends BaseTest {
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/scanning/moves/UpperFaceUp.bpmn"
+	} )
+public class UpperFaceUpTest extends BaseTest {
 
 	@Before
 	public void setUp() {
 		toggle.enable(Features.USE_LEJOS);
 	}
-	
+
 	
 	@Test
 	public void test() {
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("angle", "90");
-
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Twist", variables);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_UpperFaceUp");
 		assertTrue(processInstance.isEnded());  
 	}
 

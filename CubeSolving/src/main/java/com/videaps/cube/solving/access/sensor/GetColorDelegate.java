@@ -24,6 +24,8 @@ import lejos.robotics.Color;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.access.ColorPicker;
 import com.videaps.cube.solving.toggling.Features;
@@ -33,7 +35,9 @@ import com.videaps.cube.solving.toggling.Features;
  * 
  */
 public class GetColorDelegate implements JavaDelegate {
+	private static final Logger logger = LoggerFactory.getLogger(GetColorDelegate.class);
 
+	
 	public void execute(DelegateExecution execution) throws Exception {
 		String sensorPort = (String) execution.getVariable("getColorSensorPort");
 		
@@ -48,7 +52,7 @@ public class GetColorDelegate implements JavaDelegate {
 			// The ColorHTSensor mixes up Red and Orange and always returns Red.
 			// Therefore, the red color is treated separately in such, that
 			// the RGB values are fetched and evaluated if red or orange.
-			if(colorId == Color.RED) {
+			if(colorId == Color.RED || colorId == Color.ORANGE) {
 				colorId = distinguishRedAndOrange(colorId, color);
 			}
 		}
@@ -66,10 +70,15 @@ public class GetColorDelegate implements JavaDelegate {
 	private int distinguishRedAndOrange(int colorId, Color color) {
 		int red = color.getRed();
 		int green = color.getGreen();
+		int blue = color.getBlue();
 		
-		if(red <= 34 && green <= 7) {
+		if(logger.isDebugEnabled()) {
+			logger.debug("rgb="+red+","+green+","+blue);
+		}
+		
+		if(red <= 36 && green <= 7) {
 			colorId = Color.RED;
-		} else if(red >= 39 && green >= 9) {
+		} else if(red >= 37 && green >= 8) {
 			colorId = Color.ORANGE;
 		}
 		return colorId;

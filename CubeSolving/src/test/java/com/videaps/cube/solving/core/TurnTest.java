@@ -16,27 +16,44 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.cube;
+package com.videaps.cube.solving.core;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.togglz.junit.TogglzRule;
 
-import com.videaps.cube.solving.BaseTest;
+import com.videaps.cube.solving.moves.basic.Direction;
+import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
-		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
-		"com/videaps/cube/solving/moves/cube/LeftToRight.bpmn"
-	} )
-public class LeftToRightTest extends BaseTest {
+	"com/videaps/cube/solving/core/Turn.bpmn" } )
+public class TurnTest {
 
+	@Rule
+	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
+
+	@Rule
+	public ProcessEngineRule processEngine = new ProcessEngineRule();
+
+	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_LeftToRight");
+		toggle.enable(Features.USE_LEJOS);
+
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("direction", Direction.RIGHT.getValue());
+		variables.put("count", 2);
+		
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Turn", variables);
 		assertTrue(processInstance.isEnded());  
 	}
 

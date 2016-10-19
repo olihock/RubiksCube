@@ -16,7 +16,7 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.cube;
+package com.videaps.cube.solving.scanning.moves;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,21 +30,21 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
-		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
-		"com/videaps/cube/solving/moves/cube/RightToBack.bpmn"
+		"com/videaps/cube/solving/core/Turn.bpmn",
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/scanning/moves/LeftFaceUp.bpmn"
 	} )
-public class RightToBackTest extends BaseTest {
+public class LeftFaceUpTest extends BaseTest {
 
 	@Before
 	public void setUp() {
 		toggle.enable(Features.USE_LEJOS);
 	}
 
-
+	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_RightToBack");
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_LeftFaceUp");
 		assertTrue(processInstance.isEnded());  
 	}
 

@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.videaps.cube.solving.rubik.Computer;
+import com.videaps.cube.solving.toggling.Features;
 
 
 /**
@@ -40,14 +41,15 @@ public class CalculateDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		@SuppressWarnings("unchecked")
 		List<String> cubeStateList = (List<String>) execution.getVariable("cubeStateList");
-		logger.info("cubeStateList="+cubeStateList);
 		
-		String algorithm = new Computer().solveCube(cubeStateList);
-		algorithm = tidyUpAlgorithm(algorithm);
-		List<String> notations = splitAlgorithm(algorithm);
+		List<String> notations = new ArrayList<String>();
+		if(Features.USE_LEJOS.isActive()) {
+			String algorithm = new Computer().solveCube(cubeStateList);
+			algorithm = tidyUpAlgorithm(algorithm);
+			notations = splitAlgorithm(algorithm);
+		}
 		
 		execution.setVariable("notations", notations);
-		
 		logger.info("notations="+notations);
 	}
 

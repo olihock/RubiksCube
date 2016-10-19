@@ -39,12 +39,12 @@ import com.videaps.cube.solving.toggling.Features;
 		"com/videaps/cube/solving/scanning/FaceSequence.dmn",
 		"com/videaps/cube/solving/scanning/ScanAllBricks.bpmn",
 		"com/videaps/cube/solving/scanning/ScanSingleBrick.bpmn",
-		"com/videaps/cube/solving/scanning/moves/UpperToFront.bpmn",
-		"com/videaps/cube/solving/scanning/moves/FrontToDown.bpmn",
-		"com/videaps/cube/solving/scanning/moves/DownToLeft.bpmn",
-		"com/videaps/cube/solving/scanning/moves/LeftToRight.bpmn",
-		"com/videaps/cube/solving/scanning/moves/RightToBack.bpmn",
-		"com/videaps/cube/solving/scanning/moves/BackToUpper.bpmn",
+		"com/videaps/cube/solving/scanning/moves/FrontFaceUp.bpmn",
+		"com/videaps/cube/solving/scanning/moves/DownFaceUp.bpmn",
+		"com/videaps/cube/solving/scanning/moves/LeftFaceUp.bpmn",
+		"com/videaps/cube/solving/scanning/moves/RightFaceUp.bpmn",
+		"com/videaps/cube/solving/scanning/moves/BackFaceUp.bpmn",
+		"com/videaps/cube/solving/scanning/moves/UpperFaceUp.bpmn",
 	} )
 public class ScanCubeTest extends BaseTest {
 

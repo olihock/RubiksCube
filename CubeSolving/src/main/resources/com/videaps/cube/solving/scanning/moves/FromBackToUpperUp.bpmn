@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
+  <bpmn:process id="Process_FromBackToUpperUp" name="FromBackToUpperUp" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_UpperFaceUp" name="Start Upper Face Up">
+      <bpmn:outgoing>SequenceFlow_0l4rh96</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_UpperFaceUp" name="End Upper Face Up">
+      <bpmn:incoming>SequenceFlow_1knjtpv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="Task_Half" name="Turn Half" calledElement="Process_Turn">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${180}" target="angle" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ukpzs6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1knjtpv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="Task_0ucepko" name="Tilt Three Times" calledElement="Process_Tilt">
+      <bpmn:incoming>SequenceFlow_0l4rh96</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ukpzs6</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true">
+        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">3</bpmn:loopCardinality>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_0l4rh96" sourceRef="StartEvent_UpperFaceUp" targetRef="Task_0ucepko" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ukpzs6" sourceRef="Task_0ucepko" targetRef="Task_Half" />
+    <bpmn:sequenceFlow id="SequenceFlow_1knjtpv" sourceRef="Task_Half" targetRef="EndEvent_UpperFaceUp" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_FromBackToUpperUp">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_UpperFaceUp">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="150" y="138" width="84" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x99uc5_di" bpmnElement="EndEvent_UpperFaceUp">
+        <dc:Bounds x="699" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="679" y="138" width="83" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_14abi71_di" bpmnElement="Task_Half">
+        <dc:Bounds x="504" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_001rcel_di" bpmnElement="Task_0ucepko">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0l4rh96_di" bpmnElement="SequenceFlow_0l4rh96">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="310" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="260" y="95" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ukpzs6_di" bpmnElement="SequenceFlow_0ukpzs6">
+        <di:waypoint xsi:type="dc:Point" x="410" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="457" y="95" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1knjtpv_di" bpmnElement="SequenceFlow_1knjtpv">
+        <di:waypoint xsi:type="dc:Point" x="604" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="699" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="652" y="95" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

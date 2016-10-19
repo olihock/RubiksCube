@@ -37,10 +37,7 @@ public class GetDistanceDelegate implements JavaDelegate {
 
 	
 	public void execute(DelegateExecution execution) throws Exception {
-		logger.info(execution.getCurrentActivityName());
-
-		String sensorPort = (String) execution.getVariable("getDistanceSensorPort");
-		logger.info("sensorPort", sensorPort);
+		String sensorPort = (String) execution.getVariable("port");
 		
 		int distance = -1;
 		if(Features.USE_LEJOS.isActive()) {
@@ -49,7 +46,6 @@ public class GetDistanceDelegate implements JavaDelegate {
 			distance = sensor.getDistance();
 		}
 		execution.setVariable("distance", distance);
-
 		logger.info("distance="+distance);
 	}
 

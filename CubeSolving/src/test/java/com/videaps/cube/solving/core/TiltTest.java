@@ -16,7 +16,7 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.basic;
+package com.videaps.cube.solving.core;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +30,7 @@ import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/Tilt.bpmn" } )
+		"com/videaps/cube/solving/core/Tilt.bpmn" } )
 public class TiltTest extends BaseTest {
 
 

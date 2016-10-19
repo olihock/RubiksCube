@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
   <bpmn:process id="Process_ScanAllBricks" name="Scan All Bricks" isExecutable="true">
     <bpmn:startEvent id="StartEvent_FaceBrickColorsToScan" name="Face Brick Colors to Scan">
       <bpmn:outgoing>SequenceFlow_1md3r3r</bpmn:outgoing>
@@ -169,7 +169,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${20}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${17}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${150}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorAcceleration">${5}</camunda:inputParameter>
         </camunda:inputOutput>
@@ -195,7 +195,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${30}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${27}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${150}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorAcceleration">${5}</camunda:inputParameter>
@@ -209,7 +209,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">A</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${-10}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-5}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${150}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorAcceleration">${3}</camunda:inputParameter>
         </camunda:inputOutput>
@@ -235,7 +235,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${-10}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${-8}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${50}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorAcceleration">${5}</camunda:inputParameter>
@@ -464,7 +464,7 @@
         <di:waypoint xsi:type="dc:Point" x="784" y="407" />
         <di:waypoint xsi:type="dc:Point" x="784" y="437" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="754" y="412" width="90" height="20" />
+          <dc:Bounds x="799" y="412" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_135tfhr_di" bpmnElement="CallActivity_ScanBrick5">
@@ -476,7 +476,7 @@
         <di:waypoint xsi:type="dc:Point" x="878" y="328" />
         <di:waypoint xsi:type="dc:Point" x="921" y="328" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="848" y="392.5" width="90" height="20" />
+          <dc:Bounds x="893" y="393" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_10rwblw_di" bpmnElement="ServiceTask_MoveScannerToBrick3">

@@ -16,43 +16,35 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.basic;
+package com.videaps.cube.solving.scanning.moves;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.junit.Rule;
+import org.junit.Before;
 import org.junit.Test;
-import org.togglz.junit.TogglzRule;
 
+import com.videaps.cube.solving.BaseTest;
 import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-	"com/videaps/cube/solving/moves/TurnProcess.bpmn" } )
-public class TurnTest {
+		"com/videaps/cube/solving/core/Turn.bpmn",
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/scanning/moves/BackFaceUp.bpmn"
+	} )
+public class BackFaceUpTest extends BaseTest {
 
-	@Rule
-	public TogglzRule toggle = TogglzRule.allEnabled(Features.class);
+	@Before
+	public void setUp() {
+		toggle.disable(Features.USE_LEJOS);
+	}
 
-	@Rule
-	public ProcessEngineRule processEngine = new ProcessEngineRule();
 
-	
 	@Test
 	public void test() {
-		toggle.enable(Features.USE_LEJOS);
-
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("direction", Direction.RIGHT.getValue());
-		variables.put("count", 2);
-		
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_Turn", variables);
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_BackFaceUp");
 		assertTrue(processInstance.isEnded());  
 	}
 

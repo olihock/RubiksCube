@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.1.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.3.2">
   <bpmn:process id="Process_InitialiseFace" name="Initialise Face" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_1ua36hv</bpmn:outgoing>
@@ -15,7 +15,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_02h7fjo" sourceRef="ServiceTask_MoveTurnTable" targetRef="ParallelGateway_1ke5p81" />
     <bpmn:sequenceFlow id="SequenceFlow_1vqa76p" sourceRef="ServiceTask_MoveScanner" targetRef="ParallelGateway_1ke5p81" />
     <bpmn:endEvent id="EndEvent_09qjc3c">
-      <bpmn:incoming>SequenceFlow_1t0o40h</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_Yes</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_07ejtjn" sourceRef="ParallelGateway_1ke5p81" targetRef="Task_LogMoveState" />
     <bpmn:parallelGateway id="ParallelGateway_1ke5p81">
@@ -29,7 +29,7 @@
           <camunda:inputParameter name="rotateMotorMotorPort">C</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorSpeed">${75}</camunda:inputParameter>
           <camunda:inputParameter name="rotateMotorImmediateReturn">${true}</camunda:inputParameter>
-          <camunda:inputParameter name="rotateMotorAngle">${68}</camunda:inputParameter>
+          <camunda:inputParameter name="rotateMotorAngle">${75}</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_17cly4t</bpmn:incoming>
@@ -49,10 +49,10 @@
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1g4hz4s" name="Have Motors Ended?">
       <bpmn:incoming>SequenceFlow_0x2ojnm</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1t0o40h</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_1ewod5z</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_Yes</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_No</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_1t0o40h" name="Yes" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="EndEvent_09qjc3c">
+    <bpmn:sequenceFlow id="SequenceFlow_Yes" name="Yes" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="EndEvent_09qjc3c">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${ !isScannerMoving && !isTurnTableMoving }]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_GetMotorState" name="Get Scanner State" camunda:class="com.videaps.cube.solving.access.motor.IsMotorMovingDelegate">
@@ -90,11 +90,13 @@
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0yxoo3p" sourceRef="ServiceTask_GetMotorState" targetRef="ParallelGateway_02c94f9" />
     <bpmn:sequenceFlow id="SequenceFlow_0x2ojnm" sourceRef="ParallelGateway_02c94f9" targetRef="ExclusiveGateway_1g4hz4s" />
-    <bpmn:sequenceFlow id="SequenceFlow_1ewod5z" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="Task_LogMoveState" />
+    <bpmn:sequenceFlow id="SequenceFlow_No" name="No" sourceRef="ExclusiveGateway_1g4hz4s" targetRef="Task_LogMoveState">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ isScannerMoving || isTurnTableMoving }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1t3vggb" sourceRef="Task_LogMoveState" targetRef="ParallelGateway_0tvown8" />
     <bpmn:task id="Task_LogMoveState" name="Log Move State">
       <bpmn:incoming>SequenceFlow_07ejtjn</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1ewod5z</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_No</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1t3vggb</bpmn:outgoing>
     </bpmn:task>
   </bpmn:process>
@@ -179,7 +181,7 @@
           <dc:Bounds x="1144" y="59" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1t0o40h_di" bpmnElement="SequenceFlow_1t0o40h">
+      <bpmndi:BPMNEdge id="SequenceFlow_1t0o40h_di" bpmnElement="SequenceFlow_Yes">
         <di:waypoint xsi:type="dc:Point" x="1214" y="120" />
         <di:waypoint xsi:type="dc:Point" x="1313" y="120" />
         <bpmndi:BPMNLabel>
@@ -243,7 +245,7 @@
           <dc:Bounds x="1117" y="95" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1ewod5z_di" bpmnElement="SequenceFlow_1ewod5z">
+      <bpmndi:BPMNEdge id="SequenceFlow_1ewod5z_di" bpmnElement="SequenceFlow_No">
         <di:waypoint xsi:type="dc:Point" x="1189" y="145" />
         <di:waypoint xsi:type="dc:Point" x="1189" y="278" />
         <di:waypoint xsi:type="dc:Point" x="703" y="278" />

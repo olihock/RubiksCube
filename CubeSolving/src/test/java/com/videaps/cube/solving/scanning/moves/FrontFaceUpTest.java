@@ -16,26 +16,34 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package com.videaps.cube.solving.moves.cube;
+package com.videaps.cube.solving.scanning.moves;
 
 import static org.junit.Assert.assertTrue;
 
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.videaps.cube.solving.BaseTest;
+import com.videaps.cube.solving.toggling.Features;
 
 
 @Deployment(resources = {
-		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
-		"com/videaps/cube/solving/moves/cube/BackToUpper.bpmn"
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/scanning/moves/FrontFaceUp.bpmn"
 	} )
-public class BackToUpperTest extends BaseTest {
+public class FrontFaceUpTest extends BaseTest {
 
+	@Before
+	public void setUp() {
+		toggle.disable(Features.USE_LEJOS);
+	}
+
+	
 	@Test
 	public void test() {
-		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_BackToUpper");
+		ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey("Process_FrontFaceUp");
 		assertTrue(processInstance.isEnded());  
 	}
 

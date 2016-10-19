@@ -61,22 +61,23 @@ public class ScanCubeDelegate implements JavaDelegate {
 
 		String cubeColorsStr = ArrayUtils.toString(cubeColors);
 		int xCount = countUndetected(cubeColorsStr);
-		logger.info("xCount="+xCount);
 		if(xCount == 1) {
 			replacedCubeColors = replaceOneUndetectedBrick(cubeColorsStr, replacedCubeColors);
 		}
 		
 		execution.setVariable("cubeColors", replacedCubeColors);
-		
-		logger.info("cubeColors="+replacedCubeColors);
-		log(replacedCubeColors);
+		logger.info("replacedCubeColors="+replacedCubeColors);
 	}
 
 
 	private Collection<String> replaceLabelBrick(Collection<String> cubeColors) {
 		Collection<String> replacedCubeColors = null;
 		int yellowCount = countYellowCenterBricks(cubeColors);
-		if(yellowCount == 1) {
+		if(yellowCount <= 2) {
+			// There is one yellow center brick only. Opposite the white center brick is located. 
+			// This is to be replaced. Sometimes, the label center brick is also recognised as yellow.
+			// In this case there are 2 yellow center bricks. Therefore, number of yellow center bricks is 
+			// validated against two or fewer.
 			String yellowFace = findFaceWithYellowCenterBrick(cubeColors);
 			String oppositeFace = oppositeFaceMap.get(yellowFace);
 			replacedCubeColors = replaceWhiteCenterBrick(cubeColors, oppositeFace);
@@ -85,16 +86,6 @@ public class ScanCubeDelegate implements JavaDelegate {
 			replacedCubeColors = cubeColors;
 		}
 		return replacedCubeColors;
-	}
-
-
-	private void log(Collection<String> replacedCubeColors) {
-		StringBuffer buf = new StringBuffer();
-		for(String faceState : replacedCubeColors) {
-			buf.append("\"").append(faceState).append("\", ");
-		}
-		buf.delete(buf.length()-2, buf.length());
-		logger.info(buf.toString());
 	}
 
 
@@ -134,20 +125,6 @@ public class ScanCubeDelegate implements JavaDelegate {
 	}
 	
 	
-//	public Collection<String> replaceCenterBrick(Collection<String> cubeColors) {
-//		Collection<String> replacedCubeColors = new ArrayList<String>();
-//		for(String faceColors: cubeColors) {
-//			if("X".equals(String.valueOf(faceColors.charAt(6)))) {
-//				String preStr = faceColors.substring(0, 6); 
-//				String postStr = faceColors.substring(7, faceColors.length());
-//				faceColors = preStr+"W"+postStr;
-//			}
-//			replacedCubeColors.add(faceColors);
-//		}
-//		return replacedCubeColors;
-//	}
-
-
 	public int countUndetected(String cubeColorsStr) {
 		// The prefix of the faceColors need to be ignored. For example, R: and B: (Right and Back)
 		// are also used as colors Red and Blue.

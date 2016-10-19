@@ -36,30 +36,31 @@ import com.videaps.cube.solving.toggling.Features;
 @Deployment(resources = {
 		"com/videaps/cube/solving/SolveCube.bpmn",
 
-		"com/videaps/cube/solving/moves/MoveFace.bpmn",
-		"com/videaps/cube/solving/moves/WalkCube.bpmn",
-		"com/videaps/cube/solving/moves/CubeMove.dmn",
-		"com/videaps/cube/solving/moves/Direction.dmn",
-		"com/videaps/cube/solving/moves/basic/Twist.bpmn",
-		"com/videaps/cube/solving/moves/basic/Tilt.bpmn",
-		"com/videaps/cube/solving/moves/basic/Turn.bpmn",
-		"com/videaps/cube/solving/moves/rack/BackToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToBack.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToFront.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToLeft.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToRight.bpmn",
-		"com/videaps/cube/solving/moves/rack/DownToUpper.bpmn",
-		"com/videaps/cube/solving/moves/rack/FrontToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/LeftToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/RightToDown.bpmn",
-		"com/videaps/cube/solving/moves/rack/UpperToDown.bpmn",
+		"com/videaps/cube/solving/core/Twist.bpmn",
+		"com/videaps/cube/solving/core/Tilt.bpmn",
+		"com/videaps/cube/solving/core/Turn.bpmn",
+
+		"com/videaps/cube/solving/walking/MoveFace.bpmn",
+		"com/videaps/cube/solving/walking/WalkCube.bpmn",
+		"com/videaps/cube/solving/walking/CubeMove.dmn",
+		"com/videaps/cube/solving/walking/Direction.dmn",
+		"com/videaps/cube/solving/walking/moves/BackToDown.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToBack.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToDown.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToFront.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToLeft.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToRight.bpmn",
+		"com/videaps/cube/solving/walking/moves/DownToUpper.bpmn",
+		"com/videaps/cube/solving/walking/moves/FrontToDown.bpmn",
+		"com/videaps/cube/solving/walking/moves/LeftToDown.bpmn",
+		"com/videaps/cube/solving/walking/moves/RightToDown.bpmn",
+		"com/videaps/cube/solving/walking/moves/UpperToDown.bpmn",
 	} )
 public class SolveCubeTest extends BaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		toggle.enable(Features.USE_LEJOS);
+		toggle.disable(Features.USE_LEJOS);
 	}
 
 	
