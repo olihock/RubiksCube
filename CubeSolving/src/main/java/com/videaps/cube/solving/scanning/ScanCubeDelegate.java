@@ -66,7 +66,7 @@ public class ScanCubeDelegate implements JavaDelegate {
 		}
 		
 		execution.setVariable("cubeColors", replacedCubeColors);
-		logger.info("replacedCubeColors="+replacedCubeColors);
+		logger.info("replaced  ="+replacedCubeColors);
 	}
 
 
