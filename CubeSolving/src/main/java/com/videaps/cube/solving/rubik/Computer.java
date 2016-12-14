@@ -38,6 +38,8 @@ import ch.randelshofer.rubik.solver.Solver;
 public class Computer {
 	private static final Logger LOGGER = Logger.getLogger(Computer.class.getName());
 	
+	private static final int MAX_CORRECTION_COUNT = 2;
+	
 	
 	public Computer() {
 	}
@@ -48,7 +50,25 @@ public class Computer {
 		
 		String[] cubeColorStateArray = cubeColorState.toArray(new String[cubeColorState.size()]);
 		String specification = buildFaceSpecification(cubeColorStateArray);
-		Solver solver = calculate(specification);
+		
+		int connectionCount = 0;
+		Solver solver = null;
+		while(true) {
+			try {
+				solver = calculate(specification);
+				LOGGER.info("Calculation went well.");
+				break;
+			} catch(Exception e) {
+				if(connectionCount > MAX_CORRECTION_COUNT) {
+					throw new RuntimeException(e);
+				}
+				LOGGER.warning(e.getMessage());
+				LOGGER.warning("specification="+specification);
+				
+				connectionCount++;
+				continue;
+			}
+		}
 		String algorithm = solver.getSolution().toString(new DefaultNotation(), null);
 		
 		return algorithm;
